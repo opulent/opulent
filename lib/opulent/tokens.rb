@@ -1,12 +1,25 @@
 module Opulent
   module Parser
+    # Opulent Keywords
+    Keywords = %w(def theme block yield if else elsif unless case when each while until)
+
+    # Opulent Tokens
     Tokens = {
       # Indentation
       indent: /\A */,
 
       # Node
       node: /\A\w+(\-\w+)*/,
-      node_theme: /\A\w+(\-\w+)*\:\:/,
+      node_lookahead: /\A(\w+(\-\w+)*)/,
+
+      # Shorthand attributes
+      shorthand: /\A[\.\#\&]/,
+      shorthand_lookahead: /\A[\.\#\&][a-zA-Z\_\(\"]/,
+
+      # Leading and trailing whitespace
+      leading_whitespace: /\A(\<\-)/,
+      leading_trailing_whitespace: /\A(\>)/,
+      trailing_whitespace: /\A(\-\>)/,
 
       # Definition
       def: /\Adef +/,

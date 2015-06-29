@@ -1,11 +1,1 @@
-def b
-  hello
-  world
-def c
-  bla
-def outside
-  a
-  b
-
-hello
-world
+div.test#id

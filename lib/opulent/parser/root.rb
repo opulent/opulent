@@ -8,6 +8,9 @@ module Opulent
       # In case no match was found, throw an exception.
       # In special cases, modify the token hash.
       #
+      # All nodes follow the create convention
+      # [:node_type, :value, :attributes, :children, :indent, :options]
+      #
       # @param nodes [Array] Parent node to which we append to
       #
       def root(parent = @root, min_indent = nil)
@@ -19,11 +22,26 @@ module Opulent
           @offset = 0
 
           # Parse the current line by trying to match each node type towards it
-          node = parse_line parent, min_indent
+          # Add current indentation to the indent stack
+          indent = accept(:indent).size
 
-          # If the indentation is smaller or equal to the minimum, we break
-          # the current operation
-          break unless node
+          # Advance to the next line, unless this has already been done due to
+          # node specific processing
+          @advance = true
+
+          # Stop processing for current parent if we have a min_indent variable
+          break if min_indent && indent <= min_indent
+
+          # Try the main Opulent node types and process each one of them using
+          # their matching evaluation procedure
+          current_node =  define(parent, indent) ||
+                          node(parent, indent)
+
+          # Throw an error if we couldn't find a valid node
+          error :unknown_node_type unless current_node
+
+          # Increment current line pointer
+          @i += 1 if @advance
         end
 
         return parent

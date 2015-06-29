@@ -14,18 +14,19 @@ module Opulent
     # List of self enclosing node elements
     SelfEnclosing = %w(img link input meta br hr area base col command embed keygen param source track wbr)
 
+    # Shorthand attribute associations
+    Shorthand = {
+      :'.' => :class,
+      :'#' => :id
+    }
+
     # @Singleton
     class << self
       # Opulent runtime options
       Defaults = {
         pretty: true,
         indent: 2,
-        dependency_manager: true,
-        shorthand: {
-          class: /\./,
-          id: /\#/,
-          name: /\&/
-        }
+        dependency_manager: true
       }
 
       # Set defaults as initial options

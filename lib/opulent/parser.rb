@@ -1,5 +1,7 @@
 require_relative 'parser/root.rb'
+require_relative 'parser/define.rb'
 require_relative 'parser/node.rb'
+
 # @Opulent
 module Opulent
   # @Parser
@@ -10,12 +12,7 @@ module Opulent
       # to make parsing faster
       #
       # [:node_type, :value, :attributes, :children, :indent]
-      @@type = 0
-      @@value = 1
-      @@attributes = 2
-      @@children = 3
-      @@indent = 4
-
+      #
       # Initialize the parsing process by splitting the code into lines and
       # instantiationg parser variables with their default values
       #
@@ -24,6 +21,13 @@ module Opulent
       # @return Nodes array
       #
       def parse(code)
+        # Convention
+        @type = 0
+        @value = 1
+        @attributes = 2
+        @children = 3
+        @indent = 4
+
         # Split the code into lines and parse them one by one
         @code = code.lines
 
@@ -36,13 +40,14 @@ module Opulent
         # Initialize root node
         @root = [:root, nil, nil, [], -1]
 
-        puts "Nodes:\n---"
-        pp root @root
-        puts "\nDefinitions:\n---"
-        pp @definitions
+        @nodes = root @root
+        # puts "Nodes:\n---"
+        # pp @nodes
+        # puts "\nDefinitions:\n---"
+        # pp @definitions
       end
 
-      # Accept and consume or reject a given token as long as we have tokens
+      # Check and accept or reject a given token as long as we have tokens
       # remaining. Shift the code with the match length plus any extra character
       # count around the capture group
       #
@@ -66,67 +71,13 @@ module Opulent
         end
       end
 
-
-
-      # Parse the current line of code, by matching each regular expression
-      # from the tokens list
+      # Check if the lookahead matches the chosen regular expression
       #
-      # All nodes follow the create convention
-      # [:node_type, :value, :attributes, :children, :indent]
+      # @param token [RegEx] Token to be checked by the parser
       #
-      #
-      def parse_line(parent, min_indent = nil)
-        # Add current indentation to the indent stack
-        indent = consume(:indent).size
-
-        # Advance to the next line, unless this has already been done due to
-        # node specific processing
-        advance = true
-
-        # Stop processing for current parent if we have a min_indent variable
-        return nil if min_indent && indent <= min_indent
-
-        # Try the main Opulent node types and process each one of them using
-        # their matching evaluation procedure
-
-        # Definition
-        #
-        if(match = consume :def)
-          # Process data
-          name = consume(:node, :*).to_sym
-          advance = false; @i += 1
-
-          # Create node
-          definition = [:def, name, attributes, [], indent]
-          parse_lines(definition, indent)
-
-          # Add to parent
-          @definitions[name] = definition
-
-        # Node
-        #
-        elsif(match = consume :node)
-          # Process data
-          match = match.to_sym
-
-          # Create node
-          node = [:node, match, attributes, [], indent]
-          parse_lines(node, indent)
-
-          parent[@@children] << node
-
-        # Text
-        #
-        elsif(match = consume :text)
-          parent[@@children] << [:text, indent, match]
-        else
-          error :unknown_node_type
-        end
-
-        # Increment current line pointer
-        @i += 1 if advance
-
-        return true
+      def lookahead(token)
+        # Check if we match the token to the current line.
+        @line[@offset..-1].match Tokens[token]
       end
 
       # Give an explicit error report where an unexpected sequence of tokens
