@@ -6,6 +6,10 @@ engine = Opulent.new
 
 # Benchmark.bm do |x|
 #   x.report do
-    engine.render code
+#     1000.times do
+#       engine.render code
+#     end
 #   end
 # end
+
+engine.render code

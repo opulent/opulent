@@ -1,8 +1,11 @@
-a
-b
-  c
-    d
-  e
-    f
-  g
-    h
+def b
+  hello
+  world
+def c
+  bla
+def outside
+  a
+  b
+
+hello
+world

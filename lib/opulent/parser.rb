@@ -1,11 +1,21 @@
+require_relative 'parser/root.rb'
 require_relative 'parser/node.rb'
-
 # @Opulent
 module Opulent
   # @Parser
   module Parser
     # @Singleton
     class << self
+      # All node Objects (Array) must follow the next convention in order
+      # to make parsing faster
+      #
+      # [:node_type, :value, :attributes, :children, :indent]
+      @@type = 0
+      @@value = 1
+      @@attributes = 2
+      @@children = 3
+      @@indent = 4
+
       # Initialize the parsing process by splitting the code into lines and
       # instantiationg parser variables with their default values
       #
@@ -17,21 +27,17 @@ module Opulent
         # Split the code into lines and parse them one by one
         @code = code.lines
 
-        # Initial definition theme (namespace)
-        @theme = DefaultTheme
-
         # Node definitions encountered up to the current point
-        @definitions = {
-          @theme => {}
-        }
+        @definitions = {}
 
         # Current line index
         @i = 0
 
-        # Set initial
+        # Initialize root node
+        @root = [:root, nil, nil, [], -1]
 
         puts "Nodes:\n---"
-        pp parse_lines
+        pp root @root
         puts "\nDefinitions:\n---"
         pp @definitions
       end
@@ -44,9 +50,9 @@ module Opulent
       # @param required [Boolean] Expect the given token syntax
       # @param strip [Boolean] Left strip the current code to remove whitespace
       #
-      def consume(token, required = false, strip = false)
+      def accept(token, required = false, strip = false)
         # Consume leading whitespace if we want to ignore it
-        consume :whitespace if strip
+        accept :whitespace if strip
 
         # Match the token to the current line. If we find it, return the match.
         # If it is required, signal an :expected error
@@ -55,42 +61,19 @@ module Opulent
           @offset += match[0].size
 
           return match[0]
+        elsif required
+          error :expected, token
         end
       end
 
-      # Analyze the input code and check for matching tokens.
-      # In case no match was found, throw an exception.
-      # In special cases, modify the token hash.
-      #
-      # @param nodes [Array] Parent node to which we append to
-      #
-      def parse_lines(min_indent = nil)
-        # Array containing parsed nodes
-        nodes = []
 
-        # Matching indentation for each parsed node
-        indents = []
-
-        while(@line = @code[@i])
-          # Skip to next iteration if we have a blank line
-          if @line =~ /\A\s*\Z/ then @i += 1; next; end
-
-          # Reset the line offset
-          @offset = 0
-
-          # Parse the current line by trying to match each node type towards it
-          node = parse_line nodes, min_indent
-
-          # If the indentation is smaller or equal to the minimum, we break
-          # the current operation
-          break unless node
-        end
-
-        return nodes
-      end
 
       # Parse the current line of code, by matching each regular expression
       # from the tokens list
+      #
+      # All nodes follow the create convention
+      # [:node_type, :value, :attributes, :children, :indent]
+      #
       #
       def parse_line(parent, min_indent = nil)
         # Add current indentation to the indent stack
@@ -105,24 +88,37 @@ module Opulent
 
         # Try the main Opulent node types and process each one of them using
         # their matching evaluation procedure
+
+        # Definition
+        #
         if(match = consume :def)
+          # Process data
           name = consume(:node, :*).to_sym
-          advance = false
+          advance = false; @i += 1
 
-          @i += 1
-          @definition = name
-          @definitions[@theme][name] = [name, attributes, parse_lines(indent)]
-        elsif(match = consume :theme)
-          name = consume(:node, :*).to_sym
-          advance = false
+          # Create node
+          definition = [:def, name, attributes, [], indent]
+          parse_lines(definition, indent)
 
-          @i += 1
-          @theme = name
-          @definitions[@theme] = {}
+          # Add to parent
+          @definitions[name] = definition
+
+        # Node
+        #
         elsif(match = consume :node)
-          parent << [:node, match.to_sym, attributes, indent]
+          # Process data
+          match = match.to_sym
+
+          # Create node
+          node = [:node, match, attributes, [], indent]
+          parse_lines(node, indent)
+
+          parent[@@children] << node
+
+        # Text
+        #
         elsif(match = consume :text)
-          parent << [:text, match, indent]
+          parent[@@children] << [:text, indent, match]
         else
           error :unknown_node_type
         end

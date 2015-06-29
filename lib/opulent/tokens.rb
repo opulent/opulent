@@ -11,9 +11,6 @@ module Opulent
       # Definition
       def: /\Adef +/,
 
-      # Themes
-      theme: /\Atheme/,
-
       # Node Attributes
       attributes_bracket: /\A\(\[\{/,
 

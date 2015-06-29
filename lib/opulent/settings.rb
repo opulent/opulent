@@ -2,9 +2,6 @@
 module Opulent
   # @Parser
   module Settings
-    # Default (root) theme name which can be accesed using the root definitions
-    DefaultTheme = :default
-
     # Default yield target which is used for child block replacements
     DefaultYield = :children
 
