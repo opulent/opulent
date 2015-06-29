@@ -1,0 +1,12 @@
+Evaluate each node on the fly.
+If we get an 'IF, UNTIL, WHILE, UNLESS'
+-- Check if condition is true, otherwise ignore all lines more indented
+   than the current line
+
+if a > b
+  test
+else
+  blah
+
+a > b -> false, ignore indented lines, set flag for being inside a structure,
+if we get same indentation, check for else, otherwise behave normally
