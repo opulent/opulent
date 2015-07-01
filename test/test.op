@@ -1,1 +1,1 @@
-div.test#id
+div.test#id(attr=a(b, c, [:d, e, :f]))

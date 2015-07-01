@@ -1,5 +1,6 @@
 require_relative 'parser/root.rb'
 require_relative 'parser/define.rb'
+require_relative 'parser/expression.rb'
 require_relative 'parser/node.rb'
 
 # @Opulent
@@ -22,9 +23,10 @@ module Opulent
       #
       def parse(code)
         # Convention
+        # [:node_type, :value, :options, :children, :indent, :options]
         @type = 0
         @value = 1
-        @attributes = 2
+        @options = 2
         @children = 3
         @indent = 4
 
@@ -41,10 +43,10 @@ module Opulent
         @root = [:root, nil, nil, [], -1]
 
         @nodes = root @root
-        # puts "Nodes:\n---"
-        # pp @nodes
-        # puts "\nDefinitions:\n---"
-        # pp @definitions
+        puts "Nodes:\n---"
+        pp @nodes
+        puts "\nDefinitions:\n---"
+        pp @definitions
       end
 
       # Check and accept or reject a given token as long as we have tokens
@@ -72,7 +74,7 @@ module Opulent
       end
 
       # Helper method which automatically sets the stripped options to true, so that we
-      # do not have to explicitly specify it 
+      # do not have to explicitly specify it
       #
       # @param token [RegEx] Token to be accepted by the parser
       # @param required [Boolean] Expect the given token syntax
@@ -88,6 +90,18 @@ module Opulent
       def lookahead(token)
         # Check if we match the token to the current line.
         @line[@offset..-1].match Tokens[token]
+      end
+
+      # Undo a found match by removing the token from the consumed code and
+      # adding it back to the code chunk
+      #
+      # @param match [String] Matched string to be undone
+      #
+      def undo(match)
+        unless match.empty?
+          @offset -= match.size
+          return nil
+        end
       end
 
       # Give an explicit error report where an unexpected sequence of tokens

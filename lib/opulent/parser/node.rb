@@ -57,10 +57,10 @@ module Opulent
           options[:extension] = extension = extend_attributes
 
           # Get unwrapped node attributes
-          atts = attributes_assignments atts, false
+          options[:attributes] = attributes_assignments atts, false
 
           # Create node
-          current_node = [:node, node_name, atts, [], indent, options]
+          current_node = [:node, node_name, options, [], indent]
           root(current_node, indent)
 
           # if(accept_line :inline_child)
@@ -85,7 +85,7 @@ module Opulent
           #   current_node.push textcurrent_node unless textcurrent_node.nil?
           # end
 
-          parent[@children] << node
+          parent[@children] << current_node
         end
       end
 
@@ -161,12 +161,12 @@ module Opulent
           return parent if lookahead(:assignment_lookahead).nil?
         end
 
-        if (argument = accept :identifier)
+        if (argument = accept_stripped :node)
           argument = argument.to_sym
 
           if accept :assignment
             # Check if we have an attribute escape or not
-            escaped = if accept_unstripped :assignment_unescaped
+            escaped = if accept :assignment_unescaped
               false
             else
               true
@@ -174,7 +174,7 @@ module Opulent
 
             # Get the argument value if we have an assignment
             if (value = expression(false, wrapped))
-              value.escaped = escaped
+              value[@options][:escaped] = escaped
 
               # Check if our argument already exists in the attributes list, and
               # if it does, check if it's an array. If it isn't, turn it into an
@@ -200,16 +200,16 @@ module Opulent
               error :assignments_colon
             end
           else
-            parent[argument] = @create.expression "true" unless parent[argument]
+            parent[argument] = [:value, true] unless parent[argument]
           end
 
           # If our attributes are wrapped, we allow method calls without
           # paranthesis, ruby style, therefore we need a terminator to signify
           # the expression end. If they are not wrapped (inline), we require
           # paranthesis and allow inline calls
-          if wrapped && accept_line(:assignment_terminator)
+          if wrapped && accept_stripped(:assignment_terminator)
             attributes_assignments parent, wrapped
-          elsif lookahead(:assignment_lookahead)
+          elsif !wrapped && lookahead(:assignment_lookahead)
             attributes_assignments parent, wrapped
           end
 

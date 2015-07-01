@@ -8,9 +8,6 @@ module Opulent
       # In case no match was found, throw an exception.
       # In special cases, modify the token hash.
       #
-      # All nodes follow the create convention
-      # [:node_type, :value, :attributes, :children, :indent, :options]
-      #
       # @param nodes [Array] Parent node to which we append to
       #
       def root(parent = @root, min_indent = nil)
