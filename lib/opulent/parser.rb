@@ -71,6 +71,16 @@ module Opulent
         end
       end
 
+      # Helper method which automatically sets the stripped options to true, so that we
+      # do not have to explicitly specify it 
+      #
+      # @param token [RegEx] Token to be accepted by the parser
+      # @param required [Boolean] Expect the given token syntax
+      #
+      def accept_stripped(token, required = false)
+        accept(token, required, true)
+      end
+
       # Check if the lookahead matches the chosen regular expression
       #
       # @param token [RegEx] Token to be checked by the parser

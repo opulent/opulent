@@ -21,11 +21,22 @@ module Opulent
       leading_trailing_whitespace: /\A(\>)/,
       trailing_whitespace: /\A(\-\>)/,
 
+      # Self enclosing node
+      self_enclosing: /\A\/(.*)/, 
+
       # Definition
       def: /\Adef +/,
 
       # Node Attributes
       attributes_bracket: /\A\(\[\{/,
+      extend_attributes: /\A(\+)/,
+
+      # Attribute assignments
+      assignment: /\A(\:|\=)/,
+      assignment_unescaped: /\A(\~)/,
+      assignment_terminator: /\A((\,|\;)\s*)/,
+      assignment_lookahead: /\A *([a-zA-Z]([\-\_]?[a-zA-Z0-9]+)* *[\:\=])/,
+
 
       # Text
       text: /\A\|/,

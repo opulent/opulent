@@ -41,12 +41,12 @@ module Opulent
           options = {}
 
           # Get leading and trailing whitespace
-          if accept_line_unstripped :leading_whitespace
+          if accept :leading_whitespace
             options[:leading_whitespace] = true
-            if accept_line_unstripped :leading_trailing_whitespace
+            if accept :leading_trailing_whitespace
               options[:trailing_whitespace] = true
             end
-          elsif accept_line_unstripped :trailing_whitespace
+          elsif accept :trailing_whitespace
             options[:trailing_whitespace] = true
           end
 
@@ -54,28 +54,25 @@ module Opulent
           atts = attributes(shorthand) || {}
 
           # Inherit attributes from definition
-          extension = extend_attributes
+          options[:extension] = extension = extend_attributes
 
           # Get unwrapped node attributes
           atts = attributes_assignments atts, false
 
           # Create node
           current_node = [:node, node_name, atts, [], indent, options]
-          root(node, indent)
+          root(current_node, indent)
 
-          current_node.extension = extension
-          current_node.whitespace = [leading_whitespace, trailing_whitespace]
+          # if(accept_line :inline_child)
+          #   if (child_node = node current_node, indent + Settings[:indent])
+          #     current_node.push child_node
+          #   else
+          #     error :inline_child
+          #   end
+          # end
 
-          if(accept_line :inline_child)
-            if (child_node = node current_node, indent + Settings[:indent])
-              current_node.push child_node
-            else
-              error :inline_child
-            end
-          end
-
-          if(close = accept_line :self_enclosing)
-            current_node.self_enclosing = true
+          if(close = accept_stripped :self_enclosing)
+            current_node[Options][:self_enclosing] = true
             unless close.strip.empty?
               undo close
               error :self_enclosing
@@ -130,7 +127,7 @@ module Opulent
 
       def attributes(atts = {})
         wrapped_attributes atts
-        unrwapped_attributes atts
+        attributes_assignments atts, false
 
         return atts
       end
@@ -143,7 +140,7 @@ module Opulent
       # @param as_parameters [Boolean] Accept or reject identifier nodes
       #
       def wrapped_attributes(list)
-        if (bracket = accept_unstripped :brackets)
+        if (bracket = accept :brackets)
           attributes_assignments list
           accept bracket.to_sym, :*
         end
@@ -219,6 +216,19 @@ module Opulent
           return parent
         elsif !parent.empty?
           error :assignments_comma
+        end
+      end
+
+      # Extend node attributes with hash from
+      #
+      # [hash]
+      #
+      def extend_attributes
+        if (accept :extend_attributes)
+          bracket = accept_unstripped :brackets, :*
+          extension = expression
+          accept bracket.to_sym, :*
+          return extension
         end
       end
     end
