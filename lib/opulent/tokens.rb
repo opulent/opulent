@@ -5,6 +5,8 @@ module Opulent
 
     # Opulent Tokens
     class Tokens
+      # All tokens available within Opulent
+      #
       @@tokens = {
         # Indentation
         indent: /\A */,
@@ -73,7 +75,7 @@ module Opulent
 
         # Conditional Structures
         control: /\A(if|elsif|else|unless|case|when|each|while|until)/,
-        control_lookahead: /\A *(?<capture>if|elsif|else|unless|case|when|each|while|until)/,
+        control_lookahead: /\A *(if|elsif|else|unless|case|when|each|while|until)/,
         each_pattern: /\A(\w+( *, *\w+)? +)?in +.+/,
 
         # Text
@@ -104,7 +106,7 @@ module Opulent
         exp_module: /\A(\:\:)/,
         exp_identifier: /\A([a-zA-Z\_][a-zA-Z0-9\_]*[\!\?]?)/,
         exp_assignment: /\A(\=)/,
-        exp_operation: /\A( *(\+|\-|\*\*|\*|\/|\<\<|\>\>|\.\.|\%|\<\=\>|\<\=|\^|\<|\>\=|\>|\=\~|\!\~|\=\=\=|\=\=|\=~|\!|not|\&\&|\&|and|\|\||\||or) *)/,
+        exp_operation: /\A( *(\+|\-|\*\*|\*|\/|\<\<|\>\>|\.\.|\%|\<\=\>|\<\=|\^|\<|\>\=|\>|\=\~|\!\~|\=\=\=|\=\=|\!|not|\&\&|\&|and|\|\||\||or) *)/,
         exp_regex: /\A(\/((?:[^\/\\]|\\.)*?)\/)/,
         exp_string: /\A(("((?:[^"\\]|\\.)*?)")|('(?:[^'\\]|\\.)*?'))/,
         exp_percent: /\A(\%[wWqQrxsiI]?.)/,
@@ -131,8 +133,6 @@ module Opulent
 
         # Whitespace
         newline: /\A(\n+)/,
-        whitespace: /\A( +)/,
-        whitespace_lookahead: /\A(?<capture> +)/,
 
         # Indentation
         indent: /\A( *)/,

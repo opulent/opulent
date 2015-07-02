@@ -19,14 +19,13 @@ module Opulent
                       hash                                              ||
                       symbol                                            ||
                       percent                                           ||
-                      primary_term                                      ||
-                      (allow_assignments ? accept(:exp_assignment) : nil))
+                      primary_term)
           buffer += term
 
           # Accept operations which have a right term and raise an error if
           # we have an unfinished expression such as "a +", "b - 1 >" and other
           # expressions following the same pattern
-          if wrapped && (op = operation)
+          if wrapped && (op = operation || (allow_assignments ? accept(:exp_assignment) : nil))
             buffer += op
             if (right_term = expression(allow_assignments, wrapped)).nil?
               error :expression
@@ -59,7 +58,9 @@ module Opulent
       #
       def array
         if (buffer = accept :square_bracket)
+          accept_newline
           buffer += array_elements
+          accept_newline
           buffer += accept :'[', :*
         end
       end
@@ -77,6 +78,7 @@ module Opulent
           # If there is an array_terminator ",", recursively gather the next
           # array element into the buffer
           if (terminator = accept_stripped :comma) then
+            accept_newline
             buffer += array_elements terminator
           end
         end
@@ -98,7 +100,9 @@ module Opulent
       #
       def hash
         if (buffer = accept :curly_bracket)
+          accept_newline
           buffer += hash_elements
+          accept_newline
           buffer += accept :'{', :*
         end
       end
@@ -121,7 +125,8 @@ module Opulent
 
           # If there is an hash_terminator ",", recursively gather the next
           # array element into the buffer
-          if (terminator = accept :comma) then
+          if (terminator = accept_stripped :comma) then
+            accept_newline
             buffer += hash_elements terminator
           end
         end
@@ -131,12 +136,12 @@ module Opulent
         #
         # key:
         # :key =>
-        if (symbol = accept :hash_symbol)
+        if (symbol = accept_stripped :hash_symbol)
           buffer += symbol
           value[]
-        elsif (exp = expression)
+        elsif (exp = expression false)
           buffer += exp[@value]
-          if(assign = accept :hash_assignment)
+          if(assign = accept_stripped :hash_assignment)
             buffer += assign
             value[]
           else
@@ -150,7 +155,7 @@ module Opulent
           error :hash_elements_terminator
         end
 
-        buffer
+        return buffer
       end
 
       # Accept a ruby identifier such as a class, module, method or variable

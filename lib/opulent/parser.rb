@@ -61,6 +61,10 @@ module Opulent
         # Consume leading whitespace if we want to ignore it
         accept :whitespace if strip
 
+        # We reached the end of the parsing process and there are no more lines
+        # left to parse
+        return nil unless @line
+
         # Match the token to the current line. If we find it, return the match.
         # If it is required, signal an :expected error
         if (match = @line[@offset..-1].match(Tokens[token]))
@@ -104,6 +108,15 @@ module Opulent
         end
       end
 
+      # Allow expressions to continue on a new line in certain conditions
+      #
+      def accept_newline
+        if @line[@offset..-1].strip.empty?
+          @line = @code[(@i += 1)]
+          @offset = 0
+        end
+      end
+
       # Give an explicit error report where an unexpected sequence of tokens
       # appears and give indications on how to solve it
       #
@@ -114,10 +127,35 @@ module Opulent
         when :unknown_node_type
           "An unknown node type has been encountered at:\n\n#{Logger.red @line}"
         when :expected
-          data[0] = "#{Tokens[data[0]]}"[11..-3] if [:'(', :'{', :'[', :'<'].include? data[0]
-
+          data[0] = "#{Tokens.bracket data[0]}" if [:'(', :'{', :'[', :'<'].include? data[0]
           "Expected to find a :#{data[0]} token at: \n\n#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :root
+          "Unknown node type encountered on line #{@current_line} of input at:\n\n" +
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :assignments_colon
+          "Unexpected end of element attributes reached on line #{@current_line} of input.\n\n" +
+          "Expected to find an attribute at:\n\n" +
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :assignments_comma
+          "Unexpected end of element attributes reached on line #{@current_line} of input.\n\n" +
+          "Expected to find an attribute value at:\n\n" +
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :expression
+          "Unexpected end of expression reached on line #{@current_line} of input.\n\n" +
+          "Expected to find another expression term at:\n\n" +
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :whitespace_expression
+          "Unexpected end of expression reached on line #{@current_line} of input.\n\n" +
+          "Please use paranthesis for method parameters at:\n\n" +
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :definition
+          "Unexpected start of definition on line #{@current_line - 1} of input.\n\n" +
+          "Found a definition inside another definition or element at:\n\n" +
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        else
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         end
+
         # Reconstruct lines to display where errors occur
         fail "\n\nOpulent " + Logger.red("[Parser Error]") +
         "\n---\n" +

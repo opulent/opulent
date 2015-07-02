@@ -60,7 +60,7 @@ module Opulent
           options[:attributes] = attributes_assignments atts, false
 
           # Create node
-          current_node = [:node, node_name, options, [], indent]
+          current_node = [:node, node_name.to_sym, options, [], indent]
           root(current_node, indent)
 
           # if(accept_line :inline_child)
@@ -72,7 +72,7 @@ module Opulent
           # end
 
           if(close = accept_stripped :self_enclosing)
-            current_node[Options][:self_enclosing] = true
+            current_node[@options][:self_enclosing] = true
             unless close.strip.empty?
               undo close
               error :self_enclosing
