@@ -58,7 +58,8 @@ module Opulent
       # _buff << "<html>",
       # _buff << compile('a * b')
       # _buff << "</html>"
-      @engine.preamble
+      # @engine.preamble
+      ""
     end
   end
 

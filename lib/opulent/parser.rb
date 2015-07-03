@@ -2,6 +2,7 @@ require_relative 'parser/root.rb'
 require_relative 'parser/define.rb'
 require_relative 'parser/expression.rb'
 require_relative 'parser/node.rb'
+require_relative 'parser/text.rb'
 
 # @Opulent
 module Opulent
@@ -43,10 +44,10 @@ module Opulent
         @root = [:root, nil, nil, [], -1]
 
         @nodes = root @root
-        puts "Nodes:\n---"
-        pp @nodes
-        puts "\nDefinitions:\n---"
-        pp @definitions
+        # puts "Nodes:\n---"
+        # pp @nodes
+        # puts "\nDefinitions:\n---"
+        # pp @definitions
       end
 
       # Check and accept or reject a given token as long as we have tokens
@@ -92,8 +93,22 @@ module Opulent
       # @param token [RegEx] Token to be checked by the parser
       #
       def lookahead(token)
+        return nil unless @line
+
         # Check if we match the token to the current line.
         @line[@offset..-1].match Tokens[token]
+      end
+
+      # Check if the lookahead matches the chosen regular expression on the
+      # following line which needs to be parsed
+      #
+      # @param token [RegEx] Token to be checked by the parser
+      #
+      def lookahead_next_line(token)
+        return nil unless @code[@i + 1]
+
+        # Check if we match the token to the current line.
+        @code[@i + 1].match Tokens[token]
       end
 
       # Undo a found match by removing the token from the consumed code and

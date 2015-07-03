@@ -32,6 +32,7 @@ module Opulent
           # Try the main Opulent node types and process each one of them using
           # their matching evaluation procedure
           current_node =  node(parent, indent)      ||
+                          text(parent, indent)      ||
                           define(parent, indent)
 
           # Throw an error if we couldn't find a valid node

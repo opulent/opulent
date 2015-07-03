@@ -1,14 +1,9 @@
-div#shorthandid
-div.shorthandclass
-
-#shorthandid
-.shorthandclass
-
-div(attr="value")
-div(attr=[])
-div(attr=[1, a, b, [1,2,3]])
-div(attr={})
-div(attr={
-  a: b,
-  c => d
-})
+| This is a test
+  this should alse ber taken
+  fuck off m8
+    yes
+  <woohoo>
+outisde
+  inside
+    inner
+      innerer
