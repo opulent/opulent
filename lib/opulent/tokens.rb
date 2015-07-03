@@ -134,12 +134,8 @@ module Opulent
         # Whitespace
         newline: /\A(\n+)/,
 
-        # Indentation
-        indent: /\A( *)/,
-        indent_lookahead: /\A\n?(?<capture> *)/,
-
         # Feed
-        line_feed: /\A(.*)/,
+        line_feed: /\A(.*)/
       }
 
       # Return the matching closing bracket

@@ -31,8 +31,8 @@ module Opulent
 
           # Try the main Opulent node types and process each one of them using
           # their matching evaluation procedure
-          current_node =  define(parent, indent) ||
-                          node(parent, indent)
+          current_node =  node(parent, indent)      ||
+                          define(parent, indent)
 
           # Throw an error if we couldn't find a valid node
           error :unknown_node_type unless current_node

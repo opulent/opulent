@@ -23,7 +23,7 @@ module Opulent
       #
       def parse(code)
         # Convention
-        # [:node_type, :value, :options, :children, :indent, :options]
+        # [:node_type, :value, :options, :children, :indent]
         @type = 0
         @value = 1
         @options = 2

@@ -89,10 +89,19 @@ module Opulent
         end
       end
 
+      # Helper method to create an array of values when an attribute is set
+      # multiple times. This happens unless the key is id, which is unique
+      #
+      # @param atts [Hash] Current node attributes hash
+      # @param key [Symbol] Attribute name
+      # @param value [String] Attribute value
+      #
       def add_attribute(atts, key, value)
         if key == :id
           atts[key] = value
         else
+          # If the key is already associated to an array, add the value to the
+          # array, otherwise, create a new array or set it 
           if atts[key].is_a? Array
             atts[key] << value
           elsif atts[key]
