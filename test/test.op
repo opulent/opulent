@@ -1,9 +1,2 @@
-| This is a test
-  this should alse ber taken
-  fuck off m8
-    yes
-  <woohoo>
-outisde
-  inside
-    inner
-      innerer
+def node(attr=a b c, attr=b c d, attr=d e f)
+  hello+stuff.attributes world="woop woop" \ Hello world

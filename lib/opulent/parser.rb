@@ -38,16 +38,16 @@ module Opulent
         @definitions = {}
 
         # Current line index
-        @i = 0
+        @i = -1
 
         # Initialize root node
-        @root = [:root, nil, nil, [], -1]
+        @root = [:root, nil, {}, [], -1]
 
         @nodes = root @root
-        # puts "Nodes:\n---"
-        # pp @nodes
-        # puts "\nDefinitions:\n---"
-        # pp @definitions
+        puts "Nodes:\n---"
+        pp @nodes
+        puts "\nDefinitions:\n---"
+        pp @definitions
       end
 
       # Check and accept or reject a given token as long as we have tokens

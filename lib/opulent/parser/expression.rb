@@ -6,11 +6,11 @@ module Opulent
     class << self
       # Check if the parser matches an expression node
       #
-      def expression(allow_assignments = true, wrapped = true)
+      def expression(allow_assignments = true, wrapped = true, whitespace = true)
         buffer = ""
 
         # Build a ruby expression out of accepted literals
-        while (term = accept(:whitespace)                               ||
+        while (term = (whitespace ? accept(:whitespace) : nil)          ||
                       modifier                                          ||
                       identifier                                        ||
                       method_call                                       ||
@@ -25,7 +25,7 @@ module Opulent
           # Accept operations which have a right term and raise an error if
           # we have an unfinished expression such as "a +", "b - 1 >" and other
           # expressions following the same pattern
-          if wrapped && (op = operation || (allow_assignments ? accept(:exp_assignment) : nil))
+          if wrapped && (op = operation || (allow_assignments ? accept_stripped(:exp_assignment) : nil))
             buffer += op
             if (right_term = expression(allow_assignments, wrapped)).nil?
               error :expression
@@ -39,14 +39,14 @@ module Opulent
           # Do not continue if the expression has whitespace method calls in
           # an unwrapped context because this will confuse the parser
           unless buffer.strip.empty?
-            break unless wrapped || lookahead(:exp_identifier_lookahead, false)
+            break unless wrapped || lookahead(:exp_identifier_lookahead).nil?
           end
         end
 
         if buffer.strip.empty?
           return undo buffer
         else
-          return [:expression, buffer, {}]
+          return [:expression, buffer.strip, {}]
         end
       end
 

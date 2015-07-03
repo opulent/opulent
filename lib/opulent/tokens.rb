@@ -41,7 +41,7 @@ module Opulent
         assignment_lookahead: /\A *([a-zA-Z]([\-\_]?[a-zA-Z0-9]+)* *[\:\=])/,
 
         # Node inline child
-        inline_child: /\A(\>)/,
+        inline_child: /\A *\> */,
 
         # Comments
         comment: /\A\/(.*)/,
@@ -51,14 +51,12 @@ module Opulent
         filter: /\A\:([a-zA-Z]([\-\_]?[a-zA-Z0-9]+)*)/,
         filter_lookahead: /\A *\:[a-zA-Z]([\-\_]?[a-zA-Z0-9]+)*/,
 
-        # Text
-        escaped_text: /\A(.*)/,
-        unescaped_text: /\A\~(.*)/,
-
-        # Print
-        escaped_print: /\A\=(.*)/,
-        unescaped_print: /\A\=\~(.*)/,
+        # Print nodes
+        print: /\A\=/,
         print_lookahead: /\A *=/,
+
+        # Unescaped value
+        unescaped_value: /\A\~/,
 
         # Multiline Text
         multiline: /\A(\|)/,

@@ -13,63 +13,50 @@ module Opulent
       def text(parent, indent = nil, multiline_or_print = true)
         # Try to see if we can match a multiline operator. If we can accept_stripped only
         # multiline, which is the case for filters, undo the operation.
-        if accept_stripped :multiline
+        if accept :multiline
           multiline = true
         elsif multiline_or_print
-          return undo indent unless lookahead :print_lookahead
+          return undo " " * indent unless lookahead :print_lookahead
         end
 
-        # Unescaped Print Eval
-        if (text_feed = accept_stripped :unescaped_print)
-          text_node = [:print, text_feed[1..-1].strip, {escaped: false}, nil, indent]
-        # Escaped Print Eval
-        elsif (text_feed = accept_stripped :escaped_print)
-          text_node = [:print, text_feed[2..-1].strip, {escaped: true}, nil, indent]
-        # Unescaped Text
-        elsif (text_feed = accept_stripped :unescaped_text)
-          text_node = [:text, text_feed.strip, {escaped: false}, nil, indent]
-        # Escaped Text
-        elsif (text_feed = accept_stripped :escaped_text)
-          text_node = [:text, text_feed[1..-1].strip, {escaped: true}, nil, indent]
-        else
+        # Get text node type
+        type = if accept(:print) then :print else :text end
+
+        # Check if the text or print node is escaped or unescaped
+        escaped = accept(:unescaped_value) ? true : false
+
+        # Get text value
+        value = accept :line_feed
+        value = value[1..-1] if value[0] == '\\'
+
+        # Create the text node using input data
+        text_node = [type, value.strip, {escaped: escaped}, nil, indent]
+
+        # If we have a multiline node, get all the text which has higher
+        # indentation than our indentation node.
+        if multiline
+          text_node[@value] += accept(:newline) || ""
+          text_node[@value] += get_indented_lines(indent)
+        elsif value.empty?
+          # If our value is empty and we're not going to add any more lines to
+          # our buffer, skip the node
           return nil
         end
 
+        # Increase indentation if this is an inline text node
+        text_node[@indent] += Settings[:indent] unless multiline_or_print
 
-        if text_node
-          if multiline
-            text_node[@value] = text_node[@value][1..-1]
-            text_node[@value] += accept(:newline) || ""
-            text_node[@value] += get_indented_lines(indent)
-
-            text_node
-          else
-            accept :newline
-
-            text_node[@value].strip!
-            text_node[@value] = text_node[@value][1..-1] if text_node[@value][0] == '\\'
-            text_node[@value].size > 0 ? text_node : nil
-          end
-
-          parent[@children] << text_node
-        else
-          return nil
-        end
+        # Add text node to the parent element
+        parent[@children] << text_node
       end
 
       # Match one line or multiline, escaped or unescaped text
       #
       def html_text(parent, indent)
-        indent = accept_stripped(:indent) || ""
-        indent_size = indent.size
-
         if (text_feed = accept_stripped :html_text)
-          text_node = [:text, text_feed[1..-1].strip, {escaped: false}, nil, indent]
-          accept_stripped :newline
-          pp text_feed
-          return text_node
-        else
-          return undo indent
+          text_node = [:text, text_feed.strip, {escaped: false}, nil, indent]
+
+          parent[@children] << text_node
         end
       end
 
@@ -89,8 +76,7 @@ module Opulent
 
         # Get the next indentation after the parent line
         # and set it as primary indent
-        first_indent = (lookahead_next_line(:indent).to_s || "").size
-        next_indent = first_indent
+        next_indent = first_indent = (lookahead_next_line(:indent).to_s || "").size
 
         # While the indentation is smaller, add the line feed  to our buffer
         while next_indent > indent
@@ -107,9 +93,12 @@ module Opulent
           buffer += accept_stripped(:line_feed) || ""
           buffer += accept_stripped(:newline) || ""
 
-          # Get next indentation and repeat
+          # Check the indentation on the following line. When we reach EOF,
+          # set the indentation to 0 and cause the loop to stop
           if (next_indent = lookahead_next_line :indent)
             next_indent = next_indent[0].size
+          else
+            next_indent = 0
           end
         end
 

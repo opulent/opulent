@@ -40,7 +40,7 @@ module Opulent
 
       # @TODO
       # Implement precompiled template handling
-      @preamble = @nodes.inspect
+      @preamble = @nodes.inspect.inspect
 
       # Create a new context based on our rendering environment
       @context = Context.new locals, (block.binding if block)

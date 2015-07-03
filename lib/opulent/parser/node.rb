@@ -61,31 +61,30 @@ module Opulent
 
           # Create node
           current_node = [:node, node_name.to_sym, options, [], indent]
-          root(current_node, indent)
 
-          # if(accept_line :inline_child)
-          #   if (child_node = node current_node, indent + Settings[:indent])
-          #     current_node.push child_node
-          #   else
-          #     error :inline_child
-          #   end
-          # end
-
+          # Check if the node is explicitly self enclosing
           if(close = accept_stripped :self_enclosing)
             current_node[@options][:self_enclosing] = true
             unless close.strip.empty?
-              undo close
-              error :self_enclosing
+              undo close; error :self_enclosing
             end
           end
 
-          # Accept inline text or multiline text feed as first child
-          # if(text_node = text current_node, " " * indent, false)
-          #   text_node.indent += Engine[:indent]
-          #   current_node.push textcurrent_node unless textcurrent_node.nil?
-          # end
+          # Check whether we have explicit inline elements and add them
+          # with increased base indentation
+          if (accept :inline_child)
+            # Inline node element
+            unless (child_node = node current_node, indent)
+              error :inline_child
+            end
+          else
+            # Inline text element
+            text_node = text current_node, indent, false
+          end
 
+          # Add the current node to the root
           parent[@children] << current_node
+          root(current_node, indent)
         end
       end
 
@@ -101,27 +100,39 @@ module Opulent
           atts[key] = value
         else
           # If the key is already associated to an array, add the value to the
-          # array, otherwise, create a new array or set it 
-          if atts[key].is_a? Array
-            atts[key] << value
-          elsif atts[key]
-            atts[key] = [atts[key], value]
+          # array, otherwise, create a new array or set it
+          if atts[key]
+            if atts[key][0].is_a? Array
+              atts[key] << value
+            else
+              atts[key] = [atts[key], value]
+            end
           else
-            atts[key] = [value]
+            atts[key] = value
           end
         end
       end
 
+      # Accept node shorthand attributes. Each shorthand attribute is directly
+      # mapped to an attribute key
+      #
+      # @param atts [Hash] Node attributes
+      #
       def shorthand_attributes(atts = {})
         while (key = accept :shorthand)
           key = Settings::Shorthand[key.to_sym]
 
+          if accept :unescaped_value
+            #todo
+          end
+
           # Get the attribute value and process it
           if (value = accept(:node))
             value = [:value, value.inspect]
-          # @TODO
-          #elsif (value = (accept(:exp_string) || paranthesis))
-          #  value = [:expression, value.inspect]
+          elsif (value = accept(:exp_string))
+            value = [:expression, value.inspect]
+          elsif (value = paranthesis)
+            value = [:expression, value.inspect]
           else
             error :shorthand
           end
@@ -185,26 +196,9 @@ module Opulent
             if (value = expression(false, wrapped))
               value[@options][:escaped] = escaped
 
-              # Check if our argument already exists in the attributes list, and
-              # if it does, check if it's an array. If it isn't, turn it into an
-              # array literal, otherwise push the value into it. However, id
-              # attributes do not get turned into arrays as they are supposed
-              # to be unique
-              if parent[argument] && argument != :id
-                # Check if argument is already an array, otherwise create an
-                # array in which we will add values
-                if parent[argument].is_a? Array
-                  parent[argument] << value
-                else
-                  new_parent = []
-                  new_parent.push parent[argument]
-
-                  parent[argument] = new_parent
-                  parent[argument] << value
-                end
-              else
-                parent[argument] = value
-              end
+              # IDs are unique, the rest of the attributes turn into arrays in
+              # order to allow multiple values or identifiers
+              add_attribute(parent, argument, value)
             else
               error :assignments_colon
             end
@@ -234,9 +228,7 @@ module Opulent
       #
       def extend_attributes
         if (accept :extend_attributes)
-          bracket = accept_unstripped :brackets, :*
-          extension = expression
-          accept bracket.to_sym, :*
+          extension = expression(false, false, false)
           return extension
         end
       end

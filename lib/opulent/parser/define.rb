@@ -14,7 +14,6 @@ module Opulent
         if(match = accept :def)
           # Process data
           name = accept(:node, :*).to_sym
-          advance = false; @i += 1
 
           # Create node
           definition = [:def, name, attributes, [], indent]
