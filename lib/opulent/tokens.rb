@@ -130,7 +130,8 @@ module Opulent
         newline: /\A(\n+)/,
 
         # Feed
-        line_feed: /\A(.*)/
+        line_feed: /\A(.*)/,
+        line_whitespace: /\A\s*\Z/
       }
 
       # Return the matching closing bracket

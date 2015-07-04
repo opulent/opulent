@@ -45,7 +45,10 @@ module Opulent
       # Create a new context based on our rendering environment
       @context = Context.new locals, (block.binding if block)
 
-      return @nodes
+      # Compile our syntax tree using input context
+      @output = Compiler.compile @nodes, @context
+
+      return @output
     end
   end
 end

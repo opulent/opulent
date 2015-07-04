@@ -18,6 +18,7 @@ module Opulent
           # Accept either explicit node_name or implicit :div node_name
           # with shorthand attributes
           if (node_name = accept :node)
+            node_name = node_name.to_sym
             shorthand = shorthand_attributes
           elsif (shorthand = shorthand_attributes)
             node_name = :div
@@ -46,7 +47,7 @@ module Opulent
           options[:attributes] = attributes_assignments atts, false
 
           # Create node
-          current_node = [:node, node_name.to_sym, options, [], indent]
+          current_node = [:node, node_name, options, [], indent]
 
           # Check if the node is explicitly self enclosing
           if(close = accept_stripped :self_enclosing)
@@ -69,8 +70,16 @@ module Opulent
           end
 
           # Add the current node to the root
-          parent[@children] << current_node
           root(current_node, indent)
+
+          if @definitions.keys.include? node_name
+            model = @definitions[node_name].clone
+            model[@options][:call] = current_node
+
+            parent[@children] << model
+          else
+            parent[@children] << current_node
+          end
         end
       end
 

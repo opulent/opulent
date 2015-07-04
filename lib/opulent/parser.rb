@@ -15,6 +15,8 @@ module Opulent
   module Parser
     # @Singleton
     class << self
+      attr_reader :type, :value, :options, :children, :indent
+
       # All node Objects (Array) must follow the next convention in order
       # to make parsing faster
       #
@@ -47,11 +49,8 @@ module Opulent
         # Initialize root node
         @root = [:root, nil, {}, [], -1]
 
-        @nodes = root @root
-        puts "Nodes:\n---"
-        pp @nodes
-        puts "\nDefinitions:\n---"
-        pp @definitions
+        # Get all nodes starting from the root element
+        root @root
       end
 
       # Check and accept or reject a given token as long as we have tokens

@@ -78,6 +78,19 @@ module Opulent
       def get_indented_lines(indent)
         buffer = ''
 
+        # Gather multiple blank lines between lines of text
+        blank_lines = Proc.new do
+          while lookahead_next_line :line_whitespace
+            @line = @code[(@i += 1)]
+            @offset = 0
+
+            buffer += accept :line_whitespace
+          end
+        end
+
+        # Get blank lines until we match something
+        blank_lines[]
+
         # Get the next indentation after the parent line
         # and set it as primary indent
         next_indent = first_indent = (lookahead_next_line(:indent).to_s || "").size
@@ -96,6 +109,9 @@ module Opulent
           buffer += " " * next_line_indent if next_line_indent > 0
           buffer += accept_stripped(:line_feed) || ""
           buffer += accept_stripped(:newline) || ""
+
+          # Get blank lines until we match something
+          blank_lines[]
 
           # Check the indentation on the following line. When we reach EOF,
           # set the indentation to 0 and cause the loop to stop
