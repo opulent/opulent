@@ -34,6 +34,8 @@ module Opulent
                           text(parent, indent)      ||
                           comment(parent, indent)   ||
                           define(parent, indent)    ||
+                          control(parent, indent)   ||
+                          evaluate(parent, indent)  ||
                           filter(parent, indent)
 
           # Throw an error if we couldn't find a valid node

@@ -22,7 +22,7 @@ module Opulent
           buffer = [:text, get_indented_lines(indent), {escaped: false}, nil, indent]
 
           # Create a new node and set its extension
-          parent << [:filter, filter_name[1..-1].to_sym, atts, buffer, indent]
+          parent[@children] << [:filter, filter_name[1..-1].to_sym, atts, buffer, indent]
         end
       end
     end

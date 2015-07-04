@@ -71,7 +71,6 @@ module Opulent
 
         # Conditional Structures
         control: /\A(if|elsif|else|unless|case|when|each|while|until)/,
-        control_lookahead: /\A *(if|elsif|else|unless|case|when|each|while|until)/,
         each_pattern: /\A(\w+( *, *\w+)? +)?in +.+/,
 
         # Text

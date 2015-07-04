@@ -1,7 +1,4 @@
-:markdown
-  # Hello world
-  This is my markdown filter
-
-:coffee
-  $(document).ready ->
-    alert('hello world')
++ eval this {
+    on: a
+    v: c
+  }

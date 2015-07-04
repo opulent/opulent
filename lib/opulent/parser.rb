@@ -5,6 +5,8 @@ require_relative 'parser/node.rb'
 require_relative 'parser/text.rb'
 require_relative 'parser/comment.rb'
 require_relative 'parser/filter.rb'
+require_relative 'parser/control.rb'
+require_relative 'parser/eval.rb'
 
 # @Opulent
 module Opulent
@@ -146,26 +148,34 @@ module Opulent
           data[0] = "#{Tokens.bracket data[0]}" if [:'(', :'{', :'[', :'<'].include? data[0]
           "Expected to find a :#{data[0]} token at: \n\n#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         when :root
-          "Unknown node type encountered on line #{@current_line} of input at:\n\n" +
+          "Unknown node type encountered on line #{@i+1} of input at:\n\n" +
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         when :assignments_colon
-          "Unexpected end of element attributes reached on line #{@current_line} of input.\n\n" +
+          "Unexpected end of element attributes reached on line #{@i+1} of input.\n\n" +
           "Expected to find an attribute at:\n\n" +
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         when :assignments_comma
-          "Unexpected end of element attributes reached on line #{@current_line} of input.\n\n" +
+          "Unexpected end of element attributes reached on line #{@i+1} of input.\n\n" +
           "Expected to find an attribute value at:\n\n" +
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         when :expression
-          "Unexpected end of expression reached on line #{@current_line} of input.\n\n" +
+          "Unexpected end of expression reached on line #{@i+1} of input.\n\n" +
           "Expected to find another expression term at:\n\n" +
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :control_child
+          "Unexpected control structure child found on line #{@i+1} of input.\n\n" +
+          "Expected to find a parent #{data[0]} structure at:\n\n" +
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :case_children
+          "Unexpected control structure child found on line #{@i+1} of input.\n\n" +
+          "Case structure cannot have any child elements at:\n\n" +
+          "#{@code[@i-1][0..@offset-1]}#{Logger.red @code[@i][@offset..-1].rstrip}"
         when :whitespace_expression
-          "Unexpected end of expression reached on line #{@current_line} of input.\n\n" +
+          "Unexpected end of expression reached on line #{@i+1} of input.\n\n" +
           "Please use paranthesis for method parameters at:\n\n" +
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         when :definition
-          "Unexpected start of definition on line #{@current_line - 1} of input.\n\n" +
+          "Unexpected start of definition on line #{@i+1 - 1} of input.\n\n" +
           "Found a definition inside another definition or element at:\n\n" +
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         else
