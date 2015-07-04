@@ -3,6 +3,8 @@ require_relative 'parser/define.rb'
 require_relative 'parser/expression.rb'
 require_relative 'parser/node.rb'
 require_relative 'parser/text.rb'
+require_relative 'parser/comment.rb'
+require_relative 'parser/filter.rb'
 
 # @Opulent
 module Opulent
@@ -23,8 +25,7 @@ module Opulent
       # @return Nodes array
       #
       def parse(code)
-        # Convention
-        # [:node_type, :value, :options, :children, :indent]
+        # Convention accessors
         @type = 0
         @value = 1
         @options = 2

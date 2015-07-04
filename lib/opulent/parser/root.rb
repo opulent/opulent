@@ -13,7 +13,7 @@ module Opulent
       def root(parent = @root, min_indent = -1)
         while(@line = @code[(@i += 1)])
           # Skip to next iteration if we have a blank line
-          if @line =~ /\A\s*\Z/ then @i += 1; next; end
+          if @line =~ /\A\s*\Z/ then next end
 
           # Reset the line offset
           @offset = 0
@@ -32,7 +32,9 @@ module Opulent
           # their matching evaluation procedure
           current_node =  node(parent, indent)      ||
                           text(parent, indent)      ||
-                          define(parent, indent)
+                          comment(parent, indent)   ||
+                          define(parent, indent)    ||
+                          filter(parent, indent)
 
           # Throw an error if we couldn't find a valid node
           error :unknown_node_type unless current_node

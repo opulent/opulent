@@ -1,2 +1,7 @@
-def node(attr=a b c, attr=b c d, attr=d e f)
-  hello+stuff.attributes world="woop woop" \ Hello world
+:markdown
+  # Hello world
+  This is my markdown filter
+
+:coffee
+  $(document).ready ->
+    alert('hello world')

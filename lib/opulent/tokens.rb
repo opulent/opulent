@@ -44,12 +44,10 @@ module Opulent
         inline_child: /\A *\> */,
 
         # Comments
-        comment: /\A\/(.*)/,
-        comment_lookahead: /\A *\//,
+        comment: /\A\//,
 
         # Intepreted filters
         filter: /\A\:([a-zA-Z]([\-\_]?[a-zA-Z0-9]+)*)/,
-        filter_lookahead: /\A *\:[a-zA-Z]([\-\_]?[a-zA-Z0-9]+)*/,
 
         # Print nodes
         print: /\A\=/,
