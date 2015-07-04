@@ -18,7 +18,7 @@ module Opulent
     InterpolationCheck = /(?<!\\)\#\{.*\}/
 
     # Check if the attribute value is a bare string
-    StringCheck = /\A(("((?:[^"\\]|\\.)*?)")|('(?:[^'\\]|\\.)*?'))\Z/
+    EvaluationCheck = /\A(("((?:[^"\\]|\\.)*?)")|('(?:[^'\\]|\\.)*?')|true|false|nil)\Z/
 
     # Shorthand attribute associations
     Shorthand = {

@@ -22,6 +22,14 @@ module Opulent
       #
       # [:node_type, :value, :attributes, :children, :indent]
       #
+      def setup
+        @type = 0
+        @value = 1
+        @options = 2
+        @children = 3
+        @indent = 4
+      end
+
       # Initialize the parsing process by splitting the code into lines and
       # instantiationg parser variables with their default values
       #
@@ -30,13 +38,6 @@ module Opulent
       # @return Nodes array
       #
       def parse(code)
-        # Convention accessors
-        @type = 0
-        @value = 1
-        @options = 2
-        @children = 3
-        @indent = 4
-
         # Split the code into lines and parse them one by one
         @code = code.lines
 

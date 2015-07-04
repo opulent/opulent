@@ -35,6 +35,11 @@ module Opulent
     # @param block [Proc] Processing environment data
     #
     def render(code, locals = {}, &block)
+      # Initialize class data access conventions
+      Parser.setup
+      Compiler.setup
+      Runtime.setup
+
       # Get the nodes tree
       @nodes = Parser.parse code
 
@@ -45,10 +50,14 @@ module Opulent
       # Create a new context based on our rendering environment
       @context = Context.new locals, (block.binding if block)
 
+      puts "Nodes\n---\n"
+      pp @nodes
+
+      puts "\n\nCode\n---\n"
       # Compile our syntax tree using input context
       @output = Compiler.compile @nodes, @context
 
-      return @output
+      return @nodes
     end
   end
 end

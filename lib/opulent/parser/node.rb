@@ -92,27 +92,23 @@ module Opulent
       #
       def add_attribute(atts, key, value)
         # Check whether the attribute value needs to be evaluated or not
-        value[@options][:evaluate] = if value[@value] =~ Settings::StringCheck
+        value[@options][:evaluate] = if value[@value] =~ Settings::EvaluationCheck
           value[@value] =~ Settings::InterpolationCheck ? true : false
         else
           true
         end
 
         # Check for unique key and arrays of attributes
-        if key == :id
-          atts[key] = value
-        else
+        if key == :class
           # If the key is already associated to an array, add the value to the
           # array, otherwise, create a new array or set it
           if atts[key]
-            if atts[key][@type] == :multiple
-              atts[key][@value] << value
-            else
-              atts[key] = [:multiple, [atts[key], value]]
-            end
+            atts[key] << value
           else
-            atts[key] = value
+            atts[key] = [value]
           end
+        else
+          atts[key] = value
         end
       end
 

@@ -35,10 +35,10 @@ module Opulent
         extend_attributes: /\A(\+)/,
 
         # Attribute assignments
-        assignment: /\A(\:|\=)/,
-        assignment_unescaped: /\A(\~)/,
-        assignment_terminator: /\A((\,|\;)\s*)/,
-        assignment_lookahead: /\A *([a-zA-Z]([\-\_]?[a-zA-Z0-9]+)* *[\:\=])/,
+        assignment: /\A *(\:|\=)/,
+        assignment_unescaped: /\A\~/,
+        assignment_terminator: /\A(\,|\;)\s*/,
+        assignment_lookahead: /\A *([a-zA-Z]([\-\_]?[a-zA-Z0-9]+)* *[\:\=] *)/,
 
         # Node inline child
         inline_child: /\A *\> */,
