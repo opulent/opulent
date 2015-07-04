@@ -16,7 +16,7 @@ module Opulent
         if accept :multiline
           multiline = true
         elsif multiline_or_print
-          return undo " " * indent unless lookahead :print_lookahead
+          return nil unless lookahead :print_lookahead
         end
 
         # Get text node type

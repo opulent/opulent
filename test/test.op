@@ -1,4 +1,3 @@
-if a>b
-  do stuff
-else
-  do other stuff
+html
+  head
+  body

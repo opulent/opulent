@@ -4,20 +4,6 @@ module Opulent
   module Parser
     # @Singleton
     class << self
-      def node(parent, indent)
-        if(match = accept :node)
-          # Process data
-          match = match.to_sym
-
-          # Create node
-          node = [:node, match, attributes, [], indent]
-          root(node, indent)
-
-          parent[@children] << node
-        end
-      end
-
-
       # Check if we match an node node with its attributes and possibly
       # inline text
       #

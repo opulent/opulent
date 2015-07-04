@@ -8,9 +8,12 @@ module Opulent
       #
       def comment(parent, indent)
         if (accept :comment)
+          multiline = true if (accept :comment)
+
           buffer = accept(:line_feed)
           buffer += accept(:newline) || ""
-          buffer += get_indented_lines indent
+          buffer += get_indented_lines indent if multiline
+
 
           # If we have a comment which is visible in the output, we will
           # create a new comment element. Otherwise, we ignore the current
