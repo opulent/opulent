@@ -7,6 +7,7 @@ require_relative 'parser/comment.rb'
 require_relative 'parser/filter.rb'
 require_relative 'parser/control.rb'
 require_relative 'parser/eval.rb'
+require_relative 'parser/block.rb'
 
 # @Opulent
 module Opulent

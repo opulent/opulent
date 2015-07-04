@@ -14,6 +14,12 @@ module Opulent
     # List of self enclosing node elements
     SelfEnclosing = %w(img link input meta br hr area base col command embed keygen param source track wbr)
 
+    # Check whether text should or shouldn't be evaluated
+    InterpolationCheck = /(?<!\\)\#\{.*\}/
+
+    # Check if the attribute value is a bare string
+    StringCheck = /\A(("((?:[^"\\]|\\.)*?)")|('(?:[^'\\]|\\.)*?'))\Z/
+
     # Shorthand attribute associations
     Shorthand = {
       :'.' => :class,

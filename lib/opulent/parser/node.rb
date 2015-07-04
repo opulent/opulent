@@ -41,12 +41,12 @@ module Opulent
           options = {}
 
           # Get leading and trailing whitespace
-          if accept :leading_whitespace
+          if accept_stripped :leading_whitespace
             options[:leading_whitespace] = true
             if accept :leading_trailing_whitespace
               options[:trailing_whitespace] = true
             end
-          elsif accept :trailing_whitespace
+          elsif accept_stripped :trailing_whitespace
             options[:trailing_whitespace] = true
           end
 
@@ -96,16 +96,24 @@ module Opulent
       # @param value [String] Attribute value
       #
       def add_attribute(atts, key, value)
+        # Check whether the attribute value needs to be evaluated or not
+        value[@options][:evaluate] = if value[@value] =~ Settings::StringCheck
+          value[@value] =~ Settings::InterpolationCheck ? true : false
+        else
+          true
+        end
+
+        # Check for unique key and arrays of attributes
         if key == :id
           atts[key] = value
         else
           # If the key is already associated to an array, add the value to the
           # array, otherwise, create a new array or set it
           if atts[key]
-            if atts[key][0].is_a? Array
-              atts[key] << value
+            if atts[key][@type] == :multiple
+              atts[key][@value] << value
             else
-              atts[key] = [atts[key], value]
+              atts[key] = [:multiple, [atts[key], value]]
             end
           else
             atts[key] = value
@@ -122,17 +130,16 @@ module Opulent
         while (key = accept :shorthand)
           key = Settings::Shorthand[key.to_sym]
 
-          if accept :unescaped_value
-            #todo
-          end
+          # Check whether the value is escaped or unescaped
+          escaped = accept(:unescaped_value) ? false : true
 
           # Get the attribute value and process it
           if (value = accept(:node))
-            value = [:value, value.inspect]
+            value = [:expression, value.inspect, {escaped: escaped}]
           elsif (value = accept(:exp_string))
-            value = [:expression, value.inspect]
+            value = [:expression, value, {escaped: escaped}]
           elsif (value = paranthesis)
-            value = [:expression, value.inspect]
+            value = [:expression, value, {escaped: escaped}]
           else
             error :shorthand
           end

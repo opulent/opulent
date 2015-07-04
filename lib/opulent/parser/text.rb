@@ -30,7 +30,7 @@ module Opulent
         value = value[1..-1] if value[0] == '\\'
 
         # Create the text node using input data
-        text_node = [type, value.strip, {escaped: escaped}, nil, indent]
+        text_node = [type, value.strip, {escaped: escaped, evaluate: false}, nil, indent]
 
         # If we have a multiline node, get all the text which has higher
         # indentation than our indentation node.
@@ -41,6 +41,10 @@ module Opulent
           # If our value is empty and we're not going to add any more lines to
           # our buffer, skip the node
           return nil
+        end
+
+        if text_node[@value] =~ Settings::InterpolationCheck
+          text_node[@options][:evaluate] = true
         end
 
         # Increase indentation if this is an inline text node

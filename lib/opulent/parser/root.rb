@@ -30,13 +30,15 @@ module Opulent
 
           # Try the main Opulent node types and process each one of them using
           # their matching evaluation procedure
-          current_node =  node(parent, indent)      ||
-                          text(parent, indent)      ||
-                          comment(parent, indent)   ||
-                          define(parent, indent)    ||
-                          control(parent, indent)   ||
-                          evaluate(parent, indent)  ||
-                          filter(parent, indent)
+          current_node =  node(parent, indent)        ||
+                          text(parent, indent)        ||
+                          comment(parent, indent)     ||
+                          define(parent, indent)      ||
+                          control(parent, indent)     ||
+                          evaluate(parent, indent)    ||
+                          filter(parent, indent)      ||
+                          block_yield(parent, indent) ||
+                          block(parent, indent)
 
           # Throw an error if we couldn't find a valid node
           error :unknown_node_type unless current_node
