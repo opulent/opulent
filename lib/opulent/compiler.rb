@@ -22,9 +22,10 @@ module Opulent
         @children = 3
         @indent = 4
 
+        @multi_node = Settings::MultiNode
         @inline_node = Settings::InlineNode
-        @inline_parent = Settings::InlineParent
-        @parent_node = @last_node = :root
+
+        @node_stack = []
       end
 
       # Compile input nodes, replace them with their definitions and
@@ -39,8 +40,6 @@ module Opulent
           generate node, 0, context
         end
 
-        puts @code
-
         return @code
       end
 
@@ -52,10 +51,8 @@ module Opulent
         # evaluating the node's attributes
         when :node
           node(current, indent, context)
-        when :text
+        when :text, :print
           text(current, indent, context)
-        when :print
-          printeval(current, indent, context)
         when :comment
           comment(current, indent, context)
         end

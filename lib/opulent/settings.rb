@@ -14,11 +14,12 @@ module Opulent
     # List of self enclosing node elements
     SelfEnclosing = %i(img link input meta br hr area base col command embed keygen param source track wbr)
 
-    # List of inline node parents
-    InlineParent = %i(li a strong span em)
+    # List of inline node parents which can be either inline or have complex
+    # structures inside of them, such as anchor tags
+    MultiNode = %i(a)
 
     # List of inline node names
-    InlineNode = %i(text span strong em br i b small label sub sup abbr var code kbd)
+    InlineNode = %i(text a span strong em br i b small label sub sup abbr var code kbd)
 
     # Check whether text should or shouldn't be evaluated
     InterpolationCheck = /(?<!\\)\#\{.*\}/
@@ -29,7 +30,8 @@ module Opulent
     # Shorthand attribute associations
     Shorthand = {
       :'.' => :class,
-      :'#' => :id
+      :'#' => :id,
+      :'&' => :name
     }
 
     # @Singleton

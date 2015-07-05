@@ -230,11 +230,17 @@ module Opulent
 
       # Extend node attributes with hash from
       #
-      # [hash]
+      # +value
+      # +{hash: "value"}
+      # +(paranthesis)
       #
       def extend_attributes
         if (accept :extend_attributes)
+          unescaped = accept :unescaped_value
+
           extension = expression(false, false, false)
+          extension[@options][:escaped] = false if unescaped
+
           return extension
         end
       end

@@ -50,12 +50,14 @@ module Opulent
       # Create a new context based on our rendering environment
       @context = Context.new locals, (block.binding if block)
 
-      puts "Nodes\n---\n"
-      pp @nodes
-
-      puts "\n\nCode\n---\n"
       # Compile our syntax tree using input context
       @output = Compiler.compile @nodes, @context
+
+      #puts "Nodes\n---\n"
+      #pp @nodes
+
+      puts "\n\nCode\n---\n"
+      puts @output
 
       return @nodes
     end

@@ -1,10 +1,7 @@
-html
-  head
-  body
-    #content
-      ul.list-inline
-        li Hello world
-        li > a href="google.com"
-        li
-          | Hello world
-          a href="google.com" Hello world
+ul
+  li
+    a href="google"
+      i.fa.fa-google->
+      | Go google
+      div.hi > strong |
+        world!! yeah
