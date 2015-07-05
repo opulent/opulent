@@ -1,3 +1,10 @@
-ul
-  /! output #{test}
-  li > a href=test Hello world
+html
+  head
+  body
+    #content
+      ul.list-inline
+        li Hello world
+        li > a href="google.com"
+        li
+          | Hello world
+          a href="google.com" Hello world

@@ -17,7 +17,7 @@ module Opulent
           eval_node[@value] += get_indented_lines(indent)
         end
 
-        parent[@children] << eval_node
+        parent[@children] << eval_node if eval_node
       end
     end
   end

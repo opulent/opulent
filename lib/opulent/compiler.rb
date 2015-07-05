@@ -1,4 +1,5 @@
 require_relative 'compiler/node.rb'
+require_relative 'compiler/text.rb'
 require_relative 'compiler/comment.rb'
 
 # @Opulent
@@ -20,6 +21,10 @@ module Opulent
         @options = 2
         @children = 3
         @indent = 4
+
+        @inline_node = Settings::InlineNode
+        @inline_parent = Settings::InlineParent
+        @parent_node = @last_node = :root
       end
 
       # Compile input nodes, replace them with their definitions and
@@ -47,8 +52,22 @@ module Opulent
         # evaluating the node's attributes
         when :node
           node(current, indent, context)
+        when :text
+          text(current, indent, context)
+        when :print
+          printeval(current, indent, context)
         when :comment
           comment(current, indent, context)
+        end
+      end
+
+      def remove_trailing_newline
+        @code = @code[0..-2] if @code[-1] == "\n"
+      end
+
+      def indent_lines text, indent
+        text.lines.inject("") do |result, line|
+          result += indent + line
         end
       end
 

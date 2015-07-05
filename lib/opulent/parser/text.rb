@@ -37,6 +37,7 @@ module Opulent
         if multiline
           text_node[@value] += accept(:newline) || ""
           text_node[@value] += get_indented_lines(indent)
+          text_node[@value].strip!
         elsif value.empty?
           # If our value is empty and we're not going to add any more lines to
           # our buffer, skip the node

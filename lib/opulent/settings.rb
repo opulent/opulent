@@ -12,7 +12,13 @@ module Opulent
     DefaultEachValue = :value
 
     # List of self enclosing node elements
-    SelfEnclosing = %w(img link input meta br hr area base col command embed keygen param source track wbr)
+    SelfEnclosing = %i(img link input meta br hr area base col command embed keygen param source track wbr)
+
+    # List of inline node parents
+    InlineParent = %i(li a strong span em)
+
+    # List of inline node names
+    InlineNode = %i(text span strong em br i b small label sub sup abbr var code kbd)
 
     # Check whether text should or shouldn't be evaluated
     InterpolationCheck = /(?<!\\)\#\{.*\}/

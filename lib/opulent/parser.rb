@@ -176,9 +176,15 @@ module Opulent
           "Please use paranthesis for method parameters at:\n\n" +
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         when :definition
-          "Unexpected start of definition on line #{@i+1 - 1} of input.\n\n" +
+          "Unexpected start of definition on line #{@i+1} of input.\n\n" +
           "Found a definition inside another definition or element at:\n\n" +
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :self_enclosing
+          "Unexpected content found after self enclosing node on line #{@i+1} of input at:\n\n" +
+          "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        when :self_enclosing_children
+          "Unexpected child elements found for self enclosing node on line #{data[0]+1} of input at:\n\n" +
+          "#{@code[data[0]]}#{Logger.red @code[data[0] + 1]}"
         else
           "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
         end

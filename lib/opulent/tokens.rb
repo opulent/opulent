@@ -47,7 +47,7 @@ module Opulent
         comment: /\A\//,
 
         # Intepreted filters
-        filter: /\A\:([a-zA-Z]([\-\_]?[a-zA-Z0-9]+)*)/,
+        filter: /\A\:[a-zA-Z]([\-\_]?[a-zA-Z0-9]+)*/,
 
         # Print nodes
         print: /\A\=/,

@@ -14,10 +14,21 @@ module Opulent
       def node(node, indent, context)
         indentation = " " * indent
 
-        tag_open = "#{indentation}<#{node[@value]}"
+        # If we have an inline node, we remove the trailing newline character
+        # and write the tag code directly. Otherwise we add the tag code with
+        # normal indentation
+        if @inline_node.include? node[@value]
+          remove_trailing_newline
+        else
+          @code += indentation
+        end
+
+        # Add the tag opening, with leading whitespace to the code buffer
+        tag_open = "<#{node[@value]}"
+        @code += " " if node[@options][:leading_whitespace]
         @code += tag_open
 
-        # Evaluate node extension
+        # Evaluate node extension in the current context
         if node[@options][:extension]
           extension = context.evaluate node[@options][:extension][@value]
         else
@@ -40,20 +51,45 @@ module Opulent
           @code += attribute_code key, value
         end
 
-        # If the tag is self enclosing, it cannot have any child elements.
-        # Otherwise, for each child node, generate code recursively and
-        # increase indentation each time
+        # Check if the current node is self enclosing. Self enclosing nodes
+        # do not have any child elements
         if node[@options][:self_enclosing]
-          tag_close = "/>\n"
+          # If the tag is self enclosing, it cannot have any child elements.
+          tag_close = ">"
+          tag_close += "\n"
+
           @code += tag_close
         else
-          tag_end = ">\n"
-          tag_close = "#{indentation}</#{node[@value]}>\n"
+          # Set tag ending code
+          tag_end = ">"
+          tag_end += "\n" unless @inline_node.include? node[@value]
 
+          # Set tag closing code
+          tag_close = "</#{node[@value]}>"
+          tag_close += "\n"
+
+          # Add tag ending to the buffer
           @code += tag_end
+
+          # Set the current node as last processed node and set it as a parent
+          # for the node elements to follow
+          @last_node = node[@value]
+          @parent_node = node[@value]
+
+          # Process each child element recursively, increasing indentation
           node[@children].each do |child|
             generate child, indent + Settings[:indent], context
           end
+
+          # If we have an inline node, we remove the trailing newline from
+          # our buffer, otherwise add indentation
+          if @inline_node.include? node[@value]
+            remove_trailing_newline
+          else
+            @code += indentation
+          end
+
+          # Close the current tag
           @code += tag_close
         end
       end

@@ -50,11 +50,15 @@ module Opulent
           current_node = [:node, node_name, options, [], indent]
 
           # Check if the node is explicitly self enclosing
-          if(close = accept_stripped :self_enclosing)
+          if(close = accept_stripped :self_enclosing) || Settings::SelfEnclosing.include?(node_name)
             current_node[@options][:self_enclosing] = true
-            unless close.strip.empty?
+
+            unless close.nil? || close.strip.empty?
               undo close; error :self_enclosing
             end
+
+            # For self enclosing tag error reporting purposes
+            line = @i
           end
 
           # Check whether we have explicit inline elements and add them
@@ -71,6 +75,10 @@ module Opulent
 
           # Add the current node to the root
           root(current_node, indent)
+
+          if current_node[@options][:self_enclosing] && current_node[@children].any?
+            error :self_enclosing_children, line
+          end
 
           if @definitions.keys.include? node_name
             model = @definitions[node_name].clone
