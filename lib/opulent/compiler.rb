@@ -1,4 +1,5 @@
 require_relative 'compiler/node.rb'
+require_relative 'compiler/comment.rb'
 
 # @Opulent
 module Opulent
@@ -30,23 +31,24 @@ module Opulent
 
         # Start building up the code from the root node
         root[@children].each do |node|
-          generate node, context
+          generate node, 0, context
         end
 
-        pp @code
+        puts @code
 
         return @code
       end
 
       private
 
-      def generate(current, context)
+      def generate(current, indent, context)
         case current[@type]
-
         # Generate code for static nodes, by appending their name and
         # evaluating the node's attributes
         when :node
-          node(current, context)
+          node(current, indent, context)
+        when :comment
+          comment(current, indent, context)
         end
       end
 

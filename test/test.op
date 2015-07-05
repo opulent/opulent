@@ -1,1 +1,3 @@
-a clsass=[1,2]
+ul
+  /! output #{test}
+  li > a href=test Hello world
