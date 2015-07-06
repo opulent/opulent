@@ -1,6 +1,8 @@
 require_relative 'compiler/node.rb'
 require_relative 'compiler/text.rb'
 require_relative 'compiler/comment.rb'
+require_relative 'compiler/control.rb'
+require_relative 'compiler/eval.rb'
 
 # @Opulent
 module Opulent
@@ -68,7 +70,11 @@ module Opulent
       # @param context [Context] Context holding environment variables
       #
       def generate(current, indent, context)
-        send current[@type], current, indent, context
+        if Parser::Keywords.include? current[@type]
+          send :"#{current[@type]}_node", current, indent, context
+        else
+          send current[@type], current, indent, context
+        end
       end
 
       # Escape a given input value using htmlentities

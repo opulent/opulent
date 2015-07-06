@@ -11,7 +11,7 @@ module Opulent
 
         comment_tag = "#{indentation}<!-- #{value} -->\n"
 
-        @last_node = :comment
+        @node_stack << :comment
         @code += comment_tag
       end
     end

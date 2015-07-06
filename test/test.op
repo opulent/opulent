@@ -1,6 +1,2 @@
-ul
-  li
-    a href="google" > i stuff="stuff" ~ Go google
-    |->,
-    a href="google" > i stuff="stuff" ~ Go google
-    | This is a text node continuation'"
+each key, value in {a: 1, b: 2, c: 3}
+  div key=key value=value

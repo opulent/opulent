@@ -12,4 +12,4 @@ engine = Opulent.new
 #   end
 # end
 
-engine.render(code, test: "hello"){}
+engine.render(code, a: 2, b: 1){}

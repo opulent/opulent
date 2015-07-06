@@ -84,7 +84,10 @@ module Opulent
         else
           # Set tag ending code
           tag_end = ">"
-          tag_end += "\n" unless inline_current
+
+          # If the node is an inline node and doesn't have any child elements,
+          # we close it on the same line, without adding indentation
+          tag_end += "\n" unless inline_current || node[@children].empty?
 
           # Set tag closing code
           tag_close = "</#{node[@value]}>"
@@ -102,15 +105,20 @@ module Opulent
             generate child, indent + Settings[:indent], context
           end
 
+          # Remove the current node children count from the sibling stack
           @sibling_stack.pop
 
+          # Remove all child nodes of the current node from the node stack
           @node_stack.pop(node[@children].size)
 
           # If we have an inline node, we remove the trailing newline from
           # our buffer, otherwise add indentation
           if inline_current
             remove_trailing_newline
-          else
+
+          # If the node doesn't have any child elements, we close it on the same
+          # line, without adding indentation
+          elsif node[@children].any?
             @code += indentation
           end
 
@@ -128,10 +136,12 @@ module Opulent
       def map_attribute(key, attribute, context)
         if key == :class
           attribute.map do |attrib|
-            context.evaluate attrib[@value]
+            value = context.evaluate attrib[@value]
+            attrib[@options][:escaped] ? escape(value) : value
           end
         else
-          context.evaluate attribute[@value]
+          value = context.evaluate attribute[@value]
+          attribute[@options][:escaped] ? escape(value) : value
         end
       end
 

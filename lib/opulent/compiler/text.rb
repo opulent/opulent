@@ -41,6 +41,10 @@ module Opulent
           value.lstrip!
         end
 
+        # Escape the value unless explicitly set to false
+        value = node[@options][:escaped] ? escape(value) : value
+
+        # Create the text tag to be added
         text_tag = "#{value}"
         text_tag += "\n"
 

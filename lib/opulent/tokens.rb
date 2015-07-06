@@ -1,7 +1,7 @@
 module Opulent
   module Parser
     # Opulent Keywords
-    Keywords = %w(def theme block yield if else elsif unless case when each while until)
+    Keywords = %i(def block yield if else elsif unless case when each while until)
 
     # Opulent Tokens
     class Tokens
