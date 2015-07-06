@@ -30,21 +30,21 @@ module Opulent
         value = value[1..-1] if value[0] == '\\'
 
         # Create the text node using input data
-        text_node = [type, value.strip, {escaped: escaped, evaluate: false}, nil, indent]
+        text_node = [:plain, type, {value: value.strip, escaped: escaped, evaluate: false}, nil, indent]
 
         # If we have a multiline node, get all the text which has higher
         # indentation than our indentation node.
         if multiline
-          text_node[@value] += accept(:newline) || ""
-          text_node[@value] += get_indented_lines(indent)
-          text_node[@value].strip!
+          text_node[@options][:value] += accept(:newline) || ""
+          text_node[@options][:value] += get_indented_lines(indent)
+          text_node[@options][:value].strip!
         elsif value.empty?
           # If our value is empty and we're not going to add any more lines to
           # our buffer, skip the node
           return nil
         end
 
-        if text_node[@value] =~ Settings::InterpolationCheck
+        if text_node[@options][:value] =~ Settings::InterpolationCheck
           text_node[@options][:evaluate] = true
         end
 
@@ -59,7 +59,7 @@ module Opulent
       #
       def html_text(parent, indent)
         if (text_feed = accept_stripped :html_text)
-          text_node = [:text, text_feed.strip, {escaped: false}, nil, indent]
+          text_node = [:plain, :text, {value: text_feed.strip, escaped: false}, nil, indent]
 
           parent[@children] << text_node
         end

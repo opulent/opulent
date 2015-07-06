@@ -1,5 +1,6 @@
 require 'pp'
 require 'tilt'
+require 'htmlentities'
 require_relative 'opulent/settings.rb'
 require_relative 'opulent/logger.rb'
 require_relative 'opulent/tokens.rb'

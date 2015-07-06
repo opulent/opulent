@@ -10,21 +10,21 @@ module Opulent
       # @param indent [Fixnum] Size of the indentation to be added
       # @param context [Context] Processing environment data
       #
-      def text(node, indent, context)
+      def plain(node, indent, context)
         indentation = " " * indent
-        
+
         inline = @inline_node.include? @node_stack.last
 
         # Evaluate text node if it's marked as such and print nodes in the
         # current context
-        if node[@type] == :text
+        if node[@value] == :text
           if node[@options][:evaluate]
-            value = context.evaluate "\"#{node[@value]}\""
+            value = context.evaluate "\"#{node[@options][:value]}\""
           else
-            value = node[@value]
+            value = node[@options][:value]
           end
         else
-          value = context.evaluate node[@value]
+          value = context.evaluate node[@options][:value]
         end
 
         # Indent all the lines with the given indentation

@@ -19,10 +19,14 @@ module Opulent
         inline_last = @inline_node.include? @node_stack.last
 
         # Check if the node is a special node which can be either inline or
-        # block structure
-        if @multi_node.include? node[@value]
-          unless node[@children].all? do |child|
-            @inline_node.include? child[@value]
+        # block structure. Write the special node as inline if its children
+        # are all inline nodes
+        if @multi_node.include?(node[@value])
+          # First condition should be removed to ignore preceding node and make
+          # it be inline no matter what. Using the first check, we write it
+          # inline only if the element before it was inline
+          unless @sibling_stack.last > 1 && node[@children].all? do |child|
+            @inline_node.include?(child[@value])
           end
             inline_current = false
             multi = true
@@ -90,10 +94,15 @@ module Opulent
           # Add tag ending to the buffer
           @code += tag_end
 
+          # Get number of siblings
+          @sibling_stack << node[@children].size
+
           # Process each child element recursively, increasing indentation
           node[@children].each do |child|
             generate child, indent + Settings[:indent], context
           end
+
+          @sibling_stack.pop
 
           @node_stack.pop(node[@children].size)
 
