@@ -82,6 +82,8 @@ module Opulent
         node[@children].each do |child|
           root child, indent, definition_context
         end
+
+        @block_stack.pop
       end
     end
   end
