@@ -7,7 +7,7 @@ module Opulent
   # has its own context
   #
   class Context
-    attr_accessor :binding, :name
+    attr_accessor :binding, :name, :parent
 
     # Create a context from the environment binding, extended with the locals
     # given as arguments

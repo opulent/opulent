@@ -1,13 +1,13 @@
-require_relative 'parser/root.rb'
-require_relative 'parser/define.rb'
-require_relative 'parser/expression.rb'
-require_relative 'parser/node.rb'
-require_relative 'parser/text.rb'
-require_relative 'parser/comment.rb'
-require_relative 'parser/filter.rb'
-require_relative 'parser/control.rb'
-require_relative 'parser/eval.rb'
 require_relative 'parser/block.rb'
+require_relative 'parser/comment.rb'
+require_relative 'parser/control.rb'
+require_relative 'parser/define.rb'
+require_relative 'parser/eval.rb'
+require_relative 'parser/expression.rb'
+require_relative 'parser/filter.rb'
+require_relative 'parser/node.rb'
+require_relative 'parser/root.rb'
+require_relative 'parser/text.rb'
 
 # @Opulent
 module Opulent

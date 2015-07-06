@@ -20,7 +20,7 @@ module Opulent
         # children related to that specific branch
         if index
           node[@children][index].each do |child|
-            generate child, indent, context
+            root child, indent, context
           end
         end
       end
@@ -44,7 +44,7 @@ module Opulent
         # children related to that specific branch
         if index
           node[@children][index].each do |child|
-            generate child, indent, context
+            root child, indent, context
           end
         end
       end
@@ -60,7 +60,7 @@ module Opulent
         # children related to that specific branch
         while context.evaluate node[@value]
           node[@children].each do |child|
-            generate child, indent, context
+            root child, indent, context
           end
         end
       end
@@ -76,7 +76,7 @@ module Opulent
         # children related to that specific branch
         until context.evaluate node[@value]
           node[@children].each do |child|
-            generate child, indent, context
+            root child, indent, context
           end
         end
       end
@@ -122,19 +122,20 @@ module Opulent
 
           # Add the mapped child elements
           node[@children].each do |child|
-            generate child, indent, context
+            root child, indent, context
           end
         end
 
         # Create a new context based on the parent context and progressively update
         # variables in the new context
-        each_context = Context.new({}, context.binding.clone)
+        each_context = Context.new Hash.new, context.binding.clone
+        each_context.parent = context
 
         # Evaluate the iterable object
         enumerable = each_context.evaluate(node[@value][1])
 
         # Check if input can be iterated
-        Runtime.error :enumerable, node[@value][1] unless enumerable.respond_to? :each
+        error :enumerable, node[@value][1] unless enumerable.respond_to? :each
 
         # Selectively iterate through the input and add the result using the previously
         # defined proc object

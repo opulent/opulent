@@ -1,2 +1,3 @@
-each key, value in {a: 1, b: 2, c: 3}
-  div key=key value=value
+:coffeescript
+  $(document).ready ->
+    alert(1)

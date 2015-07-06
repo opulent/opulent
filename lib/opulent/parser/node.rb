@@ -209,7 +209,7 @@ module Opulent
               error :assignments_colon
             end
           else
-            parent[argument] = [:value, true] unless parent[argument]
+            parent[argument] = [:expression, "nil", {evaluate: true, escaped: false}] unless parent[argument]
           end
 
           # If our attributes are wrapped, we allow method calls without

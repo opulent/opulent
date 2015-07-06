@@ -102,7 +102,7 @@ module Opulent
 
           # Process each child element recursively, increasing indentation
           node[@children].each do |child|
-            generate child, indent + Settings[:indent], context
+            root child, indent + Settings[:indent], context
           end
 
           # Remove the current node children count from the sibling stack
@@ -134,14 +134,35 @@ module Opulent
       # @param context [Context] Processing environment data
       #
       def map_attribute(key, attribute, context)
+        # Process input value depending on its type. When array or hash, iterate
+        # and escape each string value.
+        process = Proc.new do |value|
+          case value
+          when Array
+            value.map do |v|
+              v.is_a?(String) ? escape(v) : v
+            end
+          when Hash
+            value.each do |k,v|
+              value[k] = value[k].is_a?(String) ? escape(v) : v
+            end
+          when String
+            escape value
+          else
+            value
+          end
+        end
+
+        # Process each attribute depending on whether it's an array of values,
+        # exclusive to the class attribute, or an individual attribute value
         if key == :class
           attribute.map do |attrib|
             value = context.evaluate attrib[@value]
-            attrib[@options][:escaped] ? escape(value) : value
+            attrib[@options][:escaped] ? process[value] : value
           end
         else
           value = context.evaluate attribute[@value]
-          attribute[@options][:escaped] ? escape(value) : value
+          attribute[@options][:escaped] ? process[value] : value
         end
       end
 

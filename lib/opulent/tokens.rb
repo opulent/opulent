@@ -64,7 +64,7 @@ module Opulent
 
         # Yield
         yield: /\A(yield)/,
-        yield_identifier: /\A( +[a-zA-Z]([\_]?[a-zA-Z0-9]+)*)/,
+        yield_identifier: /\A[a-zA-Z]([\_]?[a-zA-Z0-9]+)*/,
 
         # Yield
         block: /\A(block)/,
