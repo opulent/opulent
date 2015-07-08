@@ -73,7 +73,6 @@ module Opulent
         return @code
       end
 
-      private
       # Escape a given input value using htmlentities
       #
       # @param value [String] String to be escaped

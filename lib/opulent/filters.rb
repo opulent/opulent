@@ -39,14 +39,14 @@ module Opulent
       # Error output in case the filter does not exist
       #
       def load_filter
-        unless @loaded
+        unless gem_name.nil? || @loaded
           # Try to load the library associated to the chosen filter
           begin
             require gem_name
             @loaded = true
           rescue LoadError => error
             # Error output with filter name and installation instructions
-            Runtime.error :filter_load, @name, install_error
+            Compiler.error :filter_load, @name, install_error
           end
         end
       end
@@ -93,6 +93,19 @@ module Opulent
       Filters.register self, :coffeescript, tag: :script, attributes: { type: 'javascript' }
     end
 
+    # @JavaScript
+    class JavaScript < Filter
+      def render(code, options = {})
+        code
+      end
+
+      def gem_name
+        nil
+      end
+
+      Filters.register self, :javascript, tag: :script, attributes: { type: 'javascript' }
+    end
+
     # @Scss
     class Scss < Filter
       def render(code, options = {})
@@ -122,6 +135,88 @@ module Opulent
       end
 
       Filters.register self, :sass, tag: :style, attributes: { type: 'text/css' }
+    end
+
+    # @Css
+    class Css < Filter
+      def render(code, options = {})
+        if options[:cdata]
+          "<![CDATA[\n" + code + "]]>"
+        else
+          code
+        end
+      end
+
+      def gem_name
+        nil
+      end
+
+      Filters.register self, :css, tag: :style, attributes: { type: 'text/css' }
+    end
+
+    # @CData
+    class CData < Filter
+      def render(code, options = {})
+        "<![CDATA[\n" + code + "]]>"
+      end
+
+      def gem_name
+        nil
+      end
+
+      Filters.register self, :cdata, tag: nil, attributes: {}
+    end
+
+    # @Escaped
+    class Escaped < Filter
+      def render(code, options = {})
+        Compiler.escape code
+      end
+
+      def gem_name
+        nil
+      end
+
+      Filters.register self, :escaped, tag: nil, attributes: {}
+    end
+
+    # @Markdown
+    class Markdown < Filter
+      def render(code, options = {})
+        ::Kramdown::Document.new(code, options).to_html
+      end
+
+      def gem_name
+        "kramdown"
+      end
+
+      Filters.register self, :markdown, tag: nil, attributes: {}
+    end
+
+    # @Maruku
+    class Maruku < Filter
+      def render(code, options = {})
+        ::Maruku.new(code, options).to_html
+      end
+
+      def gem_name
+        "maruku"
+      end
+
+      Filters.register self, :maruku, tag: nil, attributes: {}
+    end
+
+    # @RedCloth
+    class RedCloth < Filter
+      def render(code, options = {})
+        ::RedCloth.new(code, options).to_html
+      end
+
+      def gem_name
+        "RedCloth"
+      end
+
+      Filters.register self, :textile, tag: nil, attributes: {}
     end
   end
 end
