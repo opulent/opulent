@@ -4,6 +4,8 @@ module Opulent
   module Filters
     # @Singleton
     class << self
+      attr_accessor :filters
+
       # Add a new Opulent filter to the filters knowledgebase
       #
       # @param class [Class] Class to be used for filter instance
@@ -11,6 +13,7 @@ module Opulent
       # @param options [Hash] Filter engine instance options
       #
       def register(klass, name, options)
+        @filters ||= {}
         @filters[name] = klass.new name, options
       end
 
@@ -93,6 +96,8 @@ module Opulent
     # @Scss
     class Scss < Filter
       def render(code, options = {})
+        options[:style] ||= :expanded
+
         ::Sass.compile code, options
       end
 
@@ -107,6 +112,8 @@ module Opulent
     class Sass < Filter
       def render(code, options = {})
         options[:syntax] = :sass
+        options[:style] ||= :expanded
+
         ::Sass.compile code, options
       end
 

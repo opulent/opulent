@@ -36,8 +36,8 @@ module Opulent
     #
     def render(code, locals = {}, &block)
       # Initialize class data access conventions
-      Parser.setup
       Compiler.setup
+      Parser.setup
       Runtime.setup
 
       # Get the nodes tree
