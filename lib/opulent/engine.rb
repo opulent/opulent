@@ -35,23 +35,18 @@ module Opulent
     # @param block [Proc] Processing environment data
     #
     def render(code, locals = {}, &block)
-      # Initialize class data access conventions
-      Compiler.setup
-      Parser.setup
-      Runtime.setup
-
       # Get the nodes tree
-      @nodes = Parser.parse code
+      @nodes = Parser.new.parse code
 
       # @TODO
       # Implement precompiled template handling
       @preamble = @nodes.inspect.inspect
 
       # Create a new context based on our rendering environment
-      @context = Context.new locals, (block.binding if block)
+      @context = Context.new locals, &block
 
       # Compile our syntax tree using input context
-      @output = Compiler.compile @nodes, @context
+      @output = Compiler.new.compile @nodes, @context
 
       # puts "Nodes\n---\n"
       # pp @nodes
@@ -59,7 +54,7 @@ module Opulent
       # puts "\n\nCode\n---\n"
       # puts @output
 
-      return @nodes
+      return @output
     end
   end
 end

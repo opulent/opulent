@@ -15,9 +15,10 @@ module Opulent
     # @param locals [Hash] Binding extension
     # @param bind [Binding] Call environment binding
     #
-    def initialize(locals = {}, bind = nil)
-      @binding = if bind
-        bind.clone
+    def initialize(locals = {}, &block)
+      @block = block || Proc.new
+      @binding = if @block
+        @block.binding.clone
       else
         Binding.new
       end
@@ -33,8 +34,14 @@ module Opulent
       begin
         eval code, @binding
       rescue NameError => variable
-        Runtime.error :binding, variable, code
+        Compiler.error :binding, variable, code
       end
+    end
+
+    # Call given input block and return the output
+    #
+    def evaluate_yield
+      @block.call
     end
 
     # Extend the call context with a Hash, String or other Object
@@ -47,7 +54,7 @@ module Opulent
         begin
           @binding.local_variable_set(key.to_sym, value)
         rescue NameError => variable
-          Runtime.error :variable_name, variable, key
+          Compiler.error :variable_name, variable, key
         end
       end
     end
@@ -70,6 +77,7 @@ module Opulent
       end
     end
   end
+
 
   # @Binding
   class Binding

@@ -1,14 +1,6 @@
-div#shorthandid
-div.shorthandclass
-
-#shorthandid
-.shorthandclass
-
-div(attr="value")
-div(attr=[])
-div(attr=[1, a, b, [1,2,3]])
-div(attr={})
-div(attr={
-  a: b,
-  c => d
-})
+#content
+  .test
+    .child
+    .child
+    .child
+      #inner

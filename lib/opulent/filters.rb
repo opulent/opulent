@@ -1,6 +1,6 @@
 # @Opulent
 module Opulent
-  # @Parser
+  # @Filters
   module Filters
     # @Singleton
     class << self

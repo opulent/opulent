@@ -1,6 +1,6 @@
 # @Opulent
 module Opulent
-  # @Parser
+  # @Settings
   module Settings
     # Default yield target which is used for child block replacements
     DefaultYield = :children
