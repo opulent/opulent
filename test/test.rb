@@ -1,15 +1,3 @@
-require 'benchmark'
-require_relative '../lib/opulent.rb'
+require 'opulent'
 
-code = File.read 'test.op'
-engine = Opulent.new
-
-# Benchmark.bm do |x|
-#   x.report do
-#     1000.times do
-#       engine.render code
-#     end
-#   end
-# end
-
-engine.render(code, a: 2, b: 1){}
+Opulent.new.render_file('test.op', a: 2, b: 1){}
