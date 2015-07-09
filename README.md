@@ -87,6 +87,15 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/opulent/opulent. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
+#### Under Development
+Opulent is currently in the Beta Phase. It has serious potential to becoming the next generation of Templating Engines for Ruby, therefore any contribution is more than welcome.
+
+It still has development going on the following subjects:
+
+* Template amble (preamble, cache, postamble) generation
+* More block yielding tests
+* Multiple page layouts
+* More to come
 
 ## License
 
