@@ -1,4 +1,3 @@
-require 'pp'
 require 'tilt'
 require 'htmlentities'
 require_relative 'opulent/settings.rb'

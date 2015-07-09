@@ -53,11 +53,11 @@ module Opulent
       # Compile our syntax tree using input context
       @output = Compiler.compile @nodes, @context
 
-      puts "Nodes\n---\n"
-      pp @nodes
-
-      puts "\n\nCode\n---\n"
-      puts @output
+      # puts "Nodes\n---\n"
+      # pp @nodes
+      #
+      # puts "\n\nCode\n---\n"
+      # puts @output
 
       return @nodes
     end
