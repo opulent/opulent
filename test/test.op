@@ -1,2 +1,3 @@
-div.yieldtest
-  =~yield
+-a = "attributes"
+hello
+  require "#{a}.op"

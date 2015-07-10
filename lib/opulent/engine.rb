@@ -2,7 +2,7 @@
 module Opulent
   # Module method wrapper for creating a new engine instance
   #
-  def Opulent.new(settings = nil)
+  def Opulent.new(settings = {})
     return Engine.new settings
   end
 
@@ -10,9 +10,17 @@ module Opulent
   class Engine
     attr_reader :nodes, :preamble, :buffer
 
-    def initialize(settings = nil)
-      # Update render settings
-      Settings.update_settings settings if settings
+    # Update render settings
+    #
+    # @param settings [Hash] Opulent settings override
+    # @param definitions [Hash] Definitions from previously parsed files
+    # @param overwrite [Boolean] Write changes directly to the parent binding
+    #
+    def initialize(settings = {})
+      @definitions = settings.delete(:definitions) || {}
+      @overwrite = settings.delete :overwrite
+
+      Settings.update_settings settings unless settings.empty?
     end
 
     # Analyze the input code and check for matching tokens. In case no match was
@@ -23,8 +31,9 @@ module Opulent
     # @param block [Proc] Processing environment data
     #
     def render_file(file, locals = {}, &block)
-      # Render the file
-      render File.read(file), locals, &block
+      @mode = :file
+
+      render file, locals, &block
     end
 
     # Analyze the input code and check for matching tokens. In case no match was
@@ -34,19 +43,22 @@ module Opulent
     # @param locals [Hash] Render call local variables
     # @param block [Proc] Processing environment data
     #
-    def render(code, locals = {}, &block)
+    def render(input, locals = {}, &block)
+      # Get input code
+      @code = read input
+
       # Get the nodes tree
-      @nodes = Parser.new.parse code
+      @nodes, @definitions = Parser.new(@definitions).parse @code
 
       # @TODO
       # Implement precompiled template handling
       @preamble = @nodes.inspect.inspect
 
       # Create a new context based on our rendering environment
-      @context = Context.new locals, &block
+      @context = Context.new locals, @overwrite, &block
 
       # Compile our syntax tree using input context
-      @output = Compiler.new.compile @nodes, @context
+      @output = Compiler.new({path: @file, definitions: @definitions}).compile @nodes, @context
 
       # puts "Nodes\n---\n"
       # pp @nodes
@@ -55,6 +67,22 @@ module Opulent
       # puts @output
 
       return @output
+    end
+
+    # Read input parameter based on opening mode. If we have a file mode, we
+    # get its path and read the code. We need to reset the mode in case the next
+    # render call is on code, not on a file.
+    #
+    # @param input [String] Input file or code
+    #
+    def read(input)
+      if @mode == :file
+        @file = File.expand_path input; @mode = nil
+        return File.read @file
+      else
+        @file = File.expand_path __FILE__
+        return input
+      end
     end
   end
 end

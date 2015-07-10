@@ -7,7 +7,7 @@ module Opulent
   # has its own context
   #
   class Context
-    attr_accessor :binding, :name, :parent
+    attr_accessor :block, :binding, :name, :parent
 
     # Create a context from the environment binding, extended with the locals
     # given as arguments
@@ -15,10 +15,10 @@ module Opulent
     # @param locals [Hash] Binding extension
     # @param bind [Binding] Call environment binding
     #
-    def initialize(locals = {}, &block)
+    def initialize(locals = {}, override = false, &block)
       @block = block || Proc.new
       @binding = if @block
-        @block.binding.clone
+        override ? @block.binding : @block.binding.clone
       else
         Binding.new
       end

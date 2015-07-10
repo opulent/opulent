@@ -6,6 +6,7 @@ require_relative 'parser/eval.rb'
 require_relative 'parser/expression.rb'
 require_relative 'parser/filter.rb'
 require_relative 'parser/node.rb'
+require_relative 'parser/require.rb'
 require_relative 'parser/root.rb'
 require_relative 'parser/text.rb'
 
@@ -13,19 +14,23 @@ require_relative 'parser/text.rb'
 module Opulent
   # @Parser
   class Parser
-    attr_reader :type, :value, :options, :children, :indent
+    attr_reader :type, :value, :options, :children, :indent, :definitions
 
     # All node Objects (Array) must follow the next convention in order
     # to make parsing faster
     #
     # [:node_type, :value, :attributes, :children, :indent]
     #
-    def initialize
+    def initialize(definitions = {})
+      # Convention accessors
       @type = 0
       @value = 1
       @options = 2
       @children = 3
       @indent = 4
+
+      # Node definitions encountered up to the current point
+      @definitions = definitions
     end
 
     # Initialize the parsing process by splitting the code into lines and
@@ -39,17 +44,15 @@ module Opulent
       # Split the code into lines and parse them one by one
       @code = code.lines
 
-      # Node definitions encountered up to the current point
-      @definitions = {}
-
       # Current line index
       @i = -1
 
       # Initialize root node
       @root = [:root, nil, {}, [], -1]
 
-      # Get all nodes starting from the root element
-      root @root
+      # Get all nodes starting from the root element and return output
+      # nodes and definitions
+      [root(@root), @definitions]
     end
 
     # Check and accept or reject a given token as long as we have tokens

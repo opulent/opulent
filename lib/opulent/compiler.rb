@@ -5,6 +5,7 @@ require_relative 'compiler/define.rb'
 require_relative 'compiler/eval.rb'
 require_relative 'compiler/filter.rb'
 require_relative 'compiler/node.rb'
+require_relative 'compiler/require.rb'
 require_relative 'compiler/root.rb'
 require_relative 'compiler/text.rb'
 
@@ -19,13 +20,21 @@ module Opulent
     #
     # [:node_type, :value, :attributes, :children, :indent]
     #
-    def initialize
+    # @param path [String] Current file path needed for require nodes
+    #
+    def initialize(settings = {})
       # Setup convention accessors
       @type = 0
       @value = 1
       @options = 2
       @children = 3
       @indent = 4
+
+      # Set current compiled file
+      @path = File.dirname settings.delete :path
+
+      # Extract definitions for require directives
+      @definitions = settings.delete :definitions
 
       # Create the HTML Entities encoder/decoder
       @entities = HTMLEntities.new
@@ -52,7 +61,7 @@ module Opulent
 
     # Compile input nodes, replace them with their definitions and
     #
-    # @param root [Array] Root node containing all document nodes
+    # @param root_node [Array] Root node containing all document nodes
     # @param context [Context] Context holding environment variables
     #
     def compile(root_node, context)
@@ -121,6 +130,8 @@ module Opulent
         "The \"#{data[0]}\" filter could not be recognized by Opulent."
       when :filter_load
         "The gem required for the \"#{data[0]}\" filter is not installed. You can install it by running:\n\n#{data[1]}"
+      when :require
+        "The required file #{data[0]} does not exist or an incorrect path has been specified."
       end
 
       # Reconstruct lines to display where errors occur

@@ -36,7 +36,8 @@ module Opulent
                         evaluate(parent, indent)    ||
                         filter(parent, indent)      ||
                         block_yield(parent, indent) ||
-                        block(parent, indent)
+                        block(parent, indent)       ||
+                        require_file(parent, indent)
 
         # Throw an error if we couldn't find a valid node
         error :unknown_node_type unless current_node
