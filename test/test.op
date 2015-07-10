@@ -1,3 +1,2 @@
--a = "attributes"
-hello
-  require "#{a}.op"
+require "*"
+hello world=a

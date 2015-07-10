@@ -15,10 +15,10 @@ module Opulent
     # @param locals [Hash] Binding extension
     # @param bind [Binding] Call environment binding
     #
-    def initialize(locals = {}, override = false, &block)
-      @block = block || Proc.new
+    def initialize(locals = {}, &block)
+      @block = block
       @binding = if @block
-        override ? @block.binding : @block.binding.clone
+        @block.binding.clone
       else
         Binding.new
       end

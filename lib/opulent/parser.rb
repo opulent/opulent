@@ -21,7 +21,7 @@ module Opulent
     #
     # [:node_type, :value, :attributes, :children, :indent]
     #
-    def initialize(definitions = {})
+    def initialize(file)
       # Convention accessors
       @type = 0
       @value = 1
@@ -29,8 +29,12 @@ module Opulent
       @children = 3
       @indent = 4
 
-      # Node definitions encountered up to the current point
-      @definitions = definitions
+      # Set current compiled file
+      @file = file
+      @dir = File.dirname @file
+
+      # Initialize definitions for the parser
+      @definitions = {}
     end
 
     # Initialize the parsing process by splitting the code into lines and
@@ -52,7 +56,7 @@ module Opulent
 
       # Get all nodes starting from the root element and return output
       # nodes and definitions
-      [root(@root), @definitions]
+      root @root
     end
 
     # Check and accept or reject a given token as long as we have tokens
@@ -137,6 +141,18 @@ module Opulent
       end
     end
 
+    # Indent all lines of the input text using give indentation
+    #
+    # @param text [String] Input text to be indented
+    # @param indent [String] Indentation string to be appended
+    #
+    def indent_lines(text, indent)
+      text ||= ""
+      text.lines.inject("") do |result, line|
+        result += indent + line
+      end
+    end
+
     # Give an explicit error report where an unexpected sequence of tokens
     # appears and give indications on how to solve it
     #
@@ -148,7 +164,7 @@ module Opulent
         "An unknown node type has been encountered at:\n\n#{Logger.red @line}"
       when :expected
         data[0] = "#{Tokens.bracket data[0]}" if [:'(', :'{', :'[', :'<'].include? data[0]
-        "Expected to find a :#{data[0]} token at: \n\n#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        "Expected to find a :#{data[0]} token on line #{@i+1} of input at: \n\n#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
       when :root
         "Unknown node type encountered on line #{@i+1} of input at:\n\n" +
         "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
@@ -186,6 +202,13 @@ module Opulent
       when :self_enclosing_children
         "Unexpected child elements found for self enclosing node on line #{data[0]+1} of input at:\n\n" +
         "#{@code[data[0]]}#{Logger.red @code[data[0] + 1]}"
+      when :require
+        "The required file #{data[0]} does not exist or an incorrect path has been specified."
+      when :require_dir
+        "The required file path #{data[0]} is a directory."
+      when :require_end
+        "Unexpected content found after require on line #{@i+1} of input at:\n\n" +
+        "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
       else
         "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
       end

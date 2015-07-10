@@ -15,14 +15,40 @@ module Opulent
     #
     def require_file(parent, indent)
       if(match = accept :require)
+
         # Process data
-        name = accept(:exp_string, :*)
+        name = accept :exp_string, :*
 
-        # Create node
-        require_node = [:require, name, {}, [], indent]
+        # Check if there is any string after the require input
+        unless (feed = accept(:line_feed) || "").strip.empty?
+          undo feed; error :require_end
+        end
 
-        # Add to parent
-        parent[@children] << require_node
+        # Get the complete file path based on the current file being compiled
+        require_path = File.expand_path name[1..-2], @dir
+
+        # Throw an error if the file doesn't exist
+        error :require, name unless Dir[require_path].any?
+
+        # Require entire directory tree
+        Dir[require_path].each do |file|
+          # Skip current file when including from same directory
+          next if file == @file
+
+          # Throw an error if the file doesn't exist
+          error :require_dir, file if File.directory? file
+
+          # Throw an error if the file doesn't exist
+          error :require, file unless File.file? file
+
+          # Indent all lines and prepare them for the parser
+          lines = indent_lines File.read(file), " " * indent
+
+          # Indent all the output lines with the current indentation
+          @code.insert @i+1, *lines.lines
+        end
+
+        return true
       end
     end
   end

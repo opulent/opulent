@@ -8,7 +8,7 @@ module Opulent
 
   # @Engine
   class Engine
-    attr_reader :nodes, :preamble, :buffer
+    attr_reader :nodes, :definitions, :parser, :file, :preamble, :buffer
 
     # Update render settings
     #
@@ -17,7 +17,7 @@ module Opulent
     # @param overwrite [Boolean] Write changes directly to the parent binding
     #
     def initialize(settings = {})
-      @definitions = settings.delete(:definitions) || {}
+      @definitions = settings[:definitions] || {}
       @overwrite = settings.delete :overwrite
 
       Settings.update_settings settings unless settings.empty?
@@ -48,17 +48,17 @@ module Opulent
       @code = read input
 
       # Get the nodes tree
-      @nodes, @definitions = Parser.new(@definitions).parse @code
+      @nodes = Parser.new(@file).parse @code
 
       # @TODO
       # Implement precompiled template handling
       @preamble = @nodes.inspect.inspect
 
       # Create a new context based on our rendering environment
-      @context = Context.new locals, @overwrite, &block
+      @context = Context.new locals, &block
 
       # Compile our syntax tree using input context
-      @output = Compiler.new({path: @file, definitions: @definitions}).compile @nodes, @context
+      @output = Compiler.new.compile @nodes, @context
 
       # puts "Nodes\n---\n"
       # pp @nodes
