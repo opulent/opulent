@@ -27,6 +27,11 @@ module Opulent
         # Get the complete file path based on the current file being compiled
         require_path = File.expand_path name[1..-2], @dir
 
+        # Try to see if it has any existing extension, otherwise add .op
+        require_path += '.op' unless Settings::Extensions.any? do |ext|
+           require_path =~ /\.#{ext}\Z/
+        end
+
         # Throw an error if the file doesn't exist
         error :require, name unless Dir[require_path].any?
 
@@ -45,7 +50,7 @@ module Opulent
           lines = indent_lines File.read(file), " " * indent
 
           # Indent all the output lines with the current indentation
-          @code.insert @i+1, *lines.lines
+          @code.insert @i + 1, *lines.lines
         end
 
         return true
