@@ -20,7 +20,7 @@ module Opulent
       name = node[@value]
 
       # Check if filter is registered
-      error :filter_registered, name unless Filters.filters.has_key? name
+      self.error :filter_registered, name unless Filters.filters.has_key? name
 
       # Load the required filter
       Filters.filters[name].load_filter

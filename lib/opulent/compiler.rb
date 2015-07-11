@@ -105,7 +105,7 @@ module Opulent
     # @param context [Symbol] Context name in which the error happens
     # @param data [Array] Additional error information
     #
-    def error(context, *data)
+    def self.error(context, *data)
       message = case context
       when :enumerable
         "The provided each structure iteration input \"#{data[0]}\" is not Enumerable."

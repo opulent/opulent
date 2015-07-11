@@ -41,7 +41,7 @@ module Opulent
     # Call given input block and return the output
     #
     def evaluate_yield
-      @block.call
+      @block.call if @block
     end
 
     # Extend the call context with a Hash, String or other Object
@@ -52,7 +52,7 @@ module Opulent
       # Create new local variables from the input hash
       locals.each do |key, value|
         begin
-          @binding.local_variable_set(key.to_sym, value)
+          @binding.local_variable_set key.to_sym, value
         rescue NameError => variable
           Compiler.error :variable_name, variable, key
         end
@@ -78,11 +78,10 @@ module Opulent
     end
   end
 
-
   # @Binding
   class Binding
     def self.new
-      binding
+      return binding
     end
   end
 end

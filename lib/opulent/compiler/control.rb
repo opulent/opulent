@@ -133,7 +133,7 @@ module Opulent
       enumerable = each_context.evaluate(node[@value][1])
 
       # Check if input can be iterated
-      error :enumerable, node[@value][1] unless enumerable.respond_to? :each
+      self.error :enumerable, node[@value][1] unless enumerable.respond_to? :each
 
       # Selectively iterate through the input and add the result using the previously
       # defined proc object

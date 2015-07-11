@@ -28,9 +28,7 @@ module Opulent
         require_path = File.expand_path name[1..-2], @dir
 
         # Try to see if it has any existing extension, otherwise add .op
-        require_path += '.op' unless Settings::Extensions.any? do |ext|
-           require_path =~ /\.#{ext}\Z/
-        end
+        require_path += '.op' unless Settings::Extensions.include? File.extname require_path
 
         # Throw an error if the file doesn't exist
         error :require, name unless Dir[require_path].any?
