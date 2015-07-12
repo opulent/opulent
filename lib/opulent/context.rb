@@ -20,7 +20,7 @@ module Opulent
       @binding = if @block
         @block.binding.clone
       else
-        Binding.new
+        Binding.new.get
       end
 
       extend_locals locals
@@ -80,7 +80,7 @@ module Opulent
 
   # @Binding
   class Binding
-    def self.new
+    def get
       return binding
     end
   end
