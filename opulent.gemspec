@@ -23,8 +23,7 @@ Gem::Specification.new do |spec|
   # end
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables   = ['opulent']
   spec.require_paths = ["lib"]
 
   # This gem will work with 2.1.0 or greater...
