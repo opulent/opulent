@@ -1,2 +1,3 @@
-require "*"
-hello world=a
+content
+  =~ yield
+  

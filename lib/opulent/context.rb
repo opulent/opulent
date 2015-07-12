@@ -71,10 +71,10 @@ module Opulent
       bind.eval('self.class.class_variables').each do |var|
         @binding.eval('self').class_variable_set var, bind.eval(var.to_s)
       end
-
-      bind.eval('self.class.constants').each do |var|
-        @binding.eval('self').const_set var, bind.eval(var.to_s)
-      end
+      #
+      # bind.eval('self.class.constants').each do |var|
+      #   @binding.eval('self').const_set var, bind.eval(var.to_s)
+      # end
     end
   end
 
