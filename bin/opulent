@@ -5,4 +5,4 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'opulent'
 require 'opulent/exec'
 
-Haml::Exec.start ARGV
+Opulent::CLI.new ARGV
