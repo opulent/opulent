@@ -211,18 +211,18 @@ module Opulent
         end
 
         attribute_code += " #{key}"
-        attribute_code += "=\"#{attribute_value}\"" unless attribute_value.empty?
+        attribute_code += "=\"#{attribute_value.strip}\"" unless attribute_value.empty?
       when Hash
         value.each do |k,v|
           if v
             attribute_code += " #{key}-#{k}"
-            attribute_code += "=\"#{v.to_s}\"" unless v == true
+            attribute_code += "=\"#{v.to_s.strip}\"" unless v == true
           end
         end
       else
         if value
           attribute_code += " #{key}"
-          attribute_code += "=\"#{value.to_s}\"" unless value == true
+          attribute_code += "=\"#{value.to_s.strip}\"" unless value == true
         end
       end
 
