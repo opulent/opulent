@@ -78,8 +78,11 @@ module Opulent
           error :self_enclosing_children, line
         end
 
+        # Create a clone of the definition model. Cloning the options is also
+        # necessary because it's a shallow copy
         if @definitions.keys.include? node_name
           model = @definitions[node_name].clone
+          model[@options] = {}.merge model[@options]
           model[@options][:call] = current_node
 
           parent[@children] << model

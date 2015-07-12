@@ -1,3 +1,13 @@
-content
-  =~ yield
-  
+def link(href)
+  - href = href + '/' + href
+  - href += ".min" if @dist
+  link href="assets/css/#{href}.css" rel="stylesheet" type="text/css"
+
+def script(src)
+  - src = src + '/' + src if @dist
+  - src += ".min" if @dist
+  link href="assets/js/#{src}.js" type="text/javascript"
+
+link href="stuff"
+link href="other"
+link href="come"

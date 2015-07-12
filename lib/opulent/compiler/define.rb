@@ -71,7 +71,6 @@ module Opulent
       end
 
       # Set variable to determine available blocks
-      #
       arguments[:blocks] = Hash[@block_stack[-1].keys.map{|key| [key, true]}]
 
       # Create local variables from argument variables
@@ -82,6 +81,7 @@ module Opulent
         root child, indent, definition_context
       end
 
+      # Remove last set of blocks from the block stack
       @block_stack.pop
     end
   end
