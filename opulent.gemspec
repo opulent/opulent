@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec"
 
-  spec.add_runtime_dependency 'tilt'
   spec.add_runtime_dependency 'htmlentities'
+  spec.add_runtime_dependency 'tilt'
+  spec.add_runtime_dependency 'thor'
 end
