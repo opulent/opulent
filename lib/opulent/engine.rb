@@ -17,7 +17,7 @@ module Opulent
     # @param overwrite [Boolean] Write changes directly to the parent binding
     #
     def initialize(settings = {})
-      @definitions = settings[:definitions] || {}
+      @definitions = {}
       @overwrite = settings.delete :overwrite
 
       Settings.update_settings settings unless settings.empty?
@@ -48,7 +48,7 @@ module Opulent
       @code = read input
 
       # Get the nodes tree
-      @nodes = Parser.new(@file).parse @code
+      @nodes, @definitions = Parser.new(@file, @definitions).parse @code
 
       # @TODO
       # Implement precompiled template handling

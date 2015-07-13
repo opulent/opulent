@@ -22,7 +22,7 @@ module Opulent
     #
     # [:node_type, :value, :attributes, :children, :indent]
     #
-    def initialize(file)
+    def initialize(file, definitions)
       # Convention accessors
       @type = 0
       @value = 1
@@ -35,7 +35,7 @@ module Opulent
       @dir = File.dirname @file
 
       # Initialize definitions for the parser
-      @definitions = {}
+      @definitions = definitions
     end
 
     # Initialize the parsing process by splitting the code into lines and
@@ -58,6 +58,8 @@ module Opulent
       # Get all nodes starting from the root element and return output
       # nodes and definitions
       root @root
+
+      return @root, @definitions
     end
 
     # Check and accept or reject a given token as long as we have tokens
