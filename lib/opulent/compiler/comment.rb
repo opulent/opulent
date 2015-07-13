@@ -11,9 +11,10 @@ module Opulent
     def comment(node, indent, context)
       indentation = " " * indent
 
-      value = context.evaluate "\"#{node[@value]}\""
+      # Escaping double quotes is required in order to avoid any conflicts with the eval quotes.
+      value = indent_lines context.evaluate('"' + node[@value].gsub('"', '\\"') + '"'), " " * indent
 
-      comment_tag = "#{indentation}<!-- #{value} -->\n"
+      comment_tag = "#{"\n" if node[@options][:newline]}#{indentation}<!-- #{value.strip} -->\n"
 
       @node_stack << :comment
       @code += comment_tag

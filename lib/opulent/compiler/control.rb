@@ -147,11 +147,12 @@ module Opulent
 
       # Create a new context based on the parent context and progressively update
       # variables in the new context
-      each_context = Context.new Hash.new, context.binding.clone
+      block = context.block.clone if context.block
+      each_context = Context.new Hash.new, &block
       each_context.parent = context
 
       # Evaluate the iterable object
-      enumerable = each_context.evaluate(node[@value][1])
+      enumerable = context.evaluate(node[@value][1])
 
       # Check if input can be iterated
       self.error :enumerable, node[@value][1] unless enumerable.respond_to? :each

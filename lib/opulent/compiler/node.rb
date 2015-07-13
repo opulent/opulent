@@ -210,8 +210,10 @@ module Opulent
           attribute_value = value.join '_'
         end
 
-        attribute_code += " #{key}"
-        attribute_code += "=\"#{attribute_value.strip}\"" unless attribute_value.empty?
+        unless attribute_value.empty?
+          attribute_code += " #{key}"
+          attribute_code += "=\"#{attribute_value.strip}\""
+        end
       when Hash
         value.each do |k,v|
           if v
