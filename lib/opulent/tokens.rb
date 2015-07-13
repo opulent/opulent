@@ -1,6 +1,6 @@
 module Opulent
   # Opulent Keywords
-  Keywords = %i(def block yield require if else elsif unless case when each while until)
+  Keywords = %i(def block yield require if else elsif unless case when each while until doctype)
 
   # @Tokens
   class Tokens
@@ -28,6 +28,9 @@ module Opulent
 
       # Definition
       def: /\Adef +/,
+
+      # Definition
+      doctype: /\Adoctype +/,
 
       # Require file
       require: /\Arequire +/,
