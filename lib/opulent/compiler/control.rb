@@ -23,6 +23,27 @@ module Opulent
       end
     end
 
+    # Generate the code for a unless-else control structure
+    #
+    # @param node [Array] Node code generation data
+    # @param indent [Fixnum] Size of the indentation to be added
+    # @param context [Context] Processing environment data
+    #
+    def unless_node(node, indent, context)
+      # Check if we have any condition met, or an else branch
+      index = node[@value].index do |value|
+        value.empty? || !context.evaluate(value)
+      end
+
+      # If we have a branch that meets the condition, generate code for the
+      # children related to that specific branch
+      if index
+        node[@children][index].each do |child|
+          root child, indent, context
+        end
+      end
+    end
+
     # Generate the code for a case-when-else control structure
     #
     # @param node [Array] Node code generation data
