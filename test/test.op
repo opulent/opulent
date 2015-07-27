@@ -1,4 +1,5 @@
-def hal(a)
-    a =~ a
+- hash = {a: 1, b: 2, c: 3}
+div data=hash 
 
-hal a=a
+- array = ['a', 'b', 'c']
+div data=array class=array

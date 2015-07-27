@@ -1,10 +1,10 @@
 # Opulent
 
-Opulent is an __Intelligent Web Templating Engine__ created for extremly fast, efficient and DRY Web Development. Based on the idea of creating lightweight __Web Component__ definitions, Opulent greatly speeds up the development process of any project.
+Opulent is an __Intelligent Web Templating Engine__ created for extremely fast and efficient Web Development. Based on the idea of lightweight and reusable __Web Components__, Opulent greatly increases your development speed for any project.
 
 ## Syntax
 
-Opulent is as beautiful as it gets: no tags, indentation based, optional brackets, inline text, inline children and in page definitions.
+Opulent has a beautiful, minimalistic syntax: no tags, indentation based, optional brackets, inline text, inline children and in page definitions.
 
 __Page Markup__
 ```
@@ -40,7 +40,7 @@ ul.navbar
 
 __Starting to feel it?__ There's so much more you can do with Opulent.
 
-[Read the Documentation](docs/syntax.md)
+[Read the Documentation](docs/reference.md)
 
 
 
