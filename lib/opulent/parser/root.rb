@@ -38,6 +38,7 @@ module Opulent
                         block_yield(parent, indent) ||
                         block(parent, indent)       ||
                         require_file(parent, indent)||
+                        html_text(parent, indent)   ||
                         doctype(parent, indent)
 
         # Throw an error if we couldn't find a valid node

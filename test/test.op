@@ -1,2 +1,4 @@
-unless 1 > 2
-  test node
+def hal(a)
+    a =~ a
+
+hal a=a

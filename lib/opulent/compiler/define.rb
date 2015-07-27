@@ -32,7 +32,9 @@ module Opulent
       # by generating the required attribute code
       attributes = {}
       call_node[@options][:attributes].each do |key, attribute|
-        attributes[key] = map_attribute key, attribute, context
+        unless node[@options][:parameters].has_key? key
+          attributes[key] = map_attribute key, attribute, context
+        end
       end
 
       # Go through each extension attribute and use the value where applicable
@@ -43,10 +45,14 @@ module Opulent
 
       # Extract values which appear as definition parameters. If we have the
       # key passed as argument, get its value. Otherwise, set the default
-      # parameter value
+      # parameter value.
+      #
+      # Definition arguments (parameters which are set in definition header)
+      # will be passed unescaped, to allow node definition to handle escaping
+      # properly
       node[@options][:parameters].each do |key, value|
-        if attributes[key]
-          arguments[key] = attributes.delete key
+        if call_node[@options][:attributes].has_key? key
+          arguments[key] = context.evaluate call_node[@options][:attributes][key][@value]
         else
           arguments[key] = definition_context.evaluate value[@value]
         end

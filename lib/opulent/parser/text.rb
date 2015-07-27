@@ -56,9 +56,9 @@ module Opulent
     # Match one line or multiline, escaped or unescaped text
     #
     def html_text(parent, indent)
-      if (text_feed = accept_stripped :html_text)
+      if (text_feed = accept :html_text)
         text_node = [:plain, :text, {value: text_feed.strip, escaped: false}, nil, indent]
-
+        
         parent[@children] << text_node
       end
     end

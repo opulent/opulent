@@ -8,7 +8,7 @@ module Opulent
     #
     @@tokens = {
       # Indentation
-      indent: /\A */,
+      indent: /\A\s*/,
 
       # Node
       node: /\A\w+(\-\w+)*/,
@@ -65,7 +65,7 @@ module Opulent
       multiline: /\A(\|)/,
 
       # HTML Text
-      html_text: /\A(\<.+\>.*)/,
+      html_text: /\A\<.+\>.*/,
 
       # Yield
       yield: /\A(yield)/,
@@ -125,7 +125,7 @@ module Opulent
       hash_symbol: /\A([a-zA-Z\_][a-zA-Z0-9\_]*\:(?!\:))/,
 
       # Whitespace
-      whitespace: /\A +/,
+      whitespace: /\A\s+/,
 
       # Evaluation
       eval: /\A\-(.*)/,
