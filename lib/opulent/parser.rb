@@ -30,7 +30,9 @@ module Opulent
       @children = 3
       @indent = 4
 
-      # Set current compiled file
+      # Set current compiled file as the first in the file stack together with
+      # its base indentation. The stack is used to allow require directives to
+      # be used with the last parent path found 
       @file = [[file, -1]]
 
       # Initialize definitions for the parser
