@@ -1,5 +1,2 @@
-- hash = {a: 1, b: 2, c: 3}
-div data=hash 
-
-- array = ['a', 'b', 'c']
-div data=array class=array
+div 
+  require 'include/test'

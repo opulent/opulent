@@ -26,6 +26,9 @@ module Opulent
           @i -= 1; break
         end
 
+        # If last require path had a greater indentation, pop the last file path
+        @file.pop if @file[-1][1] > indent
+
         # Try the main Opulent node types and process each one of them using
         # their matching evaluation procedure
         current_node =  node(parent, indent)        ||

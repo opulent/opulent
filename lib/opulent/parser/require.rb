@@ -25,7 +25,7 @@ module Opulent
         end
 
         # Get the complete file path based on the current file being compiled
-        require_path = File.expand_path name[1..-2], @dir
+        require_path = File.expand_path name[1..-2], File.dirname(@file[-1][0])
 
         # Try to see if it has any existing extension, otherwise add .op
         require_path += '.op' unless Settings::Extensions.include? File.extname require_path
@@ -36,7 +36,9 @@ module Opulent
         # Require entire directory tree
         Dir[require_path].each do |file|
           # Skip current file when including from same directory
-          next if file == @file
+          next if file == @file[-1][0]
+
+          @file << [require_path, indent]
 
           # Throw an error if the file doesn't exist
           error :require_dir, file if File.directory? file

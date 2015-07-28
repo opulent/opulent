@@ -31,8 +31,7 @@ module Opulent
       @indent = 4
 
       # Set current compiled file
-      @file = file
-      @dir = File.dirname @file
+      @file = [[file, -1]]
 
       # Initialize definitions for the parser
       @definitions = definitions
