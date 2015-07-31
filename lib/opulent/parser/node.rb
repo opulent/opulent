@@ -48,7 +48,7 @@ module Opulent
         current_node = [:node, node_name, options, [], indent]
 
         # Check if the node is explicitly self enclosing
-        if(close = accept_stripped :self_enclosing) || Settings::SelfEnclosing.include?(node_name)
+        if(close = accept_stripped :self_enclosing) || (!@definitions.keys.include?(node_name) && Settings::SelfEnclosing.include?(node_name))
           current_node[@options][:self_enclosing] = true
 
           unless close.nil? || close.strip.empty?
