@@ -18,7 +18,7 @@ module Opulent
           error :each_arguments unless condition.match Tokens[:each_pattern]
 
           # Split provided arguments for the each structure
-          condition = condition.split('in').map(&:strip)
+          condition = condition.split(' in ').map(&:strip)
           condition[0] = condition[0].split(',').map(&:strip).map(&:to_sym)
         end
 
