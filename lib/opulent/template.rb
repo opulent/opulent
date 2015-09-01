@@ -65,5 +65,5 @@ module Opulent
   end
 
   # Register Opulent to Tilt
-  ::Tilt.register OpulentTemplate, 'op'
+  ::Tilt.register OpulentTemplate, 'opulent', 'op'
 end
