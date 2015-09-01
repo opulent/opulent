@@ -72,7 +72,16 @@ Using Opulent to render a file is as easy as including it in your application an
 ```ruby
 require 'opulent'
 
-Opulent.new.render_file 'file.op'
+Opulent.new.render_file :index
+```
+
+For layouts you can simply use the following code. By default, the layout is set to __layouts/application__.
+
+```ruby
+require 'opulent'
+
+opulent = Opulent.new layouts: true
+opulent.render_file :index, layout: :'path/layout'
 ```
 
 <!--
