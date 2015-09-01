@@ -43,7 +43,10 @@ module Opulent
       Defaults = {
         pretty: true,
         indent: 2,
-        dependency_manager: true
+        dependency_manager: true,
+        invert_escaping: true,
+        layouts: false,
+        default_layout: :'layouts/application'
       }
 
       # Set defaults as initial options

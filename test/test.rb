@@ -1,9 +1,8 @@
 require_relative '../lib/opulent.rb'
 require 'pp'
 
-a = '<div></div>'
-opulent = Opulent.new
-puts opulent.render_file('test.op', a: '<div></div>', b: 1){
-  opulent.render_file('attributes.op')
-}
-puts
+a = 44
+
+opulent = Opulent.new layouts: true
+
+puts opulent.render_file(:test, e: '123', b: 1){}

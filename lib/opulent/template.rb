@@ -17,9 +17,11 @@ module Opulent
       # Enable caching for the current rendered file
       @options[:cache] = true
 
+      # Enable layouts so that we can render with symbols
+      @options[:layouts] = true
+
       # Set up the rendering engine
       @engine = ::Opulent.new @options
-      #@engine.update_options @options
     end
 
     # Execute the compiled template and return the result string. Template
@@ -63,5 +65,5 @@ module Opulent
   end
 
   # Register Opulent to Tilt
-  ::Tilt.register OpulentTemplate, 'op', 'opl', 'opulent'
+  ::Tilt.register OpulentTemplate, 'op'
 end
