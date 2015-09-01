@@ -13,9 +13,12 @@ module Opulent
     # given as arguments
     #
     # @param locals [Hash] Binding extension
-    # @param bind [Binding] Call environment binding
+    # @param block [Binding] Call environment block
+    # @param content [Binding] Content yielding
     #
-    def initialize(locals = {}, &block)
+    def initialize(locals = {}, block, &content)
+      @content = content
+
       @block = block
       @binding = if @block
         @block.binding.clone
@@ -41,7 +44,7 @@ module Opulent
     # Call given input block and return the output
     #
     def evaluate_yield
-      @block.call if @block
+      @content.call if @content
     end
 
     # Extend the call context with a Hash, String or other Object
@@ -71,10 +74,6 @@ module Opulent
       bind.eval('self.class.class_variables').each do |var|
         @binding.eval('self').class_variable_set var, bind.eval(var.to_s)
       end
-      #
-      # bind.eval('self.class.constants').each do |var|
-      #   @binding.eval('self').const_set var, bind.eval(var.to_s)
-      # end
     end
   end
 

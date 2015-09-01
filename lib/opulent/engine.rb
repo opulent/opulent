@@ -1,5 +1,9 @@
 # @Opulent
 module Opulent
+  # Debug enable
+  #
+  DEBUG = false
+
   # Module method wrapper for creating a new engine instance
   #
   def Opulent.new(settings = {})
@@ -46,16 +50,8 @@ module Opulent
       # If a layout is set, get the specific layout, otherwise, set the default
       # one. If a layout is set to false, the page will be render as it is.
       if Settings[:layouts]
-        layout = if locals.has_key? :layout
-          locals.delete :layout
-        elsif File.exists? "#{Settings[:default_layout]}.op"
-          Settings[:default_layout]
-        else
-          false
-        end
-      end
+        layout = locals.has_key?(:layout) ? locals.delete(:layout) : Settings[:default_layout]
 
-      if layout
         get layout, locals, block do
           get input, locals, block
         end
@@ -83,16 +79,18 @@ module Opulent
       @preamble = @nodes.inspect.inspect
 
       # Create a new context based on our rendering environment
-      @context = Context.new locals, &block
+      @context = Context.new locals, block, &content
 
       # Compile our syntax tree using input context
       @output = Compiler.new.compile @nodes, @context
 
-      # puts "Nodes\n---\n"
-      # pp @nodes
-      #
-      # puts "\n\nCode\n---\n"
-      # puts @output
+      if DEBUG
+        #puts "Nodes\n---\n"
+        #pp @nodes
+
+        # puts "\n\nCode\n---\n"
+        # pp @output
+      end
 
       return @output
     end
