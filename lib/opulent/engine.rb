@@ -39,11 +39,14 @@ module Opulent
       if Settings[:layouts]
         layout = locals.has_key?(:layout) ? locals.delete(:layout) : Settings[:default_layout]
 
+        # Process with the built in layout system
         process layout, locals, block do
-          process input, locals, block
+          process input, locals, block, &block
         end
       else
-        process input, locals, block
+        # We pass the same block as content block, in case we're using a
+        # different yielding system from within a web framework using Tilt
+        process input, locals, block, &block
       end
     end
 
