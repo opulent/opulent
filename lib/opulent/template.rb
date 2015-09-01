@@ -18,7 +18,7 @@ module Opulent
       @options[:cache] = true
 
       # Enable layouts so that we can render with symbols
-      @options[:layouts] = true
+      #@options[:layouts] = true
 
       # Set up the rendering engine
       @engine = ::Opulent.new @options

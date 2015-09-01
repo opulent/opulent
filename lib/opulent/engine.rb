@@ -26,19 +26,6 @@ module Opulent
       Settings.update_settings settings unless settings.empty?
     end
 
-    # Analyze the input code and check for matching tokens. In case no match was
-    # found, throw an exception. In special cases, modify the token hash.
-    #
-    # @param file [String] The file that needs to be analyzed
-    # @param locals [Hash] Render call local variables
-    # @param block [Proc] Processing environment data
-    #
-    def render_file(file, locals = {}, &block)
-      @mode = :file
-
-      render file, locals, &block
-    end
-
     # Avoid code duplication when layouting is set. When we have a layout, look
     # in layouts/application by default.
     #
@@ -52,11 +39,11 @@ module Opulent
       if Settings[:layouts]
         layout = locals.has_key?(:layout) ? locals.delete(:layout) : Settings[:default_layout]
 
-        get layout, locals, block do
-          get input, locals, block
+        process layout, locals, block do
+          process input, locals, block
         end
       else
-        get input, locals, block
+        process input, locals, block
       end
     end
 
@@ -67,9 +54,18 @@ module Opulent
     # @param locals [Hash] Render call local variables
     # @param block [Proc] Processing environment data
     #
-    def get(input, locals, block, &content)
-      # Get input code
-      @code = read input
+    def process(input, locals, block, &content)
+      # Read input parameter based on opening mode. If we have a file mode, we
+      # get its path and read the code. We need to reset the mode in case the next
+      # render call is on code, not on a file.
+      @code = case input
+      when Symbol
+        @file = File.expand_path "#{input}.op"
+        File.read @file
+      else
+        @file = File.expand_path __FILE__
+        input
+      end
 
       # Get the nodes tree
       @nodes, @definitions = Parser.new(@file, @definitions).parse @code
@@ -93,23 +89,6 @@ module Opulent
       end
 
       return @output
-    end
-
-    # Read input parameter based on opening mode. If we have a file mode, we
-    # get its path and read the code. We need to reset the mode in case the next
-    # render call is on code, not on a file.
-    #
-    # @param input [String] Input file or code
-    #
-    def read(input)
-      if @mode == :file
-        @file = File.expand_path "#{input}.op"
-        @mode = nil unless Settings[:layouts]
-        return File.read @file
-      else
-        @file = File.expand_path __FILE__
-        return input
-      end
     end
   end
 end

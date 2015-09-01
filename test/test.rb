@@ -5,4 +5,4 @@ a = 44
 
 opulent = Opulent.new layouts: true
 
-puts opulent.render_file(:test, e: '123', b: 1){}
+puts opulent.render(:test, e: '123', b: 1){}
