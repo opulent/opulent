@@ -3,6 +3,5 @@ require 'pp'
 
 a = 44
 
-opulent = Opulent.new layouts: true
-
+opulent = Opulent.new
 puts opulent.render(:test, e: '123', b: 1){}

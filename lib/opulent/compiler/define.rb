@@ -10,7 +10,11 @@ module Opulent
     #
     def def_node(node, indent, context)
       # Create a new definition context
-      definition_context = Context.new
+      #
+      # @update: Added &context.block to make sure yield can be called from
+      # within a definition (it might be a nice feature)
+      #
+      definition_context = Context.new &context.block
       definition_context.extend_nonlocals context.binding
       definition_context.name = node[@value]
       definition_context.parent = context

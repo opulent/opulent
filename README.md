@@ -2,6 +2,8 @@
 
 Opulent is an __Intelligent Web Templating Engine__ created for extremely fast and efficient Web Development. Based on the idea of lightweight and reusable __Web Components__, Opulent greatly increases your development speed for any project.
 
+[Read the Documentation](docs/reference.md)
+
 ## Syntax
 
 Opulent has a beautiful, minimalistic syntax: no tags, indentation based, optional brackets, inline text, inline children and in page definitions.
@@ -73,15 +75,6 @@ Using Opulent to render a file is as easy as including it in your application an
 require 'opulent'
 
 Opulent.new.render_file :index
-```
-
-For layouts you can simply use the following code. By default, the layout is set to __layouts/application__.
-
-```ruby
-require 'opulent'
-
-opulent = Opulent.new layouts: true
-opulent.render_file :index, layout: :'path/layout'
 ```
 
 <!--

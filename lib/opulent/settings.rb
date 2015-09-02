@@ -41,12 +41,11 @@ module Opulent
     class << self
       # Opulent runtime options
       Defaults = {
-        pretty: true,
+        #pretty: true, # At the moment, code cannot be uglified
+        #dependency_manager: true, # Soon to be implemented
         indent: 2,
-        dependency_manager: true,
-        invert_escaping: true,
         layouts: false,
-        default_layout: :'layouts/application'
+        default_layout: :'views/layouts/application'
       }
 
       # Set defaults as initial options

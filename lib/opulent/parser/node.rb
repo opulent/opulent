@@ -80,16 +80,35 @@ module Opulent
 
         # Create a clone of the definition model. Cloning the options is also
         # necessary because it's a shallow copy
-        if @definitions.keys.include? node_name
-          model = @definitions[node_name].clone
-          model[@options] = {}.merge model[@options]
-          model[@options][:call] = current_node
-
-          parent[@children] << model
+        if !@inside_definition && @definitions.keys.include?(node_name)
+          parent[@children] << process_definition(node_name, current_node)
         else
           parent[@children] << current_node
         end
       end
+    end
+
+    # When entering a definition model, we replace all the node types with their
+    # know definitions at definition call time.
+    #
+    # @param node_name [Symbol] Node identifier
+    # @param call_context [Node] Initial node call with its attributes
+    #
+    def process_definition(node_name, call_context)
+      model = @definitions[node_name].clone
+      model[@options] = {}.merge model[@options]
+      model[@options][:call] = call_context
+
+      # Recursively map each child node with its definition 
+      model[@children].map! do |child|
+        if @definitions.keys.include? child[@value]
+          process_definition child[@value], child
+        else
+          child
+        end
+      end
+
+      return model
     end
 
     # Helper method to create an array of values when an attribute is set

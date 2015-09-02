@@ -131,7 +131,7 @@ div unescaped=~"<div></div>"
 Unescaped buffered code can be dangerous. You must be sure to sanitize any user inputs to avoid cross-site scripting.
 
 ### Extending Attributes
-Attributes can be extended using a '__+__' symbol, followed by an expression which returns a Hash.
+Attributes can be extended using a '__+__' symbol, followed by an expression which provides Hash.
 
 __Example__
 ```html

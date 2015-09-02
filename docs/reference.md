@@ -5,5 +5,7 @@ Opulent is an __Intelligent Web Templating Engine__ created for extremely fast a
 
 1. [Attributes](attributes.md)
 2. [Control Structures](control-structures.md)
-3. [Expressions](usage.md)
-4. [Comments](usage.md)
+3. [Expressions](expressions.md)
+4. [Comments](comments.md)
+5. [Doctype](doctype.md)
+5. [Nodes](nodes.md)

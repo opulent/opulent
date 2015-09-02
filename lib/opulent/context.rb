@@ -16,7 +16,7 @@ module Opulent
     # @param block [Binding] Call environment block
     # @param content [Binding] Content yielding
     #
-    def initialize(locals = {}, block, &content)
+    def initialize(locals = {}, block = nil, &content)
       @content = content
 
       @block = block
