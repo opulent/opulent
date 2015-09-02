@@ -20,7 +20,7 @@ module Opulent
     #
     # [:node_type, :value, :attributes, :children, :indent]
     #
-    # @param path [String] Current file path needed for require nodes
+    # @param path [String] Current file path needed for include nodes
     #
     def initialize
       # Setup convention accessors

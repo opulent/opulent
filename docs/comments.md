@@ -17,6 +17,11 @@ Block comments are marked up with two forward slash characters `//`.
 ## Output Comments
 By default, comments are only for reference inside Opulent files. You can output them
 by adding an exclamation character `!`, to resemble HTML.
+
 ```html
 /! This comment will be outputted
+```
+
+```html
+<!-- This comment will be outputted -->
 ```

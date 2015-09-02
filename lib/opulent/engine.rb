@@ -63,7 +63,7 @@ module Opulent
       # render call is on code, not on a file.
       @code = case input
       when Symbol
-        @file = File.expand_path "#{input}.op"
+        @file = File.expand_path "#{input}#{Settings::FileExtension}"
         File.read @file
       else
         @file = File.expand_path __FILE__

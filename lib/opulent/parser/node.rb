@@ -74,9 +74,9 @@ module Opulent
         # Add the current node to the root
         root(current_node, indent)
 
-        if current_node[@options][:self_enclosing] && current_node[@children].any?
-          error :self_enclosing_children, line
-        end
+        # if current_node[@options][:self_enclosing] && current_node[@children].any?
+        #   error :self_enclosing_children, line
+        # end
 
         # Create a clone of the definition model. Cloning the options is also
         # necessary because it's a shallow copy
@@ -99,16 +99,25 @@ module Opulent
       model[@options] = {}.merge model[@options]
       model[@options][:call] = call_context
 
-      # Recursively map each child node with its definition 
-      model[@children].map! do |child|
-        if @definitions.keys.include? child[@value]
-          process_definition child[@value], child
+      # Recursively map each child node with its definition
+      process_definition_child model
+
+      return model
+    end
+
+    def process_definition_child(node)
+      node[@children].map! do |child|
+        if child[@type] == :node
+          if @definitions.keys.include? child[@value]
+            process_definition child[@value], child
+          else
+            process_definition_child child if child[@children]
+            child
+          end
         else
           child
         end
       end
-
-      return model
     end
 
     # Helper method to create an array of values when an attribute is set

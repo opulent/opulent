@@ -13,38 +13,40 @@ module Opulent
     #
     # @param nodes [Array] Parent node to which we append to
     #
-    def require_file(parent, indent)
-      if(match = accept :require)
+    def include_file(parent, indent)
+      if(match = accept :include)
 
         # Process data
-        name = accept :exp_string, :*
+        name = accept :line_feed || ""
+        name.strip!
 
-        # Check if there is any string after the require input
-        unless (feed = accept(:line_feed) || "").strip.empty?
-          undo feed; error :require_end
+
+        # Check if there is any string after the include input
+        if name.empty?
+          error :include_end
         end
 
         # Get the complete file path based on the current file being compiled
-        require_path = File.expand_path name[1..-2], File.dirname(@file[-1][0])
+        include_path = File.expand_path name, File.dirname(@file[-1][0])
 
         # Try to see if it has any existing extension, otherwise add .op
-        require_path += '.op' unless Settings::Extensions.include? File.extname require_path
+        include_path += Settings::FileExtension if File.extname(name).empty?
 
         # Throw an error if the file doesn't exist
-        error :require, name unless Dir[require_path].any?
+        error :include, name unless Dir[include_path].any?
 
-        # Require entire directory tree
-        Dir[require_path].each do |file|
+        # include entire directory tree
+        Dir[include_path].each do |file|
           # Skip current file when including from same directory
           next if file == @file[-1][0]
 
-          @file << [require_path, indent]
+          @file << [include_path, indent]
 
           # Throw an error if the file doesn't exist
-          error :require_dir, file if File.directory? file
+          error :include_dir, file if File.directory? file
 
           # Throw an error if the file doesn't exist
-          error :require, file unless File.file? file
+          error :include, file unless File.file? file
 
           # Indent all lines and prepare them for the parser
           lines = indent_lines File.read(file), " " * indent

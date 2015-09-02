@@ -7,7 +7,7 @@ require_relative 'parser/eval.rb'
 require_relative 'parser/expression.rb'
 require_relative 'parser/filter.rb'
 require_relative 'parser/node.rb'
-require_relative 'parser/require.rb'
+require_relative 'parser/include.rb'
 require_relative 'parser/root.rb'
 require_relative 'parser/text.rb'
 
@@ -31,8 +31,8 @@ module Opulent
       @indent = 4
 
       # Set current compiled file as the first in the file stack together with
-      # its base indentation. The stack is used to allow require directives to
-      # be used with the last parent path found 
+      # its base indentation. The stack is used to allow include directives to
+      # be used with the last parent path found
       @file = [[file, -1]]
 
       # Initialize definitions for the parser
@@ -206,12 +206,12 @@ module Opulent
       when :self_enclosing_children
         "Unexpected child elements found for self enclosing node on line #{data[0]+1} of input at:\n\n" +
         "#{@code[data[0]]}#{Logger.red @code[data[0] + 1]}"
-      when :require
-        "The required file #{data[0]} does not exist or an incorrect path has been specified."
-      when :require_dir
-        "The required file path #{data[0]} is a directory."
-      when :require_end
-        "Unexpected content found after require on line #{@i+1} of input at:\n\n" +
+      when :include
+        "The included file #{data[0]} does not exist or an incorrect path has been specified."
+      when :include_dir
+        "The included file path #{data[0]} is a directory."
+      when :include_end
+        "Missing argument for include on line #{@i+1} of input at:\n\n" +
         "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
       else
         "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"

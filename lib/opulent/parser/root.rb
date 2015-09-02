@@ -21,12 +21,12 @@ module Opulent
         indent = accept(:indent).size
 
         # Stop using the current parent as root if it does not match the
-        # minimum indentation requirements
+        # minimum indentation includements
         unless min_indent < indent
           @i -= 1; break
         end
 
-        # If last require path had a greater indentation, pop the last file path
+        # If last include path had a greater indentation, pop the last file path
         @file.pop if @file[-1][1] > indent
 
         # Try the main Opulent node types and process each one of them using
@@ -40,10 +40,10 @@ module Opulent
                         filter(parent, indent)      ||
                         block_yield(parent, indent) ||
                         block(parent, indent)       ||
-                        require_file(parent, indent)||
+                        include_file(parent, indent)||
                         html_text(parent, indent)   ||
                         doctype(parent, indent)
-
+                        
         # Throw an error if we couldn't find a valid node
         error :unknown_node_type unless current_node
       end

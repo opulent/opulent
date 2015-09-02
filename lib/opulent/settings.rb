@@ -2,8 +2,8 @@
 module Opulent
   # @Settings
   module Settings
-    # Default Opulent allowed file extensions
-    Extensions = %w(.op .opl .opulent)
+    # Default Opulent file extension
+    FileExtension = '.op'
 
     # Default yield target which is used for child block replacements
     DefaultYield = :children
