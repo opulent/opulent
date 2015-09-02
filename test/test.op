@@ -1,8 +1,15 @@
 def col 
   .col 
     fa icon="test"
+      lol 
+        a href="google"
     
 def fa(icon)
   i.fa."fa-#{icon}"
+    yield
+
+def lol 
+  .lulz 
+    yield
   
 col

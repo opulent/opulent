@@ -99,7 +99,10 @@ module Opulent
       model[@options] = {}.merge model[@options]
       model[@options][:call] = call_context
 
-      # Recursively map each child node with its definition
+      # Recursively map each child nodes to their definitions
+      # for the initial call node children and for the model
+      # children
+      process_definition_child model[@options][:call]
       process_definition_child model
 
       return model
