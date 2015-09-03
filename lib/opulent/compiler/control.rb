@@ -10,17 +10,22 @@ module Opulent
     #
     def if_node(node, indent, context)
       # Check if we have any condition met, or an else branch
-      index = node[@value].index do |value|
-        value.empty? || context.evaluate(value)
-      end
+      node[@value].each_with_index do |value, index|
+        # If we have a branch that meets the condition, generate code for the
+        # children related to that specific branch
+        if index == 0
+          buffer_eval "if #{value}"
+        elsif value.empty?
+          buffer_eval "else"
+        else
+          buffer_eval "elsif #{value}"
+        end
 
-      # If we have a branch that meets the condition, generate code for the
-      # children related to that specific branch
-      if index
         node[@children][index].each do |child|
           root child, indent, context
         end
       end
+      buffer_eval "end"
     end
 
     # Generate the code for a unless-else control structure
@@ -31,17 +36,20 @@ module Opulent
     #
     def unless_node(node, indent, context)
       # Check if we have any condition met, or an else branch
-      index = node[@value].index do |value|
-        value.empty? || !context.evaluate(value)
-      end
+      node[@value].each_with_index do |value, index|
+        # If we have a branch that meets the condition, generate code for the
+        # children related to that specific branch
+        if index == 0
+          buffer_eval "unless #{value}"
+        elsif value.empty?
+          buffer_eval "else"
+        end
 
-      # If we have a branch that meets the condition, generate code for the
-      # children related to that specific branch
-      if index
         node[@children][index].each do |child|
           root child, indent, context
         end
       end
+      buffer_eval "end"
     end
 
     # Generate the code for a case-when-else control structure
@@ -52,20 +60,23 @@ module Opulent
     #
     def case_node(node, indent, context)
       # Evaluate the switching condition
-      switch_case = context.evaluate node[@options][:condition]
+      buffer_eval "case #{node[@options][:condition]}"
 
       # Check if we have any condition met, or an else branch
-      index = node[@value].index do |value|
-        value.empty? || switch_case == context.evaluate(value)
-      end
+      node[@value].each_with_index do |value, index|
+        # If we have a branch that meets the condition, generate code for the
+        # children related to that specific branch
+        if value.empty?
+          buffer_eval "else"
+        else
+          buffer_eval "when #{value}"
+        end
 
-      # If we have a branch that meets the condition, generate code for the
-      # children related to that specific branch
-      if index
         node[@children][index].each do |child|
           root child, indent, context
         end
       end
+      buffer_eval "end"
     end
 
     # Generate the code for a while control structure
@@ -77,11 +88,11 @@ module Opulent
     def while_node(node, indent, context)
       # While we have a branch that meets the condition, generate code for the
       # children related to that specific branch
-      while context.evaluate node[@value]
+      buffer_eval "while #{node[@value]}"
         node[@children].each do |child|
           root child, indent, context
         end
-      end
+      buffer_eval "end"
     end
 
     # Generate the code for a while control structure
@@ -93,11 +104,11 @@ module Opulent
     def until_node(node, indent, context)
       # Until we have a branch that doesn't meet the condition, generate code for the
       # children related to that specific branch
-      until context.evaluate node[@value]
+      buffer_eval "until #{node[@value]}"
         node[@children].each do |child|
           root child, indent, context
         end
-      end
+      buffer_eval "end"
     end
 
     # Generate the code for a while control structure
@@ -107,8 +118,6 @@ module Opulent
     # @param context [Context] Processing environment data
     #
     def each_node(node, indent, context)
-      result = []
-
       # Process named variables for each structure
       variables = node[@value][0].clone
 
@@ -129,46 +138,14 @@ module Opulent
         variables[1] = Settings::DefaultEachValue
       end
 
-      # Evaluate in current context and add to results
-      evaluate_children = Proc.new do |key, value, context|
-        # Update the local variables in the each context with the values from the
-        # current loop iteration
-        locals = {
-          variables[0] => key,
-          variables[1] => value
-        }
-        context.extend_locals locals
-
-        # Add the mapped child elements
-        node[@children].each do |child|
-          root child, indent, context
-        end
-      end
-
-      # Create a new context based on the parent context and progressively update
-      # variables in the new context
-      block = context.block.clone if context.block
-      each_context = Context.new Hash.new, &block
-      each_context.parent = context
-
-      # Evaluate the iterable object
-      enumerable = context.evaluate(node[@value][1])
-
-      # Check if input can be iterated
-      self.error :enumerable, node[@value][1] unless enumerable.respond_to? :each
-
       # Selectively iterate through the input and add the result using the previously
       # defined proc object
-      case enumerable
-      when Hash
-        enumerable.each do |key, value|
-          evaluate_children[key, value, context]
-        end
-      else
-        enumerable.each_with_index do |value, key|
-          evaluate_children[key, value, context]
-        end
+      buffer_eval "_send_method = (#{node[@value][1]}.is_a?(Array) ? :each_with_index : :each)"
+      buffer_eval "#{node[@value][1]}.send _send_method do |#{variables[0]}, #{variables[1]}|"
+      node[@children].each do |child|
+        root child, indent, context
       end
+      buffer_eval "end"
     end
   end
 end

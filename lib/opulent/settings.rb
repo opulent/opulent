@@ -45,6 +45,7 @@ module Opulent
         #dependency_manager: true, # Soon to be implemented
         indent: 2,
         layouts: false,
+        pretty: false, # Under work
         default_layout: :'views/layouts/application'
       }
 

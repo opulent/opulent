@@ -36,7 +36,7 @@ module Opulent
       doctype_tag = "#{indentation}<#{value}>\n"
 
       @node_stack << :doctype
-      @code += doctype_tag
+      buffer_freeze doctype_tag
     end
   end
 end

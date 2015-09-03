@@ -30,7 +30,7 @@ module Opulent
       def: /\Adef +/,
 
       # Definition
-      doctype: /\Adoctype +/,
+      doctype: /\Adoctype */,
 
       # Include file
       include: /\Ainclude +/,

@@ -9,7 +9,11 @@ module Opulent
     # @param context [Context] Processing environment data
     #
     def plain(node, indent, context)
+
       value = node[@options][:value]
+
+      indentation = " " * indent
+      indent_lines value, indentation if Settings[:pretty]
 
       # Evaluate text node if it's marked as such and print nodes in the
       # current context

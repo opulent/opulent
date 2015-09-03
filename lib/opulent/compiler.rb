@@ -90,7 +90,7 @@ module Opulent
       until string.empty?
         case string
         # Process interpolation part of the string
-        when /^\#\{(.*)\}/
+        when /^\#\{([^}])\}/
           result = $1
           if buffer_escape
             buffer_escape result
@@ -101,7 +101,7 @@ module Opulent
 
         # Process string up to interpolation part and check if it's HTML safe.
         # If it is, then we render it as buffer text, otherwise we escape it.
-        when /^((.|\s)*)(?<!\\)\#\{.*\}/
+        when /^((.|\s)+?)(?<!\\)\#\{[^}]\}/
           result = $1
           if buffer_escape
             result =~ Utils::EscapeHTMLPattern ? buffer_escape(result) : buffer_freeze(result)

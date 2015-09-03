@@ -34,10 +34,12 @@ module Opulent
       # If we have an inline node, we remove the trailing newline character
       # and write the tag code directly. Otherwise we add the tag code with
       # normal indentation
-      if inline_last && inline_current
-        remove_trailing_newline
-      else
-        buffer_freeze indentation
+      if Settings[:pretty]
+        if inline_last && inline_current
+          remove_trailing_newline
+        else
+          buffer_freeze indentation
+        end
       end
 
       # Add the tag opening, with leading whitespace to the code buffer
@@ -74,20 +76,16 @@ module Opulent
       if node[@options][:self_enclosing]
         # If the tag is self enclosing, it cannot have any child elements.
         buffer_freeze ">"
-        buffer_freeze "\n"
+        buffer_freeze "\n" if Settings[:pretty]
       else
         # Set tag ending code
         buffer_freeze ">"
 
         # If the node is an inline node and doesn't have any child elements,
         # we close it on the same line, without adding indentation
-        buffer_freeze "\n" unless inline_current || node[@children].empty?
-
-        # Set tag closing code
-        buffer_freeze "</#{node[@value]}>"
-        buffer_freeze " " if node[@options][:trailing_whitespace]
-        buffer_freeze "\n"
-
+        if Settings[:pretty]
+          buffer_freeze "\n" unless inline_current || node[@children].empty?
+        end
 
         # Get number of siblings
         @sibling_stack << node[@children].size
@@ -103,16 +101,23 @@ module Opulent
         # Remove all child nodes of the current node from the node stack
         @node_stack.pop(node[@children].size)
 
-        # If we have an inline node, we remove the trailing newline from
-        # our buffer, otherwise add indentation
-        if inline_current
-          remove_trailing_newline
+        if Settings[:pretty]
+          # If we have an inline node, we remove the trailing newline from
+          # our buffer, otherwise add indentation
+          if inline_current
+            remove_trailing_newline
 
-        # If the node doesn't have any child elements, we close it on the same
-        # line, without adding indentation
-        elsif node[@children].any?
-          buffer_freeze indentation
+          # If the node doesn't have any child elements, we close it on the same
+          # line, without adding indentation
+          elsif node[@children].any?
+            buffer_freeze indentation
+          end
         end
+
+        # Set tag closing code
+        buffer_freeze "</#{node[@value]}>"
+        buffer_freeze " " if node[@options][:trailing_whitespace]
+        buffer_freeze "\n" if Settings[:pretty]
       end
     end
 
@@ -239,9 +244,11 @@ module Opulent
     # @param context [Context] Processing environment data
     #
     def map_attribute(key, attribute, extension)
-      if attribute[@value] =~ Tokens[:exp_string]
+      if (attribute[@value] =~ Tokens[:exp_string]) || (attribute.length == 1 && key == :class && (extension.nil? || extension[:class].nil?) && attribute[0][@value] =~ Tokens[:exp_string])
         # If we have a simple string, freeze it and set the attribute value
         buffer_freeze " #{key}=\""
+
+        attribute = attribute[0] if key == :class
 
         # When we have an extension, remove the data from the extension
         # and set it as the new value
