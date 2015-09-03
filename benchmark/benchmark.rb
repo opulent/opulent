@@ -1,7 +1,5 @@
 require 'benchmark'
 require_relative '../lib/opulent'
-require 'slim'
-require 'haml'
 
 # Choose the benchmark you want to run
 BENCHMARK = :node
@@ -10,7 +8,8 @@ BENCHMARK = :node
 N = 1000
 
 # Templating engine initialization
-puts "BENCHMARK"
+puts "BENCHMARK\n--\n"
+
 case BENCHMARK
 when :node
   case_folder = 'cases/node/'
@@ -26,20 +25,27 @@ when :node
 
   scope = Object.new
 
+  op = Opulent.new
+  puts op.render(:"#{case_folder}node", locals){}
+  puts "\n\n"
+
+  puts op.template
+  puts "\n\n\n"
+
   Benchmark.bm do |x|
     x.report("haml") do
       N.times do
-        haml.render(scope, locals) do end
+        haml.render(scope, locals){}
       end
     end
     x.report("opulent") do
       N.times do
-        opulent.render(scope, locals) do end
+        opulent.render(scope, locals){}
       end
     end
     x.report("slim") do
       N.times do
-        slim.render(scope, locals) do end
+        slim.render(scope, locals){}
       end
     end
   end

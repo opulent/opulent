@@ -28,7 +28,7 @@ module Opulent
       value = value[1..-1] if value[0] == '\\'
 
       # Create the text node using input data
-      text_node = [:plain, type, {value: value.strip, escaped: escaped, evaluate: false}, nil, indent]
+      text_node = [:plain, type, {value: value.strip, escaped: escaped}, nil, indent]
 
       # If we have a multiline node, get all the text which has higher
       # indentation than our indentation node.
@@ -40,10 +40,6 @@ module Opulent
         # If our value is empty and we're not going to add any more lines to
         # our buffer, skip the node
         return nil
-      end
-
-      if text_node[@options][:value] =~ Settings::InterpolationCheck
-        text_node[@options][:evaluate] = true
       end
 
       # Increase indentation if this is an inline text node
@@ -58,7 +54,7 @@ module Opulent
     def html_text(parent, indent)
       if (text_feed = accept :html_text)
         text_node = [:plain, :text, {value: text_feed.strip, escaped: false}, nil, indent]
-        
+
         parent[@children] << text_node
       end
     end
@@ -107,7 +103,7 @@ module Opulent
         # Add next line feed, prepend the indent and append the newline
         buffer += " " * next_line_indent if next_line_indent > 0
         buffer += accept_stripped(:line_feed) || ""
-        buffer += accept_stripped(:newline) || ""
+        buffer += accept(:newline) || ""
 
         # Get blank lines until we match something
         blank_lines[]

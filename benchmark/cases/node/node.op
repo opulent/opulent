@@ -1,14 +1,5 @@
-html
-  head
-    title
-    meta
-  body
-    nav
-      ul
-        li
-        li
-        li
-    content
-      container
-        row
-          col-md-12
+div class="a"
+  div
+    div
+    div
+    div

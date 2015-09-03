@@ -17,9 +17,6 @@ module Opulent
       # Enable caching for the current rendered file
       @options[:cache] = true
 
-      # Enable layouts so that we can render with symbols
-      #@options[:layouts] = true
-
       # Set up the rendering engine
       @engine = ::Opulent.new @options
     end
@@ -32,12 +29,7 @@ module Opulent
     # override render() may not support all features.
     #
     def evaluate(scope, locals, &block)
-      # if @engine.respond_to?(:precompiled_method_return_value, true)
-      #   super
-      # else
-      #   @engine.render(data, locals, &block)
-      # end
-      if @engine.preamble
+      if @engine.template
         super
       else
         locals[:scope] = scope
@@ -52,7 +44,7 @@ module Opulent
     # support, custom scopes, proper encoding, and support for template
     # compilation.
     #
-    def precompiled_template(locals)
+    def precompiled_template(locals = {})
       # This here should be evaluated in order to return the precompiled code
       # as text to the user.
       # For example:
@@ -60,8 +52,23 @@ module Opulent
       # _buff << "<html>",
       # _buff << compile('a * b')
       # _buff << "</html>"
-      @engine.preamble
+      @engine.template
     end
+
+    # def precompiled_preamble(locals)
+      # local_assigns = super
+      # @engine.instance_eval do
+      #   <<-RUBY
+      #     begin
+      #       extend Haml::Helpers
+      #       _hamlout = @haml_buffer = Haml::Buffer.new(@haml_buffer, #{options_for_buffer.inspect})
+      #       _erbout = _hamlout.buffer
+      #       __in_erb_template = true
+      #       _haml_locals = locals
+      #       #{local_assigns}
+      #   RUBY
+      # end
+    # end
   end
 
   # Register Opulent to Tilt

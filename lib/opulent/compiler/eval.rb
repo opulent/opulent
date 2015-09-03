@@ -9,7 +9,7 @@ module Opulent
     # @param context [Context] Processing environment data
     #
     def evaluate(node, indent, context)
-      context.evaluate node[@value]
+      buffer_eval node[@value]
     end
   end
 end

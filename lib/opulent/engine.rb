@@ -12,7 +12,7 @@ module Opulent
 
   # @Engine
   class Engine
-    attr_reader :nodes, :definitions, :parser, :file, :preamble, :buffer
+    attr_reader :nodes, :definitions, :parser, :file, :template, :buffer
 
     # Update render settings
     #
@@ -73,15 +73,11 @@ module Opulent
       # Get the nodes tree
       @nodes, @definitions = Parser.new(@file, @definitions).parse @code
 
-      # @TODO
-      # Implement precompiled template handling
-      @preamble = @nodes.inspect.inspect
-
       # Create a new context based on our rendering environment
       @context = Context.new locals, block, &content
 
       # Compile our syntax tree using input context
-      @output = Compiler.new.compile @nodes, @context
+      @template = Compiler.new.compile @nodes, @context
 
       if DEBUG
         #puts "Nodes\n---\n"
@@ -91,7 +87,20 @@ module Opulent
         # pp @output
       end
 
-      return @output
+      return @context.evaluate @template
+    end
+
+    def evaluate(scope, locals, &block)
+      #@context.extend_locals locals
+      @precompiled.inject("") do |output, chunk|
+        if chunk[0] == :eval
+          @context.evaluate chunk[1]
+        elsif chunk[0] == :buffer
+          output += @context.evaluate chunk[1]
+        else
+          output += chunk[1]
+        end
+      end
     end
   end
 end

@@ -13,7 +13,7 @@ require_relative 'compiler/text.rb'
 module Opulent
   # @Compiler
   class Compiler
-    Buffer = :_buffer
+    Buffer = :_buf
 
     # All node Objects (Array) must follow the next convention in order
     # to make parsing faster
@@ -30,15 +30,21 @@ module Opulent
       @children = 3
       @indent = 4
 
-      # Create the HTML Entities encoder/decoder
-      @entities = HTMLEntities.new
-
       # Get special node types from the settings
       @multi_node = Settings::MultiNode
       @inline_node = Settings::InlineNode
 
       # Quick accessor for default yield constant
       @default_yield = Settings::DefaultYield
+
+      # Initialize amble object
+      @template = [[:preamble]]
+
+      # Incrmental attribute count
+      @current_attribute = 0
+
+      # Incrmental extension count
+      @current_extension = 0
 
       # The node stack is needed to keep track of all the visited nodes
       # from the current branch level
@@ -71,16 +77,93 @@ module Opulent
         root child, 0, context
       end
 
-      return @code
+      @template << [:postamble]
+
+      return templatize
     end
 
-    # Escape a given input value using htmlentities
-    #
-    # @param value [String] String to be escaped
-    #
-    def escape(value)
-      @entities.encode value
+
+
+
+
+    def format_string(string, buffer_escape)
+      until string.empty?
+        case string
+        # Process interpolation part of the string
+        when /^\#\{(.*)\}/
+          result = $1
+          if buffer_escape
+            buffer_escape result
+          else
+            buffer_buffer result
+          end
+          string = string[result.length + 3..-1]
+
+        # Process string up to interpolation part and check if it's HTML safe.
+        # If it is, then we render it as buffer text, otherwise we escape it.
+        when /^((.|\s)*)(?<!\\)\#\{.*\}/
+          result = $1
+          if buffer_escape
+            result =~ Utils::EscapeHTMLPattern ? buffer_escape(result) : buffer_freeze(result)
+          else
+            buffer_freeze result
+          end
+          string = string[result.length..-1]
+
+        else
+          result = string
+          if buffer_escape
+            result =~ Utils::EscapeHTMLPattern ? buffer_escape(result) : buffer_freeze(result)
+          else
+            buffer_freeze result
+          end
+          string = ""
+        end
+      end
     end
+
+    def buffer(string)
+      @template << [:buffer, string]
+    end
+
+    def buffer_escape(string)
+      @template << [:escape, string]
+    end
+
+    def buffer_freeze(string)
+      if @template[-1][0] == :freeze
+        @template[-1][1] += string
+      else
+        @template << [:freeze, string]
+      end
+    end
+
+    def buffer_eval(string)
+      @template << [:eval, string]
+    end
+
+
+    def templatize
+      @template.inject("") do |buffer, input|
+        buffer += case input[0]
+        when :preamble
+          "#{Buffer} = []\n"
+        when :buffer
+          "#{Buffer} << (#{input[1]})\n"
+        when :escape
+          "#{Buffer} << (::Opulent::Utils::escape(#{input[1]}))\n"
+        when :freeze
+          "#{Buffer} << (#{input[1].inspect}.freeze)\n"
+        when :eval
+          "#{input[1]}\n"
+        when :postamble
+          "#{Buffer}.join"
+        end
+      end
+    end
+
+
+
 
     # Remove the last newline from the current code buffer
     #

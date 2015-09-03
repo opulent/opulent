@@ -44,7 +44,7 @@ module Opulent
       if buffer.strip.empty?
         return undo buffer
       else
-        return [:expression, buffer.strip, {evaluate: true}]
+        return [:expression, buffer.strip, {}]
       end
     end
 

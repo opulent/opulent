@@ -5,3 +5,5 @@ a = 44
 
 opulent = Opulent.new
 puts opulent.render(:test, e: '123', b: 1){}
+puts
+puts opulent.amble

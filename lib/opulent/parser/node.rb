@@ -131,13 +131,6 @@ module Opulent
     # @param value [String] Attribute value
     #
     def add_attribute(atts, key, value)
-      # Check whether the attribute value needs to be evaluated or not
-      value[@options][:evaluate] = if value[@value] =~ Settings::EvaluationCheck
-        value[@value] =~ Settings::InterpolationCheck ? true : false
-      else
-        true
-      end
-
       # Check for unique key and arrays of attributes
       if key == :class
         # If the key is already associated to an array, add the value to the
@@ -241,7 +234,7 @@ module Opulent
             error :assignments_colon
           end
         else
-          parent[argument] = [:expression, "nil", {evaluate: true, escaped: false}] unless parent[argument]
+          parent[argument] = [:expression, "nil", {escaped: false}] unless parent[argument]
         end
 
         # If our attributes are wrapped, we allow method calls without

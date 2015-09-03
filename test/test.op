@@ -1,15 +1,3 @@
-def col 
-  .col 
-    fa icon="test"
-      lol 
-        a href="google"
-    
-def fa(icon)
-  i.fa."fa-#{icon}"
-    yield
-
-def lol 
-  .lulz 
-    yield
-  
-col
+| This is a sample text with 
+  multiple lines which should be 
+  separated by spaces
