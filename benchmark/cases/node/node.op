@@ -1,4 +1,6 @@
 def test 
   .test 
+
+-@a = 1
   
 test

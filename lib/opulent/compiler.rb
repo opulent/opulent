@@ -43,8 +43,11 @@ module Opulent
       # Incrmental attribute count
       @current_attribute = 0
 
-      # Incrmental extension count
+      # Incremental extension count
       @current_extension = 0
+
+      # Incremental extension count
+      @current_definition = 0
 
       # The node stack is needed to keep track of all the visited nodes
       # from the current branch level
