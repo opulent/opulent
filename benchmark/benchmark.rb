@@ -7,6 +7,12 @@ BENCHMARK = :node
 # How many times each command should be run
 N = 1000
 
+a = 1
+c = lambda do
+  a + 1
+end
+puts c.call
+
 # Templating engine initialization
 puts "BENCHMARK\n--\n"
 
