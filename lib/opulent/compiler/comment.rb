@@ -9,13 +9,10 @@ module Opulent
     # @param context [Context] Processing environment data
     #
     def comment(node, indent, context)
-      # Escaping double quotes is required in order to avoid any conflicts with the eval quotes.
       buffer_freeze "\n" if node[@options][:newline]
       buffer_freeze "<!-- "
-      format_string node[@value].strip, true
+      buffer_split_by_interpolation node[@value].strip
       buffer_freeze " -->"
-
-      @node_stack << :comment
     end
   end
 end

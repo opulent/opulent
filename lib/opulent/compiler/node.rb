@@ -12,112 +12,77 @@ module Opulent
     def node(node, indent, context)
       indentation = " " * indent
 
-      # Check if the current node and last node should be displayed inline
-      inline_current = @inline_node.include? node[@value]
-      inline_last = @inline_node.include? @node_stack.last
-
-      # Check if the node is a special node which can be either inline or
-      # block structure. Write the special node as inline if its children
-      # are all inline nodes
-      if @multi_node.include?(node[@value])
-        # First condition should be removed to ignore preceding node and make
-        # it be inline no matter what. Using the first check, we write it
-        # inline only if the element before it was inline
-        unless @sibling_stack.last > 1 && node[@children].all? do |child|
-          @inline_node.include?(child[@value])
-        end
-          inline_current = false
-          multi = true
-        end
-      end
-
-      # If we have an inline node, we remove the trailing newline character
-      # and write the tag code directly. Otherwise we add the tag code with
-      # normal indentation
-      if Settings[:pretty]
-        if inline_last && inline_current
-          remove_trailing_newline
-        else
-          buffer_freeze indentation
-        end
-      end
-
       # Add the tag opening, with leading whitespace to the code buffer
       buffer_freeze " " if node[@options][:leading_whitespace]
       buffer_freeze "<#{node[@value]}"
 
       # Evaluate node extension in the current context
-      if node[@options][:extension]
-        extension = "_opulent_extension_#{@current_extension += 1}"
-        buffer_eval "#{extension} = #{node[@options][:extension][@value]}"
-      else
-        extension = nil
+      extension = if node[@options][:extension]
+        buffer_set_variable :extension, node[@options][:extension][@value]
       end
 
       # Evaluate and generate node attributes, then process each one to
       # by generating the required attribute code
       attributes = {}
-      node[@options][:attributes].each do |key, attribute|
-        buffer_attribute_set key, attribute, extension
-      end
+      buffer_attributes node[@options][:attributes], extension
 
-      if extension
-        buffer_eval "#{extension}.each do |_extk#{@current_extension}, _extv#{@current_extension}|"
-        dynamic_buffer_attribute_type_check "_extk#{@current_extension}", "_extv#{@current_extension}"
-        buffer_eval "end"
-      end
-
-      # # Set the current node as a parent for the node elements to follow
-      @node_stack << (multi ? :multi : node[@value])
-
-      # Check if the current node is self enclosing. Self enclosing nodes
-      # do not have any child elements
-      if node[@options][:self_enclosing]
-        # If the tag is self enclosing, it cannot have any child elements.
-        buffer_freeze ">"
-        buffer_freeze "\n" if Settings[:pretty]
-      else
-        # Set tag ending code
-        buffer_freeze ">"
-
-        # If the node is an inline node and doesn't have any child elements,
-        # we close it on the same line, without adding indentation
-        if Settings[:pretty]
-          buffer_freeze "\n" unless inline_current || node[@children].empty?
-        end
-
-        # Get number of siblings
-        @sibling_stack << node[@children].size
-
-        # Process each child element recursively, increasing indentation
-        node[@children].each do |child|
-          root child, indent + Settings[:indent], context
-        end
-
-        # Remove the current node children count from the sibling stack
-        @sibling_stack.pop
-
-        # Remove all child nodes of the current node from the node stack
-        @node_stack.pop(node[@children].size)
-
-        if Settings[:pretty]
-          # If we have an inline node, we remove the trailing newline from
-          # our buffer, otherwise add indentation
-          if inline_current
-            remove_trailing_newline
-
-          # If the node doesn't have any child elements, we close it on the same
-          # line, without adding indentation
-          elsif node[@children].any?
-            buffer_freeze indentation
-          end
-        end
-
-        # Set tag closing code
-        buffer_freeze "</#{node[@value]}>"
-        buffer_freeze " " if node[@options][:trailing_whitespace]
-        buffer_freeze "\n" if Settings[:pretty]
-      end
+      # # if extension
+      # #   buffer_eval "#{extension}.each do |_extk#{@current_extension}, _extv#{@current_extension}|"
+      # #   dynamic_buffer_attribute_type_check "_extk#{@current_extension}", "_extv#{@current_extension}"
+      # #   buffer_eval "end"
+      # # end
+      #
+      # # # Set the current node as a parent for the node elements to follow
+      # #@node_stack << (multi ? :multi : node[@value])
+      #
+      # # Check if the current node is self enclosing. Self enclosing nodes
+      # # do not have any child elements
+      # if node[@options][:self_enclosing]
+      #   # If the tag is self enclosing, it cannot have any child elements.
+      #   buffer_freeze ">"
+      #   buffer_freeze "\n" if Settings[:pretty]
+      # else
+      #   # Set tag ending code
+      #   buffer_freeze ">"
+      #
+      #   # If the node is an inline node and doesn't have any child elements,
+      #   # we close it on the same line, without adding indentation
+      #   if Settings[:pretty]
+      #     buffer_freeze "\n" unless inline_current || node[@children].empty?
+      #   end
+      #
+      #   # Get number of siblings
+      #   @sibling_stack << node[@children].size
+      #
+      #   # Process each child element recursively, increasing indentation
+      #   node[@children].each do |child|
+      #     root child, indent + Settings[:indent], context
+      #   end
+      #
+      #   # Remove the current node children count from the sibling stack
+      #   @sibling_stack.pop
+      #
+      #   # Remove all child nodes of the current node from the node stack
+      #   @node_stack.pop(node[@children].size)
+      #
+      #   if Settings[:pretty]
+      #     # If we have an inline node, we remove the trailing newline from
+      #     # our buffer, otherwise add indentation
+      #     if inline_current
+      #       remove_trailing_newline
+      #
+      #     # If the node doesn't have any child elements, we close it on the same
+      #     # line, without adding indentation
+      #     elsif node[@children].any?
+      #       buffer_freeze indentation
+      #     end
+      #   end
+      #
+      #   # Set tag closing code
+      #   buffer_freeze "</#{node[@value]}>"
+      #   buffer_freeze " " if node[@options][:trailing_whitespace]
+      #   buffer_freeze "\n" if Settings[:pretty]
+      #end
     end
 
     # Process input value depending on its type. When array or hash, iterate

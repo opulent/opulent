@@ -11,7 +11,7 @@ module Opulent
     def root(current, indent, context)
       if Keywords.include? current[@type]
         send :"#{current[@type]}_node", current, indent, context
-      else
+      else 
         send current[@type], current, indent, context
       end
     end

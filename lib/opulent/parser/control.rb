@@ -17,9 +17,8 @@ module Opulent
           # Check if arguments provided correctly
           error :each_arguments unless condition.match Tokens[:each_pattern]
 
-          # Split provided arguments for the each structure
-          condition = condition.split(' in ').map(&:strip)
-          condition[0] = condition[0].split(',').map(&:strip).map(&:to_sym)
+          condition = [$1.split(' '), $2.split(/,(.+)$/).map(&:strip).map(&:to_sym)]
+          condition[0].unshift '[]' if condition[0].length == 1 # Array loop as default
         end
 
         # Else and default structures are not allowed to have any condition

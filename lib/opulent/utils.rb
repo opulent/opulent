@@ -11,10 +11,13 @@ module Opulent
       '>'  => '&gt;'
     }.freeze
 
+    # Pattern matching for html escape characters
     EscapeHTMLPattern = Regexp.union(*EscapeHTML.keys)
 
-    InterpolationPattern = /\#\{([^}])\}/
+    # Ruby interpolation pattern
+    InterpolationPattern = /\#\{([^}]+)\}/
 
+    # @Utils
     class << self
       if defined?(EscapeUtils)
         # Returns an escaped copy of `html`.
@@ -33,8 +36,6 @@ module Opulent
           html.to_s.gsub EscapeHTMLPattern, EscapeHTML
         end
       end
-
-
     end
   end
 end

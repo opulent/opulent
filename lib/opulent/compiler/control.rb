@@ -13,18 +13,19 @@ module Opulent
       node[@value].each_with_index do |value, index|
         # If we have a branch that meets the condition, generate code for the
         # children related to that specific branch
-        if index == 0
-          buffer_eval "if #{value}"
-        elsif value.empty?
-          buffer_eval "else"
-        else
-          buffer_eval "elsif #{value}"
+        case value
+        when node[@value].first then buffer_eval "if #{value}"
+        when node[@value].last then buffer_eval "else"
+        else buffer_eval "elsif #{value}"
         end
 
+        # Evaluate child nodes
         node[@children][index].each do |child|
           root child, indent, context
         end
       end
+
+      # End
       buffer_eval "end"
     end
 
@@ -39,16 +40,18 @@ module Opulent
       node[@value].each_with_index do |value, index|
         # If we have a branch that meets the condition, generate code for the
         # children related to that specific branch
-        if index == 0
-          buffer_eval "unless #{value}"
-        elsif value.empty?
-          buffer_eval "else"
+        case value
+        when node[@value].first then buffer_eval "unless #{value}"
+        else buffer_eval "else"
         end
 
+        # Evaluate child nodes
         node[@children][index].each do |child|
           root child, indent, context
         end
       end
+
+      # End
       buffer_eval "end"
     end
 
@@ -66,16 +69,18 @@ module Opulent
       node[@value].each_with_index do |value, index|
         # If we have a branch that meets the condition, generate code for the
         # children related to that specific branch
-        if value.empty?
-          buffer_eval "else"
-        else
-          buffer_eval "when #{value}"
+        case value
+        when node[@value].last then buffer_eval "else"
+        else buffer_eval "when #{value}"
         end
 
+        # Evaluate child nodes
         node[@children][index].each do |child|
           root child, indent, context
         end
       end
+
+      # End
       buffer_eval "end"
     end
 
@@ -89,9 +94,13 @@ module Opulent
       # While we have a branch that meets the condition, generate code for the
       # children related to that specific branch
       buffer_eval "while #{node[@value]}"
-        node[@children].each do |child|
-          root child, indent, context
-        end
+
+      # Evaluate child nodes
+      node[@children].each do |child|
+        root child, indent, context
+      end
+
+      #End
       buffer_eval "end"
     end
 
@@ -105,9 +114,13 @@ module Opulent
       # Until we have a branch that doesn't meet the condition, generate code for the
       # children related to that specific branch
       buffer_eval "until #{node[@value]}"
-        node[@children].each do |child|
-          root child, indent, context
-        end
+
+      # Evaluate child nodes
+      node[@children].each do |child|
+        root child, indent, context
+      end
+
+      # End
       buffer_eval "end"
     end
 
@@ -119,7 +132,7 @@ module Opulent
     #
     def each_node(node, indent, context)
       # Process named variables for each structure
-      variables = node[@value][0].clone
+      variables = node[@value][1].clone
 
       # The each structure accept missing arguments as well, therefore we need to
       # substitute them with our defaults
@@ -138,13 +151,21 @@ module Opulent
         variables[1] = Settings::DefaultEachValue
       end
 
-      # Selectively iterate through the input and add the result using the previously
-      # defined proc object
-      buffer_eval "_send_method = (#{node[@value][1]}.is_a?(Array) ? :each_with_index : :each)"
-      buffer_eval "#{node[@value][1]}.send _send_method do |#{variables[0]}, #{variables[1]}|"
+      # Choose whether to apply each with index (Arrays) or each (Hashes) methods
+      #buffer_eval "_opulent_send_method = (#{node[@value][1]}.is_a?(Array) ? :each_with_index : :each)"
+      case node[@value][0][0]
+      when '[]'
+        buffer_eval "#{node[@value][0][1]}.each_with_index do |#{variables.reverse.join ', '}|"
+      else
+        buffer_eval "#{node[@value][0][1]}.each do |#{variables.join ', '}|"
+      end
+
+      # Evaluate child nodes
       node[@children].each do |child|
         root child, indent, context
       end
+
+      # End
       buffer_eval "end"
     end
   end

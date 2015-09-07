@@ -41,13 +41,10 @@ module Opulent
       # Initialize amble object
       @template = [[:preamble]]
 
-      # Incrmental attribute count
+      # Incrmental counters
+      @current_variable_count = 0
       @current_attribute = 0
-
-      # Incremental extension count
       @current_extension = 0
-
-      # Incremental extension count
       @current_definition = 0
 
       # The node stack is needed to keep track of all the visited nodes
