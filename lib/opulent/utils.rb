@@ -13,6 +13,8 @@ module Opulent
 
     EscapeHTMLPattern = Regexp.union(*EscapeHTML.keys)
 
+    InterpolationPattern = /\#\{([^}])\}/
+
     class << self
       if defined?(EscapeUtils)
         # Returns an escaped copy of `html`.

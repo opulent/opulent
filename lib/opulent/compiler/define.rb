@@ -9,17 +9,68 @@ module Opulent
     # @param context [Context] Context holding environment variables
     #
     def def_node(node, indent, context)
-      @current_definition += 1
-      identifier = "_opulent_definition#{@current_definition}"
+      key = "_opulent_#{node[@value]}_#{@current_definition += 1}".gsub '-', '_'
 
       # Create a new definition context
       #
       # @update: Added &context.block to make sure yield can be called from
       # within a definition (it might be a nice feature)
       #
-      buffer_eval "#{identifier} = Proc.new do"
-      
-      buffer_eval "end[]"
+      # Create a new closure without any local variables
+      call_node = node[@options][:call]
+
+      buffer_eval "def #{key}(attributes = {})"
+
+      # Set each parameter as a local variable
+      node[@options][:parameters].each do |parameter, value|
+        if call_node[@options][:attributes][parameter]
+          buffer_eval "#{parameter} = attributes.delete :#{parameter}"
+        else
+          buffer_eval "#{parameter} = #{value[@value]}"
+        end
+      end
+
+      # Add call children to the block stack, depending on whether they're
+      # block elements or child elements
+      @block_stack << { @default_yield => [] }
+
+      # If we have a direct child, add it to the default yield (children)
+      # block and allow same block multiple times by appending nodes
+      call_node[@children].each do |child|
+        if child[@type] == :block
+          @block_stack[-1][child[@value]] ||= []
+          @block_stack[-1][child[@value]] += child[@children]
+        else
+          @block_stack[-1][@default_yield] << child
+        end
+      end
+
+      # Evaluate definition child elements
+      node[@children].each do |child|
+        root child, indent + Settings[:indent], context
+      end
+
+      buffer_eval "end"
+
+      # If we have attributes set for our defined node, we will need to create
+      # an extension parameter which will be o
+      if call_node[@options][:attributes].empty?
+        # Call method without any extension
+        buffer_eval "#{key}"
+      else
+        # Set node extension parameters
+        extension = "_opulent_extension_#{@current_extension}"
+        extend_code = "#{extension} = {"
+        call_node[@options][:attributes].each do |key, attribute|
+          extend_code += buffer_definition_attributes key, attribute
+        end
+        extend_code = extend_code[0..-2]
+        extend_code += "}"
+        buffer_eval extend_code
+        buffer_eval "#{key} #{extension}"
+      end
+
+
 
       # definition_context.parent = context
       #
@@ -68,35 +119,35 @@ module Opulent
       #
       # # Set the remaining attributes as a value in the arguments
       # arguments[:attributes] = attributes
-      #
-      # # Add call children to the block stack, depending on whether they're
-      # # block elements or child elements
-      # @block_stack << { @default_yield => [] }
-      #
-      # # If we have a direct child, add it to the default yield (children)
-      # # block and allow same block multiple times by appending nodes
-      # call_node[@children].each do |child|
-      #   if child[@type] == :block
-      #     @block_stack[-1][child[@value]] ||= []
-      #     @block_stack[-1][child[@value]] += child[@children]
-      #   else
-      #     @block_stack[-1][@default_yield] << child
-      #   end
-      # end
-      #
-      # # Set variable to determine available blocks
-      # arguments[:blocks] = Hash[@block_stack[-1].keys.map{|key| [key, true]}]
-      #
-      # # Create local variables from argument variables
-      # definition_context.extend_locals arguments
-      #
-      # # Evaluate the model using the new context
-      # node[@children].each do |child|
-      #   root child, indent, definition_context
-      # end
-      #
-      # # Remove last set of blocks from the block stack
-      # @block_stack.pop
+
+
+      # Remove last set of blocks from the block stack
+      @block_stack.pop
+    end
+
+    def buffer_attribute_extract(key, value)
+      buffer_eval "#{key} = #{value.delete(key)[@value]}"
+    end
+
+
+    def buffer_definition_attributes(key, value)
+      if key == :class
+        evaluate = "#{key}: ["
+        if value.length > 1
+          value.inject(evaluate) do |buffer, exp|
+            buffer += "#{exp}, "
+          end
+          evaluate = evaluate[0..-2]
+        else
+          evaluate += value[0][@value]
+        end
+        evaluate += "]"
+      else
+        evaluate = "#{key}: #{value[@value]}"
+      end
+      evaluate += ","
+
+      return evaluate
     end
   end
 end

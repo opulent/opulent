@@ -11,7 +11,7 @@ module Opulent
     def yield_node(node, indent, context)
       if @block_stack[-1].has_key? node[@value]
         @block_stack[-1][node[@value]].each do |child|
-          root child, indent, context.parent
+          root child, indent, context
         end
       end
     end

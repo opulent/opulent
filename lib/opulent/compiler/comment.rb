@@ -9,11 +9,7 @@ module Opulent
     # @param context [Context] Processing environment data
     #
     def comment(node, indent, context)
-      indentation = " " * indent
-      buffer_freeze indentation if Settings[:pretty]
-
       # Escaping double quotes is required in order to avoid any conflicts with the eval quotes.
-      #comment_tag = "#{}#{indentation}<!-- #{value.strip} -->\n"
       buffer_freeze "\n" if node[@options][:newline]
       buffer_freeze "<!-- "
       format_string node[@value].strip, true

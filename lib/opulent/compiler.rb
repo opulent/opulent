@@ -1,4 +1,5 @@
 require_relative 'compiler/block.rb'
+require_relative 'compiler/buffer.rb'
 require_relative 'compiler/comment.rb'
 require_relative 'compiler/control.rb'
 require_relative 'compiler/define.rb'
@@ -13,7 +14,7 @@ require_relative 'compiler/text.rb'
 module Opulent
   # @Compiler
   class Compiler
-    Buffer = :_buf
+    Buffer = :@_buf
 
     # All node Objects (Array) must follow the next convention in order
     # to make parsing faster
@@ -82,91 +83,9 @@ module Opulent
 
       @template << [:postamble]
 
+      #puts templatize
       return templatize
     end
-
-
-
-
-
-    def format_string(string, buffer_escape)
-      until string.empty?
-        case string
-        # Process interpolation part of the string
-        when /^\#\{([^}])\}/
-          result = $1
-          if buffer_escape
-            buffer_escape result
-          else
-            buffer_buffer result
-          end
-          string = string[result.length + 3..-1]
-
-        # Process string up to interpolation part and check if it's HTML safe.
-        # If it is, then we render it as buffer text, otherwise we escape it.
-        when /^((.|\s)+?)(?<!\\)\#\{[^}]\}/
-          result = $1
-          if buffer_escape
-            result =~ Utils::EscapeHTMLPattern ? buffer_escape(result) : buffer_freeze(result)
-          else
-            buffer_freeze result
-          end
-          string = string[result.length..-1]
-
-        else
-          result = string
-          if buffer_escape
-            result =~ Utils::EscapeHTMLPattern ? buffer_escape(result) : buffer_freeze(result)
-          else
-            buffer_freeze result
-          end
-          string = ""
-        end
-      end
-    end
-
-    def buffer(string)
-      @template << [:buffer, string]
-    end
-
-    def buffer_escape(string)
-      @template << [:escape, string]
-    end
-
-    def buffer_freeze(string)
-      if @template[-1][0] == :freeze
-        @template[-1][1] += string
-      else
-        @template << [:freeze, string]
-      end
-    end
-
-    def buffer_eval(string)
-      @template << [:eval, string]
-    end
-
-
-    def templatize
-      @template.inject("") do |buffer, input|
-        buffer += case input[0]
-        when :preamble
-          "#{Buffer} = []\n"
-        when :buffer
-          "#{Buffer} << (#{input[1]})\n"
-        when :escape
-          "#{Buffer} << (::Opulent::Utils::escape(#{input[1]}))\n"
-        when :freeze
-          "#{Buffer} << (#{input[1].inspect}.freeze)\n"
-        when :eval
-          "#{input[1]}\n"
-        when :postamble
-          "#{Buffer}.join"
-        end
-      end
-    end
-
-
-
 
     # Remove the last newline from the current code buffer
     #
@@ -193,29 +112,29 @@ module Opulent
     # @param data [Array] Additional error information
     #
     def self.error(context, *data)
-      message = case context
-      when :enumerable
-        "The provided each structure iteration input \"#{data[0]}\" is not Enumerable."
-      when :binding
-        data[0] = data[0].to_s.match(/\`(.*)\'/)
-        data[0] = data[0][1] if data[0]
-        "Found an undefined local variable or method \"#{data[0]}\" at \"#{data[1]}\"."
-      when :variable_name
-        data[0] = data[0].to_s.match(/\`(.*)\'/)[1]
-        "Found an undefined local variable or method \"#{data[0]}\" in locals."
-      when :extension
-        "The extension sequence \"#{data[0]}\" is not a valid attributes extension. " +
-        "Please use a Hash to extend attributes."
-      when :filter_registered
-        "The \"#{data[0]}\" filter could not be recognized by Opulent."
-      when :filter_load
-        "The gem required for the \"#{data[0]}\" filter is not installed. You can install it by running:\n\n#{data[1]}"
-      end
+      # message = case context
+      # when :enumerable
+      #   "The provided each structure iteration input \"#{data[0]}\" is not Enumerable."
+      # when :binding
+      #   data[0] = data[0].to_s.match(/\`(.*)\'/)
+      #   data[0] = data[0][1] if data[0]
+      #   "Found an undefined local variable or method \"#{data[0]}\" at \"#{data[1]}\"."
+      # when :variable_name
+      #   data[0] = data[0].to_s.match(/\`(.*)\'/)[1]
+      #   "Found an undefined local variable or method \"#{data[0]}\" in locals."
+      # when :extension
+      #   "The extension sequence \"#{data[0]}\" is not a valid attributes extension. " +
+      #   "Please use a Hash to extend attributes."
+      # when :filter_registered
+      #   "The \"#{data[0]}\" filter could not be recognized by Opulent."
+      # when :filter_load
+      #   "The gem required for the \"#{data[0]}\" filter is not installed. You can install it by running:\n\n#{data[1]}"
+      # end
 
       # Reconstruct lines to display where errors occur
       fail "\n\nOpulent " + Logger.red("[Runtime Error]") + "\n---\n" +
       "A runtime error has been encountered when building the compiled node tree.\n" +
-      "#{message}\n\n\n"
+      "#{data}\n\n\n"
     end
   end
 end

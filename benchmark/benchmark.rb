@@ -41,11 +41,32 @@ when :node
   Benchmark.bm do |x|
     x.report("haml") do
       N.times do
+        # a = 1
+        # Proc.new do |a|
+        #   binding = nil
+        #   a = 2
+        #   b = 4
+        #   Proc.new do |a|
+        #     binding = nil
+        #     a = 3
+        #   end[]
+        # end[]
         haml.render(scope, locals){}
       end
     end
     x.report("opulent") do
       N.times do
+        # a = 1
+        # def a1
+        #   a = 2
+        #   b = 4
+        #   def a2
+        #     a = 3
+        #   end
+        #   a2()
+        # end
+        # a1()
+
         opulent.render(scope, locals){}
       end
     end

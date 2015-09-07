@@ -48,8 +48,7 @@ module Opulent
 
       # Evaluate node extension in the current context
       if node[@options][:extension]
-        @current_extension += 1
-        extension = "_opulent_extension_#{@current_extension}"
+        extension = "_opulent_extension_#{@current_extension += 1}"
         buffer_eval "#{extension} = #{node[@options][:extension][@value]}"
       else
         extension = nil
@@ -59,12 +58,12 @@ module Opulent
       # by generating the required attribute code
       attributes = {}
       node[@options][:attributes].each do |key, attribute|
-        map_attribute key, attribute, extension
+        buffer_attribute_set key, attribute, extension
       end
 
       if extension
         buffer_eval "#{extension}.each do |_extk#{@current_extension}, _extv#{@current_extension}|"
-        dynamic_type_check "_extk#{@current_extension}", "_extv#{@current_extension}"
+        dynamic_buffer_attribute_type_check "_extk#{@current_extension}", "_extv#{@current_extension}"
         buffer_eval "end"
       end
 
@@ -124,7 +123,7 @@ module Opulent
     # Process input value depending on its type. When array or hash, iterate
     # and escape each string value.
     #
-    def type_check(identifier, attribute, key)
+    def buffer_attribute_type_check(identifier, attribute, key)
       join = (key == :class ? ' ' : '_')
 
       # Array class
@@ -165,7 +164,7 @@ module Opulent
     # Process input value depending on its type. When array or hash, iterate
     # and escape each string value.
     #
-    def dynamic_type_check(key, value)
+    def dynamic_buffer_attribute_type_check(key, value)
       escape = false
       # Array class
       buffer_eval "if #{value}.is_a? Array"
@@ -208,11 +207,9 @@ module Opulent
     # values, generate a key value pair. For false values, remove the
     # attribute. For true values, generate a standalone attribute key
     #
-    def process(attribute, key, extension)
-      @current_attribute += 1
-
+    def buffer_attribute_extend(attribute, key, extension)
       # Set evaluation value to the current identifier
-      identifier = "_opulent_attribute_#{@current_attribute}"
+      identifier = "_opulent_attribute_#{@current_attribute += 1}"
 
       # If the extension has the key we're processing, take the value from
       # the extension
@@ -228,13 +225,15 @@ module Opulent
         else
           buffer_eval "if #{extension}[#{key.inspect}]"
           buffer_eval "#{identifier} = #{extension}.delete #{key.inspect}"
+          buffer_eval "else"
+          buffer_eval "#{identifier} = #{attribute[@value]}"
           buffer_eval "end"
         end
       else
         buffer_eval "#{identifier} = #{attribute[@value]}"
       end
 
-      type_check identifier, attribute, key
+      buffer_attribute_type_check identifier, attribute, key
     end
 
     # Map attributes by evaluating them in the current working context
@@ -243,8 +242,8 @@ module Opulent
     # @param attribute [Array] Attribute instance data
     # @param context [Context] Processing environment data
     #
-    def map_attribute(key, attribute, extension)
-      if (attribute[@value] =~ Tokens[:exp_string]) || (attribute.length == 1 && key == :class && (extension.nil? || extension[:class].nil?) && attribute[0][@value] =~ Tokens[:exp_string])
+    def buffer_attribute_set(key, attribute, extension)
+      if attribute[@value] =~ Tokens[:exp_string]
         # If we have a simple string, freeze it and set the attribute value
         buffer_freeze " #{key}=\""
 
@@ -266,14 +265,30 @@ module Opulent
         # Process each attribute of a class or standalone attributes
         if key == :class
           buffer_freeze " #{key}=\""
+
+          simple_classes = []
+          advanced_classes = []
           attribute.each do |attrib|
-            process attrib, key, extension
+            if attrib[@value] =~ Tokens[:exp_string]
+              simple_classes << attrib[@value][1..-2]
+            else
+              advanced_classes << attrib
+            end
+          end
+
+          unless simple_classes.empty?
+            buffer_freeze simple_classes.join ' '
+            buffer_freeze ' '
+          end
+
+          advanced_classes.each do |attrib|
+            buffer_attribute_extend attrib, key, extension
             buffer_freeze " "
           end
           @template[-1][1].rstrip!
           buffer_freeze '"'
         else
-          process attribute, key, extension
+          buffer_attribute_extend attribute, key, extension
         end
       end
     end
