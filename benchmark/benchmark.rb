@@ -38,6 +38,10 @@ when :node
   puts op.template
   puts "\n\n\n"
 
+  def testing(&block)
+    yield if block_given?
+  end
+
   Benchmark.bm do |x|
     x.report("haml") do
       N.times do

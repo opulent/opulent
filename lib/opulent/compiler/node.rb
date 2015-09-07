@@ -7,10 +7,44 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
+    # @param context [Context] buffer_extend_attributeing environment data
     #
     def node(node, indent, context)
       indentation = " " * indent
+
+      if @definitions.include?(node[@value]) && @inside_definition != node[@value]
+        # Evaluate and generate node attributes, then buffer_extend_attribute each one to
+        # by generating the required attribute code
+        call_attributes = "_opulent_call_attributes_#{@current_call_attributes += 1}"
+
+        if node[@options][:attributes].empty?
+          buffer_eval "#{call_attributes} = {}"
+        else
+          buffer_eval "#{call_attributes} = {"
+          # node[@options][:attributes].each do |key, attribute|
+          #   buffer_call_attributes attribute, key
+          # end
+          @template[-1][1] = @template[-1][1][0..-2]
+          buffer_eval "}"
+        end
+
+        # Evaluate node extension in the current context
+        if node[@options][:extension]
+          extension = "_opulent_extension_#{@current_extension += 1}"
+          buffer_eval "#{extension} = #{node[@options][:extension][@value]}"
+        else
+          extension = nil
+        end
+
+        #if extension &&
+
+        buffer_eval "_opulent_definition_#{node[@value]}({}) do"
+        node[@children].each do |child|
+          root child, indent + Settings[:indent], context
+        end
+        buffer_eval "end"
+        return
+      end
 
       # Check if the current node and last node should be displayed inline
       inline_current = @inline_node.include? node[@value]
@@ -48,23 +82,21 @@ module Opulent
 
       # Evaluate node extension in the current context
       if node[@options][:extension]
-        @current_extension += 1
-        extension = "_opulent_extension_#{@current_extension}"
+        extension = "_opulent_extension_#{@current_extension += 1}"
         buffer_eval "#{extension} = #{node[@options][:extension][@value]}"
       else
         extension = nil
       end
 
-      # Evaluate and generate node attributes, then process each one to
+      # Evaluate and generate node attributes, then buffer_extend_attribute each one to
       # by generating the required attribute code
-      attributes = {}
       node[@options][:attributes].each do |key, attribute|
-        map_attribute key, attribute, extension
+        buffer_attribute key, attribute, extension
       end
 
       if extension
         buffer_eval "#{extension}.each do |_extk#{@current_extension}, _extv#{@current_extension}|"
-        dynamic_type_check "_extk#{@current_extension}", "_extv#{@current_extension}"
+        dynamic_attribute_type_check "_extk#{@current_extension}", "_extv#{@current_extension}"
         buffer_eval "end"
       end
 
@@ -90,7 +122,7 @@ module Opulent
         # Get number of siblings
         @sibling_stack << node[@children].size
 
-        # Process each child element recursively, increasing indentation
+        # buffer_extend_attribute each child element recursively, increasing indentation
         node[@children].each do |child|
           root child, indent + Settings[:indent], context
         end
@@ -124,7 +156,30 @@ module Opulent
     # Process input value depending on its type. When array or hash, iterate
     # and escape each string value.
     #
-    def type_check(identifier, attribute, key)
+    def buffer_call_attributes(attribute, key)
+      pp key, attribute
+
+      attribution = "#{key}: "
+      if key == :class
+        attribution += '['
+        attribute.each do |attrib|
+          attribution += attrib[@options][:escaped] ? buffer_eval_escape(attrib[@value]) : attrib[@value]
+          attribution += ','
+        end
+        attribution = attribution[0..-2]
+        attribution += ']'
+      else
+        attribution += attribute[@options][:escaped] ? buffer_eval_escape(attribute[@value]) : attribute[@value]
+      end
+      attribution += ','
+
+      buffer_eval attribution
+    end
+
+    # Process input value depending on its type. When array or hash, iterate
+    # and escape each string value.
+    #
+    def attribute_type_check(identifier, attribute, key)
       join = (key == :class ? ' ' : '_')
 
       # Array class
@@ -165,7 +220,7 @@ module Opulent
     # Process input value depending on its type. When array or hash, iterate
     # and escape each string value.
     #
-    def dynamic_type_check(key, value)
+    def dynamic_attribute_type_check(key, value)
       escape = false
       # Array class
       buffer_eval "if #{value}.is_a? Array"
@@ -208,11 +263,9 @@ module Opulent
     # values, generate a key value pair. For false values, remove the
     # attribute. For true values, generate a standalone attribute key
     #
-    def process(attribute, key, extension)
-      @current_attribute += 1
-
+    def buffer_extend_attribute(attribute, key, extension)
       # Set evaluation value to the current identifier
-      identifier = "_opulent_attribute_#{@current_attribute}"
+      identifier = "_opulent_attribute_#{@current_attribute += 1}"
 
       # If the extension has the key we're processing, take the value from
       # the extension
@@ -234,17 +287,19 @@ module Opulent
         buffer_eval "#{identifier} = #{attribute[@value]}"
       end
 
-      type_check identifier, attribute, key
+      attribute_type_check identifier, attribute, key
     end
 
     # Map attributes by evaluating them in the current working context
     #
     # @param key [Symbol] Name of the attribute being processed
     # @param attribute [Array] Attribute instance data
-    # @param context [Context] Processing environment data
+    # @param context [Context] buffer_extend_attributeing environment data
     #
-    def map_attribute(key, attribute, extension)
-      if (attribute[@value] =~ Tokens[:exp_string]) || (attribute.length == 1 && key == :class && (extension.nil? || extension[:class].nil?) && attribute[0][@value] =~ Tokens[:exp_string])
+    def buffer_attribute(key, attribute, extension)
+      # Required check for simple, noninterpolated string classes and string attributes
+      if (attribute[@value] =~ Tokens[:exp_string]) ||
+        (attribute.length == 1 && key == :class && (extension.nil? || extension[:class].nil?) && attribute[0][@value] =~ Tokens[:exp_string])
         # If we have a simple string, freeze it and set the attribute value
         buffer_freeze " #{key}=\""
 
@@ -263,17 +318,17 @@ module Opulent
         end
         buffer_freeze '"'
       else
-        # Process each attribute of a class or standalone attributes
+        # buffer_extend_attribute each attribute of a class or standalone attributes
         if key == :class
           buffer_freeze " #{key}=\""
           attribute.each do |attrib|
-            process attrib, key, extension
+            buffer_extend_attribute attrib, key, extension
             buffer_freeze " "
           end
           @template[-1][1].rstrip!
           buffer_freeze '"'
         else
-          process attribute, key, extension
+          buffer_extend_attribute attribute, key, extension
         end
       end
     end

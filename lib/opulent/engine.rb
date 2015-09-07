@@ -77,7 +77,7 @@ module Opulent
       @context = Context.new locals, block, &content
 
       # Compile our syntax tree using input context
-      @template = Compiler.new.compile @nodes, @context
+      @template = Compiler.new.compile @nodes, @definitions, @context
 
       if DEBUG
         #puts "Nodes\n---\n"

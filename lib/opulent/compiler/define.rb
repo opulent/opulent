@@ -9,17 +9,21 @@ module Opulent
     # @param context [Context] Context holding environment variables
     #
     def def_node(node, indent, context)
-      @current_definition += 1
-      identifier = "_opulent_definition#{@current_definition}"
+      identifier = "_opulent_definition_#{node[@value]}"
 
       # Create a new definition context
       #
       # @update: Added &context.block to make sure yield can be called from
       # within a definition (it might be a nice feature)
       #
-      buffer_eval "#{identifier} = Proc.new do"
-      
-      buffer_eval "end[]"
+      @inside_definition = node[@value]
+      buffer_eval "def #{identifier}(attributes, &block)"
+      node[@children].each do |child|
+        #### DELETE ATTRIBUTES WHICH ARE SET AS PARAMETERS AND SET THEM AS LOCALS
+        root child, indent, context
+      end
+      buffer_eval "end"
+      @inside_definition = nil
 
       # definition_context.parent = context
       #

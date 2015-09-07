@@ -1,6 +1,6 @@
-def test 
-  .test 
+def test1 
+  .test1 
+def test2
+  .test1 
 
--@a = 1
-  
-test
+test1 class="testclass" class="blah" data=[1,2,3]

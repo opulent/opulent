@@ -13,7 +13,7 @@ require_relative 'compiler/text.rb'
 module Opulent
   # @Compiler
   class Compiler
-    Buffer = :_buf
+    Buffer = :@_opulent
 
     # All node Objects (Array) must follow the next convention in order
     # to make parsing faster
@@ -40,14 +40,10 @@ module Opulent
       # Initialize amble object
       @template = [[:preamble]]
 
-      # Incrmental attribute count
+      # Incrmental counters
       @current_attribute = 0
-
-      # Incremental extension count
       @current_extension = 0
-
-      # Incremental extension count
-      @current_definition = 0
+      @current_call_attributes = 0
 
       # The node stack is needed to keep track of all the visited nodes
       # from the current branch level
@@ -67,13 +63,21 @@ module Opulent
     # @param root_node [Array] Root node containing all document nodes
     # @param context [Context] Context holding environment variables
     #
-    def compile(root_node, context)
+    def compile(root_node, definitions, context)
+      # Set all definitions
+      @definitions = definitions
+
       # Compiler generated code
       @code = ""
       @generator = ""
 
       # Set initial parent, from which we start generating code
       @sibling_stack << root_node[@children].size
+
+      # Start building up the code from the root node
+      @definitions.each do |name, model|
+        root model, 0, context
+      end
 
       # Start building up the code from the root node
       root_node[@children].each do |child|
@@ -145,6 +149,9 @@ module Opulent
       @template << [:eval, string]
     end
 
+    def buffer_eval_escape(string)
+      "(::Opulent::Utils::escape(#{string}))"
+    end
 
     def templatize
       @template.inject("") do |buffer, input|

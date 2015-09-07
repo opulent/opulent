@@ -24,9 +24,7 @@ module Opulent
         # Set definition as root node and let the parser know that we're inside
         # a definition. This is used because inside definitions we do not process
         # nodes (we do not check if they are have a definition or not).
-        @inside_definition = true
         root(definition, indent)
-        @inside_definition = false
 
         # Add to parent
         @definitions[name] = definition
