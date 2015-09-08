@@ -2,6 +2,9 @@
 module Opulent
   # @Settings
   module Settings
+    # Set buffer variable name
+    Buffer = :@_opulent_buffer
+
     # Default Opulent file extension
     FileExtension = '.op'
 

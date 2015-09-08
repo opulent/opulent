@@ -14,7 +14,7 @@ require_relative 'compiler/yield.rb'
 module Opulent
   # @Compiler
   class Compiler
-    Buffer = :@_buf
+    Buffer = :@_opulent_buffer
 
     OpulentKey = :_opulent_key
     OpulentValue = :_opulent_value

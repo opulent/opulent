@@ -201,7 +201,7 @@ module Opulent
 
         # Extension end
         if extension
-          buffer_eval "end" 
+          buffer_eval "end"
         end
       end
 
@@ -225,8 +225,6 @@ module Opulent
       separator = DEBUG ? "\n" : "; " # Readablity during development
       @template.inject("") do |buffer, input|
         buffer += case input[0]
-        when :preamble
-          "#{Buffer} = []#{separator}"
         when :buffer
           "#{Buffer} << (#{input[1]})#{separator}"
         when :escape

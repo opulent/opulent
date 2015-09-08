@@ -2,6 +2,10 @@
 module Opulent
   # @OpulentTemplate
   class OpulentTemplate < ::Tilt::Template
+    # Allow accessing engine definitions
+    attr_reader :def
+
+    # Set default mime type
     self.default_mime_type = 'text/html'
 
     # Do whatever preparation is necessary to setup the underlying template
@@ -13,6 +17,7 @@ module Opulent
     def prepare
       # Set up the rendering engine
       @engine = ::Opulent.new eval_file.to_sym, @options
+      @def = @engine.def
     end
 
     # Execute the compiled template and return the result string. Template
@@ -24,12 +29,7 @@ module Opulent
     #
     def evaluate(scope, locals, &block)
       raise ArgumentError, 'Invalid scope: must not be frozen.' if scope.frozen?
-
-      if @engine.template
-        super
-      else
-        @engine.render(scope, locals, &block)
-      end
+      super
     end
 
     # A string containing the (Ruby) source code for the template. The

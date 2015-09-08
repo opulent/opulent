@@ -12,15 +12,19 @@ module Opulent
 
   # @Engine
   class Engine
-    attr_reader :nodes, :definitions, :parser, :file, :template, :buffer
+    attr_reader :nodes, :parser, :def, :file, :template, :buffer
 
     # Update render settings
     #
     # @param settings [Hash] Opulent settings override
-    # @param definitions [Hash] Definitions from previously parsed files
+    # @param def [Hash] def from previously parsed files
     # @param overwrite [Boolean] Write changes directly to the parent binding
     #
     def initialize(input, settings = {})
+      # Set def from other Opulent instances
+      @def = settings.delete(:def) || {}
+
+      # Update default settings with user settings
       Settings.update_settings settings unless settings.empty?
 
       # Read input parameter based on opening mode. If we have a file mode, we
@@ -34,7 +38,7 @@ module Opulent
       end
 
       # Get the nodes tree
-      @nodes, @definitions = Parser.new(@file, @definitions || {}).parse @code
+      @nodes, @def = Parser.new(@file, @def).parse @code
 
       # Compile our syntax tree using input context
       @template = Compiler.new.compile @nodes
@@ -48,9 +52,12 @@ module Opulent
     # @param block [Proc] Processing environment data
     #
     def render(scope = Object.new, locals = {}, &block)
+      # Get opulent buffer value
+      parent_buffer = scope.instance_variable_defined?(:@_opulent_buffer) ? scope.instance_variable_get(:@_opulent_buffer) : nil
+
       # If a layout is set, get the specific layout, otherwise, set the default
       # one. If a layout is set to false, the page will be render as it is.
-      if scope.is_a?(Binding)
+      if scope.is_a? binding.class
         scope_object = eval "self", scope
         scope = scope_object.instance_eval{ binding } if block_given?
       else
@@ -67,6 +74,9 @@ module Opulent
         eval @template, scope
       rescue ::SyntaxError => e
         raise SyntaxError, e.message
+      ensure
+        # Get rid of the current buffer
+        scope_object.instance_variable_set :@_opulent_buffer, parent_buffer
       end
     end
 

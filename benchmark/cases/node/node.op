@@ -1,1 +1,10 @@
-div id="1"
+def outer
+  .outer
+    yield
+    
+def inner
+  .inner
+    yield
+
+outer
+  =~ yield if block_given?
