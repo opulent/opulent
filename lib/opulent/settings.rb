@@ -6,9 +6,6 @@ module Opulent
     FileExtension = '.op'
 
     # Default yield target which is used for child block replacements
-    DefaultYield = :children
-
-    # Default yield target which is used for child block replacements
     DefaultEachKey = :key
 
     # Default yield target which is used for child block replacements

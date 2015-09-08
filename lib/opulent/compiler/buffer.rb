@@ -57,6 +57,22 @@ module Opulent
       @template[-1][1] = @template[-1][1][0..-1-n] if @template[-1][0] == type
     end
 
+    # Turn call node attributes into a hash string
+    #
+    # @param attributes [Array] Array of node attributes
+    #
+    def buffer_attributes_to_hash(attributes)
+      "{" + attributes.inject([]) do |extend_map, (key, attribute)|
+        extend_map << ("#{key}: " + if key == :class
+          '[' + attribute.map do |exp|
+            exp[@value]
+          end.join(", ") + ']'
+        else
+          attribute[@value]
+        end)
+      end.join(', ') + "}"
+    end
+
     # Go through the node attributes and apply extension where needed
     #
     # @param attributes [Array] Array of node attributes, from parser

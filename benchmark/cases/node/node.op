@@ -1,4 +1,7 @@
-def node 
-  .node
+def node(a)
+  .node+attributes
+    yield
 
-node
+- teste = {a: 1, b: 4}
+node#test.hello.world +teste
+  childnode

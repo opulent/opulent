@@ -1,4 +1,3 @@
-require_relative 'compiler/block.rb'
 require_relative 'compiler/buffer.rb'
 require_relative 'compiler/comment.rb'
 require_relative 'compiler/control.rb'
@@ -9,6 +8,7 @@ require_relative 'compiler/filter.rb'
 require_relative 'compiler/node.rb'
 require_relative 'compiler/root.rb'
 require_relative 'compiler/text.rb'
+require_relative 'compiler/yield.rb'
 
 # @Opulent
 module Opulent
@@ -37,9 +37,6 @@ module Opulent
       # Get special node types from the settings
       @multi_node = Settings::MultiNode
       @inline_node = Settings::InlineNode
-
-      # Quick accessor for default yield constant
-      @default_yield = Settings::DefaultYield
 
       # Initialize amble object
       @template = [[:preamble]]
