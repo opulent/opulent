@@ -50,6 +50,7 @@ module Opulent
 
     # Remove last n characters from the most recent template item
     #
+    # @param type [Symbol] Remove only if last buffer part is of this type
     # @param n [Fixnum] Number of characters to be removed
     #
     def buffer_remove_last_character(type = :freeze, n = 1)
@@ -92,6 +93,7 @@ module Opulent
         end
       end
 
+
       # If we have class attributes, process each one and check if we have an
       # extension for them
       if attributes[:class]
@@ -120,15 +122,92 @@ module Opulent
         # see if the extension contains a class attribute
         buffer_eval "if #{extension}.has_key? :class"
         buffer_freeze " class=\""
-        buffer_class_attribute_extension[]
+        buffer_class_attribute_type_check[]
         buffer_freeze '"'
         buffer_eval "end"
+      end
+
+      # Proc for setting class attribute extension, used as DRY closure
+      #
+      buffer_data_attribute_type_check = Proc.new do |key, variable, escape = true, dynamic = false|
+        # @Array
+        buffer_eval "if #{variable}.is_a? Array"
+        dynamic ? buffer("\" #{key}=\\\"\"") : buffer_freeze(" #{key}=\"")
+        escape ? buffer_escape("#{variable}.join '_'") : buffer("#{variable}.join '_'")
+        buffer_freeze '"'
+
+        # @Hash
+        buffer_eval "elsif #{variable}.is_a? Hash"
+        buffer_eval "#{variable}.each do |#{OpulentKey}, #{OpulentValue}|"
+        dynamic ? buffer("\" #{key}-\"") : buffer_freeze(" #{key}-") # key-hashkey="
+        buffer "\"\#{#{OpulentKey}}\""
+        buffer_freeze "=\""
+        escape ? buffer_escape("_opulent_value") : buffer("_opulent_value") # value
+        buffer_freeze '"'
+        buffer_eval "end"
+
+        # @TrueClass
+        buffer_eval "elsif #{variable}.is_a? TrueClass"
+        dynamic ? buffer("\" #{key}\"") : buffer_freeze(" #{key}")
+
+        # @FalseClass
+        buffer_eval "elsif [NilClass, FalseClass].include? #{variable}.class"
+
+        # @Object
+        buffer_eval "else"
+        dynamic ? buffer("\" #{key}=\\\"\"") : buffer_freeze(" #{key}=\"")
+        escape ? buffer_escape("#{variable}") : buffer("#{variable}")
+        buffer_freeze '"'
+
+        # End
+        buffer_eval "end"
+      end
+
+      # Handle data (normal) attributes by checking if they're simple, noninterpolated
+      # strings and extend them if needed
+      #
+      buffer_data_attribute = Proc.new do |key, attribute|
+        # When we have an extension for our attributes, check current key.
+        # If it exists, check it's type and generate everything dynamically
+        if extension
+          buffer_eval "if #{extension}.has_key? :#{key}"
+          variable = buffer_set_variable :local, "#{extension}.delete(:#{key})"
+          buffer_data_attribute_type_check[key, variable, attribute[@options][:escaped]]
+          buffer_eval "else"
+        end
+
+        # Check if the set attribute is a simple string. If it is, freeze it or
+        # escape it. Otherwise, evaluate and initialize the type check.
+        if attribute[@value] =~ Tokens[:exp_string]
+          attribute[@value] = attribute[@value][1..-2]
+          if attribute[@options][:escaped] && attribute[@value] =~ Utils::EscapeHTMLPattern
+            buffer_escape attribute[@value]
+          else
+            buffer_freeze attribute[@value]
+          end
+        else
+          # Evaluate and type check
+          variable = buffer_set_variable :local, attribute[@value]
+          buffer_data_attribute_type_check[key, variable, attribute[@options][:escaped]]
+        end
+
+        # Extension end
+        if extension
+          buffer_eval "end"
+        end
       end
 
       # Process the remaining, non-class related attributes
       attributes.each do |key, attribute|
         next if key == :class
+        buffer_data_attribute[key, attribute]
+      end
 
+      # Process remaining extension keys if there are any
+      if extension
+        buffer_eval "#{extension}.each do |ext#{OpulentKey}, ext#{OpulentValue}|"
+        buffer_data_attribute_type_check["\#{ext#{OpulentKey}}", "ext#{OpulentValue}", true, true]
+        buffer_eval "end"
       end
     end
 

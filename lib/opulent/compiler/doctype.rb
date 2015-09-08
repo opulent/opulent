@@ -10,8 +10,6 @@ module Opulent
     # @param context [Context] Processing environment data
     #
     def doctype_node(node, indent, context)
-      indentation = " " * indent
-
       value = case node[@value]
       when :"", :"html", :"5"
         "!DOCTYPE html"
@@ -33,10 +31,8 @@ module Opulent
         '?xml version="1.0" encoding="iso-8859-1" ?'
       end
 
-      doctype_tag = "#{indentation}<#{value}>\n"
-
       @node_stack << :doctype
-      buffer_freeze doctype_tag
+      buffer_freeze "<#{value}>"
     end
   end
 end

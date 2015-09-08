@@ -1,2 +1,4 @@
-- a = {attr1: "value1", attr2: "value2", class: {a: 3, c: 4}}
-div.coco.doco.boco +a class=a[:class]
+def node 
+  .node
+
+node

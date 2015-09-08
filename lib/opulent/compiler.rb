@@ -16,6 +16,9 @@ module Opulent
   class Compiler
     Buffer = :@_buf
 
+    OpulentKey = :_opulent_key
+    OpulentValue = :_opulent_value
+
     # All node Objects (Array) must follow the next convention in order
     # to make parsing faster
     #
