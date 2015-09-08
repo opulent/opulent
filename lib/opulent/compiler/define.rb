@@ -17,11 +17,14 @@ module Opulent
       call_node = node[@options][:call]
 
       # Create the definition
-      buffer_eval "def #{key}(attributes = {}, &block)"
+      buffer_eval "instance_eval do"
+      buffer_eval "def #{key}(attributes = {}, &block)" 
 
       # Set each parameter as a local variable
       node[@options][:parameters].each do |parameter, value|
-        buffer_eval "#{parameter} = attributes.delete(:#{parameter}) || #{value[@value]}"
+        set_argument_code = "#{parameter} = attributes.delete(:#{parameter})"
+        set_argument_code += " || #{value[@value]}" if value[@value]
+        buffer_eval set_argument_code
       end
 
       # Evaluate definition child elements
@@ -30,6 +33,7 @@ module Opulent
       end
 
       # End
+      buffer_eval "end"
       buffer_eval "end"
 
       # If we have attributes set for our defined node, we will need to create

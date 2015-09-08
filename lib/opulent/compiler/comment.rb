@@ -11,7 +11,7 @@ module Opulent
     def comment(node, indent, context)
       buffer_freeze "\n" if node[@options][:newline]
       buffer_freeze "<!-- "
-      buffer_split_by_interpolation node[@value].strip
+      buffer_split_by_interpolation node[@value].strip, false
       buffer_freeze " -->"
     end
   end

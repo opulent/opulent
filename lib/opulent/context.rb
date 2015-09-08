@@ -33,9 +33,9 @@ module Opulent
     #
     # @param code [String] Code to be evaluated
     #
-    def evaluate(code)
+    def evaluate(code, &block)
       begin
-        eval code, @binding
+        eval code, @binding, &block
       rescue NameError => variable
         Compiler.error :binding, variable, code
       end

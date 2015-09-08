@@ -7,12 +7,6 @@ BENCHMARK = :node
 # How many times each command should be run
 N = 1000
 
-a = 1
-c = lambda do
-  a + 1
-end
-puts c.call
-
 # Templating engine initialization
 puts "BENCHMARK\n--\n"
 
@@ -31,8 +25,12 @@ when :node
 
   scope = Object.new
 
-  op = Opulent.new
-  puts op.render(:"#{case_folder}node", locals){}
+  op = Opulent.new :"#{case_folder}node"
+  op2 = Opulent.new :"#{case_folder}node"
+
+  puts op.render(self, locals){
+    #op2.render(self, locals){}
+  }
   puts "\n\n"
 
   puts op.template
@@ -41,32 +39,11 @@ when :node
   Benchmark.bm do |x|
     x.report("haml") do
       N.times do
-        # a = 1
-        # Proc.new do |a|
-        #   binding = nil
-        #   a = 2
-        #   b = 4
-        #   Proc.new do |a|
-        #     binding = nil
-        #     a = 3
-        #   end[]
-        # end[]
         haml.render(scope, locals){}
       end
     end
     x.report("opulent") do
       N.times do
-        # a = 1
-        # def a1
-        #   a = 2
-        #   b = 4
-        #   def a2
-        #     a = 3
-        #   end
-        #   a2()
-        # end
-        # a1()
-
         opulent.render(scope, locals){}
       end
     end

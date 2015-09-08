@@ -50,7 +50,7 @@ module Opulent
 
           # Indent all lines and prepare them for the parser
           lines = indent_lines File.read(file), " " * indent
-
+          lines << " "
           # Indent all the output lines with the current indentation
           @code.insert @i + 1, *lines.lines
         end

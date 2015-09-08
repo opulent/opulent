@@ -81,8 +81,8 @@ module Opulent
     def buffer_attributes(attributes, extension)
       # Proc for setting class attribute extension, used as DRY closure
       #
-      buffer_class_attribute_type_check = Proc.new do |escape = true|
-        class_variable = buffer_set_variable :local, "#{extension}.delete(:class)"
+      buffer_class_attribute_type_check = Proc.new do |variable, escape = true|
+        class_variable = buffer_set_variable :local, variable
         buffer_eval "if #{class_variable}.is_a? Array"
         escape ? buffer_escape("#{class_variable}.join ' '") : buffer("#{class_variable}.join ' '")
         buffer_eval "elsif #{class_variable}.is_a? Hash"
@@ -98,14 +98,9 @@ module Opulent
       #
       buffer_class_attribute = Proc.new do |attribute|
         if attribute[@value] =~ Tokens[:exp_string]
-          attribute[@value] = attribute[@value][1..-2]
-          if attribute[@options][:escaped] && attribute[@value] =~ Utils::EscapeHTMLPattern
-            buffer_escape attribute[@value]
-          else
-            buffer_freeze attribute[@value]
-          end
+          buffer_split_by_interpolation attribute[@value][1..-2]
         else
-          buffer_class_attribute_type_check[attribute[@options][:escaped]]
+          buffer_class_attribute_type_check[attribute[@value], attribute[@options][:escaped]]
         end
       end
 
@@ -128,7 +123,7 @@ module Opulent
         if extension
           buffer_eval "if #{extension}.has_key? :class"
           buffer_freeze " "
-          buffer_class_attribute_type_check[]
+          buffer_class_attribute_type_check["#{extension}.delete(:class)"]
           buffer_eval "end"
         end
 
@@ -138,7 +133,7 @@ module Opulent
         # see if the extension contains a class attribute
         buffer_eval "if #{extension}.has_key? :class"
         buffer_freeze " class=\""
-        buffer_class_attribute_type_check[]
+        buffer_class_attribute_type_check["#{extension}.delete(:class)"]
         buffer_freeze '"'
         buffer_eval "end"
       end
@@ -195,12 +190,9 @@ module Opulent
         # Check if the set attribute is a simple string. If it is, freeze it or
         # escape it. Otherwise, evaluate and initialize the type check.
         if attribute[@value] =~ Tokens[:exp_string]
-          attribute[@value] = attribute[@value][1..-2]
-          if attribute[@options][:escaped] && attribute[@value] =~ Utils::EscapeHTMLPattern
-            buffer_escape attribute[@value]
-          else
-            buffer_freeze attribute[@value]
-          end
+          buffer_freeze " #{key}=\""
+          buffer_split_by_interpolation attribute[@value][1..-2]
+          buffer_freeze "\""
         else
           # Evaluate and type check
           variable = buffer_set_variable :local, attribute[@value]
@@ -209,7 +201,7 @@ module Opulent
 
         # Extension end
         if extension
-          buffer_eval "end"
+          buffer_eval "end" 
         end
       end
 
@@ -230,7 +222,7 @@ module Opulent
     # Transform buffer array into a reusable template
     #
     def templatize
-      separator = "\n" # Readablity during development
+      separator = DEBUG ? "\n" : "; " # Readablity during development
       @template.inject("") do |buffer, input|
         buffer += case input[0]
         when :preamble
@@ -258,7 +250,7 @@ module Opulent
     def buffer_split_by_interpolation(string, escape = true)
       string.split(Utils::InterpolationPattern).each_with_index do |input, index|
         if index % 2 == 0
-          escape ? (input =~ Utils::EscapeHTMLPattern ? buffer_escape(input) : buffer_freeze(input)) : buffer_freeze(input)
+          escape ? (input =~ Utils::EscapeHTMLPattern ? buffer_escape(input.inspect) : buffer_freeze(input)) : buffer_freeze(input)
         else
           escape ? buffer_escape(input) : buffer(input)
         end

@@ -18,7 +18,7 @@ module Opulent
           error :each_arguments unless condition.match Tokens[:each_pattern]
 
           condition = [$1.split(' '), $2.split(/,(.+)$/).map(&:strip).map(&:to_sym)]
-          condition[0].unshift '[]' if condition[0].length == 1 # Array loop as default
+          condition[0].unshift '{}' if condition[0].length == 1 # Array loop as default
         end
 
         # Else and default structures are not allowed to have any condition

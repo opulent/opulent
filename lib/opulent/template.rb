@@ -11,14 +11,8 @@ module Opulent
     # Subclasses must provide an implementation of this method.
     #
     def prepare
-      # Set the file which is being evaluated
-      @options[:file] = eval_file
-
-      # Enable caching for the current rendered file
-      @options[:cache] = true
-
       # Set up the rendering engine
-      @engine = ::Opulent.new @options
+      @engine = ::Opulent.new eval_file.to_sym, @options
     end
 
     # Execute the compiled template and return the result string. Template
@@ -29,11 +23,12 @@ module Opulent
     # override render() may not support all features.
     #
     def evaluate(scope, locals, &block)
+      raise ArgumentError, 'Invalid scope: must not be frozen.' if scope.frozen?
+
       if @engine.template
         super
       else
-        locals[:scope] = scope
-        @engine.render(data, locals, &block)
+        @engine.render(scope, locals, &block)
       end
     end
 
@@ -45,30 +40,8 @@ module Opulent
     # compilation.
     #
     def precompiled_template(locals = {})
-      # This here should be evaluated in order to return the precompiled code
-      # as text to the user.
-      # For example:
-      # _buff = [] # This should be in preamble
-      # _buff << "<html>",
-      # _buff << compile('a * b')
-      # _buff << "</html>"
       @engine.template
     end
-
-    # def precompiled_preamble(locals)
-      # local_assigns = super
-      # @engine.instance_eval do
-      #   <<-RUBY
-      #     begin
-      #       extend Haml::Helpers
-      #       _hamlout = @haml_buffer = Haml::Buffer.new(@haml_buffer, #{options_for_buffer.inspect})
-      #       _erbout = _hamlout.buffer
-      #       __in_erb_template = true
-      #       _haml_locals = locals
-      #       #{local_assigns}
-      #   RUBY
-      # end
-    # end
   end
 
   # Register Opulent to Tilt

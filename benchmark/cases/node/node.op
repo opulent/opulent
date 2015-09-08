@@ -1,7 +1,1 @@
-def node(a)
-  .node+attributes
-    yield
-
-- teste = {a: 1, b: 4}
-node#test.hello.world +teste
-  childnode
+div id="1"
