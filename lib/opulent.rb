@@ -1,5 +1,4 @@
 require 'tilt'
-require 'escape_utils'
 require_relative 'opulent/compiler.rb'
 require_relative 'opulent/context.rb'
 require_relative 'opulent/engine.rb'

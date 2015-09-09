@@ -33,7 +33,7 @@ module Opulent
         # @param html [String] The string to escape
         # @return [String] The escaped string
         def escape(html)
-          html.to_s.gsub EscapeHTMLPattern, EscapeHTML
+          html.to_s.chomp.gsub EscapeHTMLPattern, EscapeHTML
         end
       end
     end
