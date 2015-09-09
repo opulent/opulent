@@ -63,7 +63,7 @@ module Opulent
     #
     def buffer_attributes_to_hash(attributes)
       "{" + attributes.inject([]) do |extend_map, (key, attribute)|
-        extend_map << ("#{key}: " + if key == :class
+        extend_map << (":\"#{key}\" => " + if key == :class
           '[' + attribute.map do |exp|
             exp[@value]
           end.join(", ") + ']'
@@ -181,8 +181,8 @@ module Opulent
         # When we have an extension for our attributes, check current key.
         # If it exists, check it's type and generate everything dynamically
         if extension
-          buffer_eval "if #{extension}.has_key? :#{key}"
-          variable = buffer_set_variable :local, "#{extension}.delete(:#{key})"
+          buffer_eval "if #{extension}.has_key? :\"#{key}\""
+          variable = buffer_set_variable :local, "#{extension}.delete(:\"#{key}\")"
           buffer_data_attribute_type_check[key, variable, attribute[@options][:escaped]]
           buffer_eval "else"
         end

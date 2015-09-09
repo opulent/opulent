@@ -18,7 +18,7 @@ module Opulent
 
       # Create the definition
       buffer_eval "instance_eval do"
-      buffer_eval "def #{key}(attributes = {}, &block)" 
+      buffer_eval "def #{key}(attributes = {}, &block)"
 
       # Set each parameter as a local variable
       node[@options][:parameters].each do |parameter, value|
@@ -67,60 +67,6 @@ module Opulent
 
       # End block
       buffer_eval "end"
-
-
-
-      # definition_context.parent = context
-      #
-      # # # Set call node
-      # # call_node = node[@options][:call]
-      # #
-      # # # Get call node attributes
-      # # attributes = call_node[@options][:attributes]
-      # #
-      # # Evaluate node extension in the current context
-      # if call_node[@options][:extension]
-      #   extension = context.evaluate call_node[@options][:extension][@value]
-      # else
-      #   extension = {}
-      # end
-      #
-      # # Evaluate and generate node attributes, then process each one to
-      # # by generating the required attribute code
-      # attributes = {}
-      # call_node[@options][:attributes].each do |key, attribute|
-      #   unless node[@options][:parameters].has_key? key
-      #     attributes[key] = map_attribute key, attribute, context
-      #   end
-      # end
-      #
-      # # Go through each extension attribute and use the value where applicable
-      # extend_attributes attributes, extension
-      #
-      # # Definition call arguments
-      # arguments = {}
-      #
-      # # Extract values which appear as definition parameters. If we have the
-      # # key passed as argument, get its value. Otherwise, set the default
-      # # parameter value.
-      # #
-      # # Definition arguments (parameters which are set in definition header)
-      # # will be passed unescaped, to allow node definition to handle escaping
-      # # properly
-      # node[@options][:parameters].each do |key, value|
-      #   if call_node[@options][:attributes].has_key? key
-      #     arguments[key] = context.evaluate call_node[@options][:attributes][key][@value]
-      #   else
-      #     arguments[key] = definition_context.evaluate value[@value]
-      #   end
-      # end
-      #
-      # # Set the remaining attributes as a value in the arguments
-      # arguments[:attributes] = attributes
-
-
-      # Remove last set of blocks from the block stack
-      @block_stack.pop
     end
   end
 end

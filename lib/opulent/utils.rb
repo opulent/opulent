@@ -25,7 +25,7 @@ module Opulent
         # @param html [String] The string to escape
         # @return [String] The escaped string
         def escape(html)
-          EscapeUtils.escape_html html.to_s, false
+          EscapeUtils.escape_html html.to_s.chomp, false
         end
       else
         # Returns an escaped copy of `html`.
