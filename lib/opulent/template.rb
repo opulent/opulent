@@ -17,6 +17,8 @@ module Opulent
     def prepare
       # Set up the rendering engine
       @engine = ::Opulent.new eval_file.to_sym, @options
+
+      # Set reusable template definitions
       @def = @engine.def
     end
 

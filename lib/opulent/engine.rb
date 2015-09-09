@@ -2,7 +2,7 @@
 module Opulent
   # Debug enable
   #
-  DEBUG = true
+  DEBUG = false
 
   # Module method wrapper for creating a new engine instance
   #
@@ -47,13 +47,13 @@ module Opulent
     # Avoid code duplication when layouting is set. When we have a layout, look
     # in layouts/application by default.
     #
-    # @param file [String] The file that needs to be analyzed
+    # @param scope [Object] Template evaluation context
     # @param locals [Hash] Render call local variables
     # @param block [Proc] Processing environment data
     #
     def render(scope = Object.new, locals = {}, &block)
       # Get opulent buffer value
-      parent_buffer = scope.instance_variable_defined?(:@_opulent_buffer) ? scope.instance_variable_get(:@_opulent_buffer) : nil
+      initial_buffer = scope.instance_variable_defined?(:@_opulent_buffer) ? scope.instance_variable_get(:@_opulent_buffer) : []
 
       # If a layout is set, get the specific layout, otherwise, set the default
       # one. If a layout is set to false, the page will be render as it is.
@@ -71,12 +71,13 @@ module Opulent
       end
 
       begin
+        # Evaluate the template in the given scope (context)
         eval @template, scope
       rescue ::SyntaxError => e
         raise SyntaxError, e.message
       ensure
         # Get rid of the current buffer
-        scope_object.instance_variable_set :@_opulent_buffer, parent_buffer
+        scope_object.instance_variable_set :@_opulent_buffer, initial_buffer
       end
     end
 

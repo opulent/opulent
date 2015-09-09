@@ -1,10 +1,7 @@
-def outer
-  .outer
-    yield
-    
-def inner
-  .inner
-    yield
+- a = "hello"
+- kls = ['a', 'b', 'c']
 
-outer
-  =~ yield if block_given?
+html hello=a
+  head
+  body class=kls
+    p Hello world!
