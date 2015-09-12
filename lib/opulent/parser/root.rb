@@ -27,7 +27,7 @@ module Opulent
         end
 
         # If last include path had a greater indentation, pop the last file path
-        @file.pop if @file[-1][1] > indent
+        @file.pop if @file[-1][1] >= indent
 
         # Try the main Opulent node types and process each one of them using
         # their matching evaluation procedure
