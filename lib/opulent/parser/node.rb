@@ -80,8 +80,10 @@ module Opulent
 
         # Create a clone of the definition model. Cloning the options is also
         # necessary because it's a shallow copy
-        if @inside_definition != node_name && @definitions.keys.include?(node_name)
+        if @definitions.keys.include?(node_name)
+          @definition_stack << node_name
           parent[@children] << process_definition(node_name, current_node)
+          @definition_stack.pop
         else
           parent[@children] << current_node
         end
@@ -111,7 +113,7 @@ module Opulent
     def process_definition_child(node)
       node[@children].map! do |child|
         if child[@type] == :node
-          if @definitions.keys.include? child[@value]
+          if !@definition_stack.include?(node[@value]) && @definitions.keys.include?(child[@value])
             process_definition child[@value], child
           else
             process_definition_child child if child[@children]

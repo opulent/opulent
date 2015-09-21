@@ -1,3 +1,6 @@
-| This is a sample text with 
-  multiple lines which should be 
-  separated by spaces
+def footer
+  footer
+    p Hello world
+
+
+footer

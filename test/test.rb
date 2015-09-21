@@ -1,9 +1,12 @@
 require_relative '../lib/opulent.rb'
 require 'pp'
 
-a = 44
+locals = {
+  a: 3,
+  b: 4,
+  c: 5
+}
 
-opulent = Opulent.new
-puts opulent.render(:test, e: '123', b: 1){}
-puts
-puts opulent.amble
+op = Opulent.new :test
+
+puts op.render(op, locals){}

@@ -35,6 +35,10 @@ module Opulent
       # be used with the last parent path found
       @file = [[file, -1]]
 
+      # Create a definition stack to disallow recursive calls. When inside a
+      # definition and a named node is called, we render it as a plain node
+      @definition_stack = []
+
       # Initialize definitions for the parser
       @definitions = definitions
     end
