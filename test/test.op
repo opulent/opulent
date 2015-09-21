@@ -1,6 +1,9 @@
 def footer
   footer
-    p Hello world
-
+    asdf
+      p Hello world
+      
+def asdf
+  .render-this+attributes
 
 footer

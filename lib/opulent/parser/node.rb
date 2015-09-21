@@ -113,7 +113,7 @@ module Opulent
     def process_definition_child(node)
       node[@children].map! do |child|
         if child[@type] == :node
-          if !@definition_stack.include?(node[@value]) && @definitions.keys.include?(child[@value])
+          if !@definition_stack.include?(child[@value]) && @definitions.keys.include?(child[@value])
             process_definition child[@value], child
           else
             process_definition_child child if child[@children]
