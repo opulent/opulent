@@ -80,7 +80,7 @@ module Opulent
 
         # Create a clone of the definition model. Cloning the options is also
         # necessary because it's a shallow copy
-        if !@inside_definition && @definitions.keys.include?(node_name)
+        if @inside_definition != node_name && @definitions.keys.include?(node_name)
           parent[@children] << process_definition(node_name, current_node)
         else
           parent[@children] << current_node
