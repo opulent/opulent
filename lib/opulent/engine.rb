@@ -85,7 +85,6 @@ module Opulent
 
       # Evaluate the template in the given scope (context)
       begin
-        p "HELLO", @template
         eval @template, scope
       rescue ::SyntaxError => e
         raise SyntaxError, e.message
