@@ -191,7 +191,7 @@ module Opulent
         # escape it. Otherwise, evaluate and initialize the type check.
         if attribute[@value] =~ Tokens[:exp_string]
           buffer_freeze " #{key}=\""
-          buffer_split_by_interpolation attribute[@value][1..-2]
+          buffer_split_by_interpolation attribute[@value][1..-2], attribute[@options][:escaped]
           buffer_freeze "\""
         else
           # Evaluate and type check
@@ -226,17 +226,17 @@ module Opulent
       @template.inject("") do |buffer, input|
         buffer += case input[0]
         when :preamble
-          "#{Buffer} = []#{separator}"
+          "#{BUFFER} = []#{separator}"
         when :buffer
-          "#{Buffer} << (#{input[1]})#{separator}"
+          "#{BUFFER} << (#{input[1]})#{separator}"
         when :escape
-          "#{Buffer} << (::Opulent::Utils::escape(#{input[1]}))#{separator}"
+          "#{BUFFER} << (::Opulent::Utils::escape(#{input[1]}))#{separator}"
         when :freeze
-          "#{Buffer} << (#{input[1].inspect}.freeze)#{separator}"
+          "#{BUFFER} << (#{input[1].inspect}.freeze)#{separator}"
         when :eval
           "#{input[1]}#{separator}"
         when :postamble
-          "#{Buffer}.join"
+          "#{BUFFER}.join"
         end
       end
     end

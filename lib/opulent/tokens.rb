@@ -1,3 +1,4 @@
+# @Opulent
 module Opulent
   # Opulent Keywords
   Keywords = %i(def yield include if else elsif unless case when each while until doctype)
@@ -24,7 +25,7 @@ module Opulent
       trailing_whitespace: /\A(\-\>)/,
 
       # Self enclosing node
-      self_enclosing: /\A\/(.*)/,
+      self_enclosing: %r{\A\/(.*)},
 
       # Definition
       def: /\Adef +/,
@@ -49,7 +50,7 @@ module Opulent
       inline_child: /\A *\> */,
 
       # Comments
-      comment: /\A\//,
+      comment: %r{\A\/},
 
       # Intepreted filters
       filter: /\A\:[a-zA-Z]([\-\_]?[a-zA-Z0-9]+)*/,

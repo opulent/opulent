@@ -2,9 +2,9 @@
 module Opulent
   # @Context
   #
-  # The context class is used to differentiate local, instance and class variables
-  # and to define the current working environment. Each class, method and instance
-  # has its own context
+  # The context class is used to differentiate local, instance and class
+  # variables and to define the current working environment. Each class, method
+  # and instance has its own context
   #
   class Context
     attr_accessor :block, :binding, :name, :parent
@@ -20,10 +20,10 @@ module Opulent
       @content = content
 
       @block = block
-      @binding = if @block
-        @block.binding.clone
+      if @block
+        @binding = @block.binding.clone
       else
-        Binding.new.get
+        @binding = Binding.new.get
       end
 
       extend_locals locals
@@ -80,7 +80,7 @@ module Opulent
   # @Binding
   class Binding
     def get
-      return binding
+      binding
     end
   end
 end

@@ -6,8 +6,8 @@ module Opulent
 
   # Module method wrapper for creating a new engine instance
   #
-  def Opulent.new(input, settings = {})
-    return Engine.new input, settings
+  def self.new(input, settings = {})
+    Engine.new input, settings
   end
 
   # @Engine
@@ -28,20 +28,25 @@ module Opulent
       Settings.update_settings settings unless settings.empty?
 
       # Read input parameter based on opening mode. If we have a file mode, we
-      # get its path and read the code. We need to reset the mode in case the next
-      # render call is on code, not on a file.
-      @code = case input
-      when Symbol
-        @file = File.expand_path get_eval_file input; File.read @file
-      else
-        @file = File.expand_path __FILE__; input
-      end
+      # get its path and read the code. We need to reset the mode in case the
+      # next render call is on code, not on a file.
+      @code = read input
 
       # Get the nodes tree
       @nodes, @def = Parser.new(@file, @def).parse @code
 
       # Compile our syntax tree using input context
       @template = Compiler.new.compile @nodes
+    end
+
+    def read(input)
+      if input.is_a? Symbol
+        @file = File.expand_path get_eval_file input
+        File.read @file
+      else
+        @file = File.expand_path __FILE__
+        input
+      end
     end
 
     # Avoid code duplication when layouting is set. When we have a layout, look
@@ -53,16 +58,20 @@ module Opulent
     #
     def render(scope = Object.new, locals = {}, &block)
       # Get opulent buffer value
-      initial_buffer = scope.instance_variable_defined?(:@_opulent_buffer) ? scope.instance_variable_get(:@_opulent_buffer) : []
+      if scope.instance_variable_defined?(:@_opulent_buffer)
+        initial_buffer = scope.instance_variable_get(:@_opulent_buffer)
+      else
+        initial_buffer = []
+      end
 
       # If a layout is set, get the specific layout, otherwise, set the default
       # one. If a layout is set to false, the page will be render as it is.
       if scope.is_a? binding.class
-        scope_object = eval "self", scope
-        scope = scope_object.instance_eval{ binding } if block_given?
+        scope_object = eval 'self', scope
+        scope = scope_object.instance_eval { binding } if block_given?
       else
         scope_object = scope
-        scope = scope_object.instance_eval{ binding }
+        scope = scope_object.instance_eval { binding }
       end
 
       # Set input local variables in current scope
@@ -82,15 +91,17 @@ module Opulent
     end
 
     private
+
     # Add .op extension to input file if it isn't already set.
     #
     # @param input [Symbol] Input file
     #
     def get_eval_file(input)
       input = input.to_s
-      input += Settings::FileExtension unless File.extname(input) == Settings::FileExtension
-      return input
+      unless File.extname(input) == Settings::FILE_EXTENSION
+        input += Settings::FILE_EXTENSION
+      end
+      input
     end
-
   end
 end

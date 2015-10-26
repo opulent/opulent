@@ -30,7 +30,7 @@ module Opulent
     # override render() may not support all features.
     #
     def evaluate(scope, locals, &block)
-      raise ArgumentError, 'Invalid scope: must not be frozen.' if scope.frozen?
+      fail ArgumentError, 'Invalid scope: must not be frozen.' if scope.frozen?
       super
     end
 

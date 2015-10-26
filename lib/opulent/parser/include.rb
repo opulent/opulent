@@ -30,7 +30,7 @@ module Opulent
         include_path = File.expand_path name, File.dirname(@file[-1][0])
 
         # Try to see if it has any existing extension, otherwise add .op
-        include_path += Settings::FileExtension if File.extname(name).empty?
+        include_path += Settings::FILE_EXTENSION if File.extname(name).empty?
 
         # Throw an error if the file doesn't exist
         error :include, name unless Dir[include_path].any?
