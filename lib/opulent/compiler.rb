@@ -16,8 +16,8 @@ module Opulent
   class Compiler
     BUFFER = :@_opulent_buffer
 
-    OpulentKey = :_opulent_key
-    OpulentValue = :_opulent_value
+    OPULENT_KEY = :_opulent_key
+    OPULENT_VALUE = :_opulent_value
 
     # All node Objects (Array) must follow the next convention in order
     # to make parsing faster
@@ -110,7 +110,8 @@ module Opulent
     def self.error(context, *data)
       message = case context
                 when :enumerable
-                  "The provided each structure iteration input \"#{data[0]}\" is not Enumerable."
+                  "The provided each structure iteration input \"#{data[0]}\"" \
+                  " is not Enumerable."
                 when :binding
                   data[0] = data[0].to_s.match(/\`(.*)\'/)
                   data[0] = data[0][1] if data[0]
@@ -128,8 +129,8 @@ module Opulent
                 end
 
       # Reconstruct lines to display where errors occur
-      fail "\n\nOpulent " + Logger.red('[Runtime Error]') + "\n---\n" +
-      'A runtime error has been encountered when building the compiled node tree.\n' +
+      fail "\n\nOpulent " + Logger.red('[Runtime Error]') + "\n---\n" \
+      'A runtime error has been encountered when building the compiled node tree.\n' \
       "#{message}\n\n\n"
     end
   end

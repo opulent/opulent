@@ -149,9 +149,9 @@ module Opulent
 
         # @Hash
         buffer_eval "elsif #{variable}.is_a? Hash"
-        buffer_eval "#{variable}.each do |#{OpulentKey}, #{OpulentValue}|"
+        buffer_eval "#{variable}.each do |#{OPULENT_KEY}, #{OPULENT_VALUE}|"
         dynamic ? buffer("\" #{key}-\"") : buffer_freeze(" #{key}-") # key-hashkey="
-        buffer "\"\#{#{OpulentKey}}\""
+        buffer "\"\#{#{OPULENT_KEY}}\""
         buffer_freeze "=\""
         escape ? buffer_escape("_opulent_value") : buffer("_opulent_value") # value
         buffer_freeze '"'
@@ -213,8 +213,8 @@ module Opulent
 
       # Process remaining extension keys if there are any
       if extension
-        buffer_eval "#{extension}.each do |ext#{OpulentKey}, ext#{OpulentValue}|"
-        buffer_data_attribute_type_check["\#{ext#{OpulentKey}}", "ext#{OpulentValue}", true, true]
+        buffer_eval "#{extension}.each do |ext#{OPULENT_KEY}, ext#{OPULENT_VALUE}|"
+        buffer_data_attribute_type_check["\#{ext#{OPULENT_KEY}}", "ext#{OPULENT_VALUE}", true, true]
         buffer_eval "end"
       end
     end

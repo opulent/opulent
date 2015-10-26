@@ -51,8 +51,8 @@ module Opulent
         # the extension hash
         if call_node[@options][:extension]
           extension_attributes = buffer_set_variable :extension, call_node[@options][:extension][@value]
-          buffer_eval "#{call_attributes}.merge!(#{extension_attributes}) do |#{OpulentKey}, #{OpulentValue}1, #{OpulentValue}2|"
-          buffer_eval "#{OpulentKey} == :class ? (#{OpulentValue}1 += #{OpulentValue}2) : (#{OpulentValue}2)"
+          buffer_eval "#{call_attributes}.merge!(#{extension_attributes}) do |#{OPULENT_KEY}, #{OPULENT_VALUE}1, #{OPULENT_VALUE}2|"
+          buffer_eval "#{OPULENT_KEY} == :class ? (#{OPULENT_VALUE}1 += #{OPULENT_VALUE}2) : (#{OPULENT_VALUE}2)"
           buffer_eval "end"
         end
 
