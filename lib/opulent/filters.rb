@@ -39,7 +39,7 @@ module Opulent
       # Error output in case the filter does not exist
       #
       def load_filter
-        return unless gem_name.nil? || @loaded
+        return if gem_name.nil? || @loaded
 
         # Try to load the library associated to the chosen filter
         begin
