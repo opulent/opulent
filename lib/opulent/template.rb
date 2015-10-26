@@ -41,7 +41,7 @@ module Opulent
     # support, custom scopes, proper encoding, and support for template
     # compilation.
     #
-    def precompiled_template(locals = {})
+    def precompiled_template(_locals = {})
       @engine.template
     end
   end

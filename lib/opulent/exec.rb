@@ -81,9 +81,9 @@ module Opulent
         opulent = Opulent.new
         if @layout
           output = proc do
-            opulent.render_file(@layout, @locals) do
+            opulent.render_file(@layout, @locals) {
               opulent.render_file(@input, @locals) {}
-            end
+            }
           end[]
         else
           output = proc do

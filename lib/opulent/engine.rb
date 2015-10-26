@@ -39,6 +39,10 @@ module Opulent
       @template = Compiler.new.compile @nodes
     end
 
+    # Read input as file or string input
+    #
+    # @param input [Object]
+    #
     def read(input)
       if input.is_a? Symbol
         @file = File.expand_path get_eval_file input
@@ -79,8 +83,9 @@ module Opulent
         scope.local_variable_set key, value
       end
 
+      # Evaluate the template in the given scope (context)
       begin
-        # Evaluate the template in the given scope (context)
+        p "HELLO", @template
         eval @template, scope
       rescue ::SyntaxError => e
         raise SyntaxError, e.message

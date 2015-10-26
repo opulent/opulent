@@ -25,7 +25,7 @@ module Opulent
       trailing_whitespace: /\A(\-\>)/,
 
       # Self enclosing node
-      self_enclosing: %r{\A\/(.*)},
+      self_enclosing: /\A\/(.*)/,
 
       # Definition
       def: /\Adef +/,
@@ -50,7 +50,7 @@ module Opulent
       inline_child: /\A *\> */,
 
       # Comments
-      comment: %r{\A\/},
+      comment: /\A\//,
 
       # Intepreted filters
       filter: /\A\:[a-zA-Z]([\-\_]?[a-zA-Z0-9]+)*/,

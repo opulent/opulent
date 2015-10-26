@@ -64,7 +64,7 @@ module Opulent
       # nodes and definitions
       root @root
 
-      [@root, @definitions]
+      return @root, @definitions
     end
 
     # Check and accept or reject a given token as long as we have tokens
@@ -122,7 +122,7 @@ module Opulent
     # @param token [RegEx] Token to be checked by the parser
     #
     def lookahead_next_line(token)
-      return unless @code[@i + 1]
+      return nil unless @code[@i + 1]
 
       # Check if we match the token to the current line.
       @code[@i + 1].match Tokens[token]
@@ -157,6 +157,7 @@ module Opulent
       text.lines.inject('') do |_, line|
         indent + line
       end
+      text
     end
 
     # Give an explicit error report where an unexpected sequence of tokens
