@@ -11,7 +11,7 @@ module Opulent
     #
     def node(parent, indent = nil)
       if (name = lookahead(:node_lookahead) || lookahead(:shorthand_lookahead))
-        return nil if Keywords.include? name[0].to_sym
+        return nil if KEYWORDS.include? name[0].to_sym
 
         # Accept either explicit node_name or implicit :div node_name
         # with shorthand attributes

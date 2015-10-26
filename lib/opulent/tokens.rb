@@ -1,7 +1,7 @@
 # @Opulent
 module Opulent
-  # Opulent Keywords
-  Keywords = %i(def yield include if else elsif unless case when each while until doctype)
+  # Opulent KEYWORDS
+  KEYWORDS = %i(def yield include if else elsif unless case when each while until doctype)
 
   # @Tokens
   class Tokens

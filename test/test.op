@@ -1,9 +1,3 @@
-def footer
-  footer
-    asdf
-      p Hello world
-      
-def asdf
-  .render-this+attributes
+include def/*
 
 footer

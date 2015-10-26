@@ -1,0 +1,41 @@
+def fa(icon)
+  i.fa."fa-#{icon}"<->+attributes
+    yield  
+
+def service(icon, title)
+  .service+attributes
+
+    h4.service-title.font-black 
+      fa.service-icon.text-gray icon=icon
+      = title 
+    .service-divider
+    p.service-description 
+      yield
+
+def background(color)
+  .container-background.left.(color)+attributes
+    yield
+
+def background-half(color, position="left", responsive=true)
+  - responsive_class = 'responsive' if responsive
+  .container-background.half.(position).(color).(responsive_class)+attributes
+    yield 
+ 
+def five-star
+  ul.list-inline+attributes 
+    li > fa icon="star"
+    li > fa icon="star"
+    li > fa icon="star"
+    li > fa icon="star" 
+    li > fa icon="star"
+
+    
+def review(author, item, product_links) 
+  .review+attributes
+    p.margin-vertical-2x 
+      yield
+    five-star.h4.text-primary
+    p.h4.margin-top-2x =author
+    small.text-darksilver Review for 
+      a.text-darksilver href=product_links[item] 
+        strong<- =item 

@@ -1,4 +1,4 @@
 # @Opulent
 module Opulent
-  VERSION = "1.4.8"
+  VERSION = '1.5.0'
 end

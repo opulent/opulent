@@ -19,8 +19,8 @@ module Opulent
 
       # Check if the chosen filter name is registed within our knowledgebase
       #
-      def has_filter?(name)
-        @filters.has_key? name
+      def filter?(name)
+        @filters.key? name
       end
     end
 
@@ -39,15 +39,15 @@ module Opulent
       # Error output in case the filter does not exist
       #
       def load_filter
-        unless gem_name.nil? || @loaded
-          # Try to load the library associated to the chosen filter
-          begin
-            require gem_name
-            @loaded = true
-          rescue LoadError => error
-            # Error output with filter name and installation instructions
-            Compiler.error :filter_load, @name, install_error
-          end
+        return unless gem_name.nil? || @loaded
+
+        # Try to load the library associated to the chosen filter
+        begin
+          require gem_name
+          @loaded = true
+        rescue LoadError
+          # Error output with filter name and installation instructions
+          Compiler.error :filter_load, @name, install_error
         end
       end
 
@@ -61,22 +61,22 @@ module Opulent
       # Process input code using this filter and return the output to the
       # evaluation method from the Filter Node
       #
-      def render(code, options = {})
-        raise NoMethodError
+      def render(_code, _options = {})
+        fail NoMethodError
       end
 
       # RubyGems name for explicit library require
       #
       def gem_name
-        raise NoMethodError
+        fail NoMethodError
         # "gem_name"
       end
 
       # After defining how to render the code,
       #
-      # Filters.register self, :filter, tag: :tag, attributes: { type: 'text/css' }
+      # Filters.register self, :filter, tag: :tag,
+      #   attributes: { type: 'text/css' }
     end
-
 
     # Add the  default registered rendering filters for Opulent
 
@@ -87,15 +87,18 @@ module Opulent
       end
 
       def gem_name
-        "coffee-script"
+        'coffee-script'
       end
 
-      Filters.register self, :coffeescript, tag: :script, attributes: { type: 'javascript' }
+      Filters.register self,
+                       :coffeescript,
+                       tag: :script,
+                       attributes: { type: 'javascript' }
     end
 
     # @JavaScript
     class JavaScript < Filter
-      def render(code, options = {})
+      def render(code, _options = {})
         code
       end
 
@@ -103,7 +106,10 @@ module Opulent
         nil
       end
 
-      Filters.register self, :javascript, tag: :script, attributes: { type: 'javascript' }
+      Filters.register self,
+                       :javascript,
+                       tag: :script,
+                       attributes: { type: 'javascript' }
     end
 
     # @Scss
@@ -115,10 +121,13 @@ module Opulent
       end
 
       def gem_name
-        "sass"
+        'sass'
       end
 
-      Filters.register self, :scss, tag: :style, attributes: { type: 'text/css' }
+      Filters.register self,
+                       :scss,
+                       tag: :style,
+                       attributes: { type: 'text/css' }
     end
 
     # @Sass
@@ -131,17 +140,20 @@ module Opulent
       end
 
       def gem_name
-        "sass"
+        'sass'
       end
 
-      Filters.register self, :sass, tag: :style, attributes: { type: 'text/css' }
+      Filters.register self,
+                       :scss,
+                       tag: :style,
+                       attributes: { type: 'text/css' }
     end
 
     # @Css
     class Css < Filter
       def render(code, options = {})
         if options[:cdata]
-          "<![CDATA[\n" + code + "]]>"
+          "<![CDATA[\n" + code + ']]>'
         else
           code
         end
@@ -156,8 +168,8 @@ module Opulent
 
     # @CData
     class CData < Filter
-      def render(code, options = {})
-        "<![CDATA[\n" + code + "]]>"
+      def render(code, _options = {})
+        "<![CDATA[\n" + code + ']]>'
       end
 
       def gem_name
@@ -169,7 +181,7 @@ module Opulent
 
     # @Escaped
     class Escaped < Filter
-      def render(code, options = {})
+      def render(code, _options = {})
         Compiler.escape code
       end
 
@@ -187,7 +199,7 @@ module Opulent
       end
 
       def gem_name
-        "kramdown"
+        'kramdown'
       end
 
       Filters.register self, :markdown, tag: nil, attributes: {}
@@ -200,7 +212,7 @@ module Opulent
       end
 
       def gem_name
-        "maruku"
+        'maruku'
       end
 
       Filters.register self, :maruku, tag: nil, attributes: {}
@@ -213,7 +225,7 @@ module Opulent
       end
 
       def gem_name
-        "RedCloth"
+        'RedCloth'
       end
 
       Filters.register self, :textile, tag: nil, attributes: {}

@@ -9,7 +9,7 @@ module Opulent
     # @param context [Context] Context holding environment variables
     #
     def root(current, indent, context)
-      if Keywords.include? current[@type]
+      if KEYWORDS.include? current[@type]
         send :"#{current[@type]}_node", current, indent, context
       else 
         send current[@type], current, indent, context

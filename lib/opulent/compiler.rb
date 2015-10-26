@@ -111,27 +111,31 @@ module Opulent
       message = case context
                 when :enumerable
                   "The provided each structure iteration input \"#{data[0]}\"" \
-                  " is not Enumerable."
+                  ' is not Enumerable.'
                 when :binding
                   data[0] = data[0].to_s.match(/\`(.*)\'/)
                   data[0] = data[0][1] if data[0]
                   "Found an undefined local variable or method \"#{data[0]}\"."
                 when :variable_name
                   data[0] = data[0].to_s.match(/\`(.*)\'/)[1]
-                  "Found an undefined local variable or method \"#{data[0]}\" in locals."
+                  "Found an undefined local variable or method \"#{data[0]}\"" \
+                  ' in locals.'
                 when :extension
-                  "The extension sequence \"#{data[0]}\" is not a valid attributes extension. " +
-                  "Please use a Hash to extend attributes."
+                  "The extension sequence \"#{data[0]}\" is not a valid " \
+                  'attributes extension. Please use a Hash to extend ' \
+                  'attributes.'
                 when :filter_registered
-                  "The \"#{data[0]}\" filter could not be recognized by Opulent."
+                  "The \"#{data[0]}\" filter could not be recognized by " \
+                  'Opulent.'
                 when :filter_load
-                  "The gem required for the \"#{data[0]}\" filter is not installed. You can install it by running:\n\n#{data[1]}"
+                  "The gem required for the \"#{data[0]}\" filter is not " \
+                  "installed. You can install it by running:\n\n#{data[1]}"
                 end
 
       # Reconstruct lines to display where errors occur
       fail "\n\nOpulent " + Logger.red('[Runtime Error]') + "\n---\n" \
-      'A runtime error has been encountered when building the compiled node tree.\n' \
-      "#{message}\n\n\n"
+      'A runtime error has been encountered when building the compiled ' \
+      " node tree.\n #{message}\n\n\n"
     end
   end
 end

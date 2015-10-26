@@ -3,7 +3,10 @@ require_relative '../lib/opulent.rb'
 
 locals = {
   a: 3,
-  html_var: '<div></div>'
+  html_var: '<div></div>',
+  interpolated_string: 'string',
+  interpolated_hash: { a: 1, b: 2 },
+  interpolated_array: [1, 2, 3]
 }
 
 RSpec.describe Opulent do
@@ -132,6 +135,130 @@ RSpec.describe Opulent do
       op = Opulent.new 'div attr=~html_var'
       result = op.render self, locals
       expect(result).to eq('<div attr="<div></div>"></div>')
+    end
+
+    # @test
+    it 'renders inline text' do
+      op = Opulent.new 'p Hello world!'
+      result = op.render self, locals
+      expect(result).to eq('<p>Hello world!</p>')
+    end
+
+    # @test
+    it 'renders block text' do
+      op = Opulent.new <<-OPULENT
+| This is a block
+  of text
+  on multiple lines
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq("This is a block\nof text\non multiple lines")
+    end
+
+    # @test
+    it 'renders block text inside a tag' do
+      op = Opulent.new <<-OPULENT
+p |
+  This is a block
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq('<p>This is a block</p>')
+    end
+
+    # @test
+    it 'renders multiple blank lines' do
+      op = Opulent.new <<-OPULENT
+
+
+
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq('')
+    end
+
+    # @test
+    it 'renders inline children' do
+      op = Opulent.new <<-OPULENT
+ul > li > a
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq('<ul><li><a></a></li></ul>')
+    end
+
+    # @test
+    it 'renders inline children with attributes' do
+      op = Opulent.new <<-OPULENT
+ul class="list-inline" > li class="list-item" > a class="list-link"
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq(
+        '<ul class="list-inline">' \
+        '<li class="list-item">' \
+        '<a class="list-link">'\
+        '</a>'\
+        '</li>'\
+        '</ul>'
+      )
+    end
+
+    # @test
+    it 'renders inline children with mixed attributes' do
+      op = Opulent.new <<-OPULENT
+ul.list-inline > li class="list-item" > a#link
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq(
+        '<ul class="list-inline">' \
+        '<li class="list-item">' \
+        '<a id="link">'\
+        '</a>'\
+        '</li>'\
+        '</ul>'
+      )
+    end
+
+    # @test
+    it 'renders children' do
+      op = Opulent.new <<-OPULENT
+ul
+  li
+    a
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq('<ul><li><a></a></li></ul>')
+    end
+
+    # @test
+    it 'renders interpolated strings' do
+      op = Opulent.new <<-OPULENT
+|~ \#{interpolated_string}
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq(
+        'string'
+      )
+    end
+
+    # @test
+    it 'renders interpolated hash' do
+      op = Opulent.new <<-OPULENT
+|~ \#{interpolated_hash}
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq(
+        '{:a=>1, :b=>2}'
+      )
+    end
+
+    # @test
+    it 'renders interpolated array' do
+      op = Opulent.new <<-OPULENT
+|~ \#{interpolated_array}
+      OPULENT
+      result = op.render self, locals
+      expect(result).to eq(
+        '123'
+      )
     end
   end
 end

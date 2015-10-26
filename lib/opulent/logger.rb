@@ -16,15 +16,41 @@ module Opulent
 
       # Colors available in the terminal
       #
-      def black(text); colorize(text, "\e[30m"); end
-      def red(text); colorize(text, "\e[31m"); end
-      def green(text); colorize(text, "\e[32m"); end
-      def yellow(text); colorize(text, "\e[33m"); end
-      def blue(text); colorize(text, "\e[34m"); end
-      def magenta(text); colorize(text, "\e[35m"); end
-      def cyan(text); colorize(text, "\e[36m"); end
-      def white(text); colorize(text, "\e[37m"); end
-      def default(text); colorize(text, "\e[38m"); end
+      def black(text)
+        colorize(text, "\e[30m")
+      end
+
+      def red(text)
+        colorize(text, "\e[31m")
+      end
+
+      def green(text)
+        colorize(text, "\e[32m")
+      end
+
+      def yellow(text)
+        colorize(text, "\e[33m")
+      end
+
+      def blue(text)
+        colorize(text, "\e[34m")
+      end
+
+      def magenta(text)
+        colorize(text, "\e[35m")
+      end
+
+      def cyan(text)
+        colorize(text, "\e[36m")
+      end
+
+      def white(text)
+        colorize(text, "\e[37m")
+      end
+
+      def default(text)
+        colorize(text, "\e[38m")
+      end
 
       # Require windows libraries for ANSI Console output
       #
@@ -39,8 +65,7 @@ module Opulent
 
       # Pretty print Nodes with their important details
       #
-      def pretty_print(model, indent = 0)
-
+      def pretty_print(_model, _indent = 0)
       end
     end
   end

@@ -64,7 +64,7 @@ module Opulent
       # nodes and definitions
       root @root
 
-      return @root, @definitions
+      [@root, @definitions]
     end
 
     # Check and accept or reject a given token as long as we have tokens
@@ -95,8 +95,8 @@ module Opulent
       end
     end
 
-    # Helper method which automatically sets the stripped options to true, so that we
-    # do not have to explicitly specify it
+    # Helper method which automatically sets the stripped options to true,
+    # so that we do not have to explicitly specify it
     #
     # @param token [RegEx] Token to be accepted by the parser
     # @param required [Boolean] Expect the given token syntax
@@ -122,7 +122,7 @@ module Opulent
     # @param token [RegEx] Token to be checked by the parser
     #
     def lookahead_next_line(token)
-      return nil unless @code[@i + 1]
+      return unless @code[@i + 1]
 
       # Check if we match the token to the current line.
       @code[@i + 1].match Tokens[token]
@@ -134,19 +134,17 @@ module Opulent
     # @param match [String] Matched string to be undone
     #
     def undo(match)
-      unless match.empty?
-        @offset -= match.size
-        return nil
-      end
+      return if match.empty?
+      @offset -= match.size
+      nil
     end
 
     # Allow expressions to continue on a new line in certain conditions
     #
     def accept_newline
-      if @line[@offset..-1].strip.empty?
-        @line = @code[(@i += 1)]
-        @offset = 0
-      end
+      return unless @line[@offset..-1].strip.empty?
+      @line = @code[(@i += 1)]
+      @offset = 0
     end
 
     # Indent all lines of the input text using give indentation
@@ -155,9 +153,9 @@ module Opulent
     # @param indent [String] Indentation string to be appended
     #
     def indent_lines(text, indent)
-      text ||= ""
-      text.lines.inject("") do |result, line|
-        result += indent + line
+      text ||= ''
+      text.lines.inject('') do |_, line|
+        indent + line
       end
     end
 
@@ -171,8 +169,11 @@ module Opulent
       when :unknown_node_type
         "An unknown node type has been encountered at:\n\n#{Logger.red @line}"
       when :expected
-        data[0] = "#{Tokens.bracket data[0]}" if [:'(', :'{', :'[', :'<'].include? data[0]
-        "Expected to find a :#{data[0]} token on line #{@i+1} of input at: \n\n#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
+        if [:'(', :'{', :'[', :'<'].include? data[0]
+          data[0] = "#{Tokens.bracket data[0]}"
+        end
+        "Expected to find a :#{data[0]} token on line #{@i+1} of input at: " \
+        "\n\n#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
       when :root
         "Unknown node type encountered on line #{@i+1} of input at:\n\n" +
         "#{@line[0..@offset-1]}#{Logger.red @line[@offset..-1].rstrip}"
@@ -222,9 +223,8 @@ module Opulent
       end
 
       # Reconstruct lines to display where errors occur
-      fail "\n\nOpulent " + Logger.red("[Parser Error]") +
-      "\n---\n" +
-      "#{message}\n\n\n"
+      fail "\n\nOpulent " + Logger.red('[Parser Error]') +
+      "\n---\n#{message}\n\n\n"
     end
   end
 end
