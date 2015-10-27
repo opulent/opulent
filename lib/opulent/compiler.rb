@@ -96,10 +96,10 @@ module Opulent
     #
     def indent_lines(text, indent)
       text ||= ''
-      text.lines.inject('') do |_, line|
-        indent + line
+      text.lines.inject('') do |result, line|
+        result += indent + line
       end
-    end 
+    end
 
     # Give an explicit error report where an unexpected sequence of tokens
     # appears and give indications on how to solve it
