@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# The command line Opulent parser.
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+require 'opulent'
+require 'opulent/exec'
+
+Opulent::CLI.new ARGV
