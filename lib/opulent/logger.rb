@@ -67,8 +67,11 @@ module Opulent
 
       # Display an error message based on context
       #
-      def log(type, *data)
-        send "#{type}_error", data
+      def error(type, *data)
+        case type
+        when :parser
+          parse_error data[0], data[1], data[2], data[3], data[4..-1]
+        end
       end
 
       # Output an error message based on class context and input data
@@ -77,7 +80,7 @@ module Opulent
       # @param error [Symbol] Error identification symbol
       # @param data [Array] Data to be displayed with the error
       #
-      def parse_error(line, character, error, *data)
+      def parse_error(code, line, character, error, *data)
         line += 1
 
         case error
@@ -151,7 +154,7 @@ module Opulent
           ERROR
         end
 
-        puts message
+        fail message, line, character
       end
     end
   end

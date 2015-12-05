@@ -3,11 +3,11 @@
 # require_relative 'parser/define.rb'
 # require_relative 'parser/doctype.rb'
 # require_relative 'parser/eval.rb'
-# require_relative 'parser/expression.rb'
+require_relative 'parser/expression.rb'
 # require_relative 'parser/filter.rb'
-# require_relative 'parser/node.rb'
+require_relative 'parser/node.rb'
 # require_relative 'parser/include.rb'
-# require_relative 'parser/root.rb'
+require_relative 'parser/root.rb'
 # require_relative 'parser/text.rb'
 # require_relative 'parser/yield.rb'
 
@@ -95,7 +95,7 @@ module Opulent
 
         return match[0]
       elsif required
-        Error.log :parse, @i, @j, :expected, token
+        Logger.error :parse, @code, @i, @j, :expected, token
       end
     end
 

@@ -1,6 +1,7 @@
 require 'tilt'
-
-require './opulent/settings'
-require './opulent/logger'
-require './opulent/parser'
-require './opulent/engine'
+require_relative './opulent/settings'
+require_relative './opulent/logger'
+require_relative './opulent/utils'
+require_relative './opulent/tokens'
+require_relative './opulent/parser'
+require_relative './opulent/engine'

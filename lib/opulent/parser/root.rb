@@ -48,7 +48,7 @@ module Opulent
                       # doctype(parent, indent)
 
         # Throw an error if we couldn't find a valid node
-        Error.log :parse, @i, @j, :unknown_node_type unless current_node
+        Logger.error :parse, @code, @i, @j, :unknown_node_type unless current_node
       end
 
       parent
