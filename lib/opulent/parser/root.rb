@@ -36,9 +36,9 @@ module Opulent
         # Try the main Opulent node types and process each one of them using
         # their matching evaluation procedure
         current_node = node(parent, indent) ||
-                       text(parent, indent)
-                      # comment(parent, indent)     ||
-                      # define(parent, indent)      ||
+                       text(parent, indent) ||
+                       comment(parent, indent) ||
+                       define(parent, indent)
                       # control(parent, indent)     ||
                       # evaluate(parent, indent)    ||
                       # filter(parent, indent)      ||

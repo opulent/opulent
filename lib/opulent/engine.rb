@@ -37,7 +37,7 @@ module Opulent
       @nodes, @def = Parser.new(@settings).parse @code
 
       # Compile our syntax tree using input context
-      @template = Compiler.new(@settings).compile @nodes
+      @template = Compiler.new(@settings).compile @nodes, @def
     end
 
     # Avoid code duplication when layouting is set. When we have a layout, look

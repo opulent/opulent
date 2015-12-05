@@ -66,12 +66,13 @@ module Opulent
     # Compile input nodes, replace them with their definitions and
     #
     # @param root_node [Array] Root node containing all document nodes
-    # @param context [Context] Context holding environment variables
     #
-    def compile(root_node, context = nil)
+    def compile(root_node, definitions = {})
       # Compiler generated code
       @code = ''
       @generator = ''
+
+      p definitions
 
       # Set initial parent, from which we start generating code
       @sibling_stack << root_node[@children].size

@@ -1,4 +1,3 @@
-
 # @Opulent
 module Opulent
   # @Compiler

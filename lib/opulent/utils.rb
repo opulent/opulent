@@ -16,7 +16,7 @@ module Opulent
     ESCAPE_HTML_PATTERN = Regexp.union(*ESCAPE_HTML.keys)
 
     # Ruby interpolation pattern
-    INTERPOLATION_PATTERN = /\#\{([^}]+)\}/
+    INTERPOLATION_PATTERN = /(\#\{[^}]+\})/
 
     # @Utils
     class << self

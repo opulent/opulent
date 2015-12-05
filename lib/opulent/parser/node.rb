@@ -68,8 +68,10 @@ module Opulent
                      @i,
                      @j,
                      :inline_child unless node current_node, indent
+      elsif comment current_node, indent
+        # Accept same line comments
       else
-        # Inline text element
+        # Accept inline text element
         text current_node, indent, false
       end
 
@@ -254,6 +256,10 @@ module Opulent
       # the expression end. If they are not wrapped (inline), we require
       # paranthesis and allow inline calls
       if wrapped
+        # Accept optional comma between attributes
+        accept_stripped :assignment_terminator
+
+        # Lookahead for attributes on the current line and the next one
         if lookahead(:exp_identifier_stripped_lookahead)
           attributes_assignments list, wrapped
         elsif lookahead_next_line(:exp_identifier_stripped_lookahead)

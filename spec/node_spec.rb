@@ -110,10 +110,21 @@ RSpec.describe Opulent do
       expect(result).to eq('<div attr1="value<" attr2="value&lt;"></div>')
     end
 
+    it 'renders wrapped attributes with optional terminators' do
+      opulent = Opulent.new <<-OPULENT
+        div(attr1="value", attr2="value"; attr3="value")
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<div attr1="value" attr2="value" attr3="value"></div>'
+      )
+    end
+
     it 'fails rendering if a comma appears' do
       expect do
         opulent = Opulent.new <<-OPULENT
-          div( attr1 =~ "value<", attr2="value<" )
+          div( attr1 =~ "value<"@@ attr2="value<" )
         OPULENT
 
         opulent.render Object.new, {} {}
@@ -123,7 +134,7 @@ RSpec.describe Opulent do
     it 'fails rendering if it ends in comma' do
       expect do
         opulent = Opulent.new <<-OPULENT
-          div( attr1 =~ "value<" attr2="value<" ,)
+          div( attr1 =~ "value<" attr2="value<" 33)
         OPULENT
 
         opulent.render Object.new, {} {}
@@ -140,7 +151,9 @@ RSpec.describe Opulent do
       OPULENT
 
       result = opulent.render Object.new, {} {}
-      expect(result).to eq('<div attr1="test" attr2="value&" attr3="other&amp;"></div>')
+      expect(result).to eq(
+        '<div attr1="test" attr2="value&" attr3="other&amp;"></div>'
+      )
     end
 
     it 'renders a node with wrapped attributes on multiple lines' do
@@ -151,7 +164,9 @@ RSpec.describe Opulent do
       OPULENT
 
       result = opulent.render Object.new, {} {}
-      expect(result).to eq('<div inline_attr="value" inner_attr="value" outer_attr="value"></div>')
+      expect(result).to eq(
+        '<div inline_attr="value" inner_attr="value" outer_attr="value"></div>'
+      )
     end
 
     it 'renders a node with wrapped attributes on multiple lines' do
@@ -161,7 +176,9 @@ RSpec.describe Opulent do
       OPULENT
 
       result = opulent.render Object.new, {} {}
-      expect(result).to eq('<div inline_attr="value" inner_attr="value" outer_attr="value"></div>')
+      expect(result).to eq(
+        '<div inline_attr="value" inner_attr="value" outer_attr="value"></div>'
+      )
     end
 
     it 'renders expressions in unwrapped context' do
@@ -253,6 +270,60 @@ RSpec.describe Opulent do
 
       result = opulent.render(Object.new, ext: { a: 1, b: 2 }) {}
       expect(result).to eq('<ul><li><a></a></li></ul>')
+    end
+
+    it 'renders attribute override' do
+      opulent = Opulent.new <<-OPULENT
+        div attr="value1" attr="value2"
+      OPULENT
+
+      result = opulent.render(Object.new, ext: { a: 1, b: 2 }) {}
+      expect(result).to eq('<div attr="value2"></div>')
+    end
+
+    it 'renders array attribute' do
+      opulent = Opulent.new <<-OPULENT
+        div attr=array
+      OPULENT
+
+      result = opulent.render(Object.new, array: %w(key1 key2)) {}
+      expect(result).to eq('<div attr="key1_key2"></div>')
+    end
+
+    it 'renders hash attribute' do
+      opulent = Opulent.new <<-OPULENT
+        div attr=hash
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '1', b: '2' }) {}
+      expect(result).to eq('<div attr-a="1" attr-b="2"></div>')
+    end
+
+    it 'renders multiple class attributes' do
+      opulent = Opulent.new <<-OPULENT
+        div class="a" class="b" class="c"
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '1', b: '2' }) {}
+      expect(result).to eq('<div class="a b c"></div>')
+    end
+
+    it 'renders multiple class attributes mixed escape' do
+      opulent = Opulent.new <<-OPULENT
+        div class="a" class=~"<b>" class="c"
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '1', b: '2' }) {}
+      expect(result).to eq('<div class="a <b> c"></div>')
+    end
+
+    it 'renders multiple class attributes mixed escape' do
+      opulent = Opulent.new <<-OPULENT
+        div class="<a>" class=~"<b>"
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '1', b: '2' }) {}
+      expect(result).to eq('<div class="&lt;a&gt; <b>"></div>')
     end
 
     # it 'renders expressions in wrapped context' do

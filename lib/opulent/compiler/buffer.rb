@@ -120,7 +120,8 @@ module Opulent
       #
       buffer_class_attribute = proc do |attribute|
         if attribute[@value] =~ Tokens[:exp_string]
-          buffer_split_by_interpolation attribute[@value][1..-2]
+          buffer_split_by_interpolation attribute[@value][1..-2],
+                                        attribute[@options][:escaped]
         else
           buffer_class_attribute_type_check[
             attribute[@value],
@@ -180,10 +181,12 @@ module Opulent
         # @Hash
         buffer_eval "elsif #{variable}.is_a? Hash"
         buffer_eval "#{variable}.each do |#{OPULENT_KEY}, #{OPULENT_VALUE}|"
-        dynamic ? buffer("\" #{key}-\"") : buffer_freeze(" #{key}-") # key-hashkey="
+        # key-hashkey
+        dynamic ? buffer("\" #{key}-\"") : buffer_freeze(" #{key}-")
         buffer "\"\#{#{OPULENT_KEY}}\""
+        #="value"
         buffer_freeze "=\""
-        escape ? buffer_escape('_opulent_value') : buffer('_opulent_value') # value
+        escape ? buffer_escape('_opulent_value') : buffer('_opulent_value')
         buffer_freeze '"'
         buffer_eval 'end'
 
@@ -251,7 +254,8 @@ module Opulent
       # Process remaining extension keys if there are any
       return unless extension
 
-      buffer_eval "#{extension}.each do |ext#{OPULENT_KEY}, ext#{OPULENT_VALUE}|"
+      buffer_eval "#{extension}.each do " \
+                  "|ext#{OPULENT_KEY}, ext#{OPULENT_VALUE}|"
       buffer_data_attribute_type_check[
         "\#{ext#{OPULENT_KEY}}",
         "ext#{OPULENT_VALUE}",
@@ -291,15 +295,20 @@ module Opulent
     #
     def buffer_split_by_interpolation(string, escape = true)
       parts = string.split Utils::INTERPOLATION_PATTERN
-      parts.each_with_index do |input, index|
-        if index.even?
+      parts.each do |input|
+        if input =~ Utils::INTERPOLATION_PATTERN
+          input = input[2..-2]
+          if escape
+            buffer_escape input
+          else
+            buffer input
+          end
+        else
           if escape && input =~ Utils::ESCAPE_HTML_PATTERN
             buffer_escape(input.inspect)
           else
             buffer_freeze(input)
           end
-        else
-          escape ? buffer_escape(input) : buffer(input)
         end
       end
     end
