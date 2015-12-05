@@ -143,12 +143,12 @@ module Opulent
 
       # Value argument name provided only
       if variables.length == 1
-        variables.unshift Settings::DefaultEachKey
+        variables.unshift Settings::DEFAULT_EACH_KEY
 
       # Missing key and value arguments
       elsif variables.empty?
-        variables[0] = Settings::DefaultEachKey
-        variables[1] = Settings::DefaultEachValue
+        variables[0] = Settings::DEFAULT_EACH_KEY
+        variables[1] = Settings::DEFAULT_EACH_VALUE
       end
 
       # Choose whether to apply each with index (Arrays) or each (Hashes) methods

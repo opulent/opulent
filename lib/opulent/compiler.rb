@@ -35,8 +35,8 @@ module Opulent
       @indent = 4
 
       # Get special node types from the settings
-      @multi_node = Settings::MultiNode
-      @inline_node = Settings::InlineNode
+      @multi_node = Settings::MULTI_NODE
+      @inline_node = Settings::INLINE_NODE
 
       # Initialize amble object
       @template = [[:preamble]]

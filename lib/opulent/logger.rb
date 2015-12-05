@@ -69,7 +69,7 @@ module Opulent
       #
       def error(type, *data)
         case type
-        when :parser
+        when :parse
           parse_error data[0], data[1], data[2], data[3], data[4..-1]
         end
       end
@@ -86,75 +86,87 @@ module Opulent
         case error
         when :unknown_node_type
           message = <<-ERROR
-            An unknown node type has been encountered.
+An unknown node type has been encountered.
           ERROR
         when :expected
           if [:'(', :'{', :'[', :'<'].include? data[0]
             data[0] = "#{Tokens.bracket data[0]}"
           end
           message = <<-ERROR
-            Expected to find a :#{data[0]} token on line #{line} of input.
+Expected to find a :#{data[0]} token on line #{line} of input.
           ERROR
         when :root
           message = <<-ERROR
-            Unknown node type encountered on line #{line} of input.
+Unknown node type encountered on line #{line} of input.
           ERROR
         when :assignments_colon
           message = <<-ERROR
-            Unexpected end of element attributes reached on line #{line}
-            of input.
+Unexpected end of element attributes reached on line #{line}
+of input.
           ERROR
         when :assignments_comma
           message = <<-ERROR
-            Unexpected end of element attributes reached on line #{line}
-            of input. Expected to find an attribute value.
+Unexpected end of element attributes reached on line #{line}
+of input. Expected to find an attribute value.
           ERROR
         when :expression
           message = <<-ERROR
-            Unexpected end of expression reached on line #{line} of input.
-            Expected to find another expression term.
+Unexpected end of expression reached on line #{line} of input.
+Expected to find another expression term.
           ERROR
         when :control_child
           message = <<-ERROR
-            Unexpected control structure child found on line #{line} of input.
-            Expected to find a parent #{data[0]} structure.
+Unexpected control structure child found on line #{line} of input.
+Expected to find a parent #{data[0]} structure.
           ERROR
         when :whitespace_expression
           message = <<-ERROR
-            Unexpected end of expression reached on line #{line} of input.
-            Please use paranthesis for method parameters
+Unexpected end of expression reached on line #{line} of input.
+Please use paranthesis for method parameters
           ERROR
         when :definition
           message = <<-ERROR
-            Unexpected start of definition on line #{line} of input.
-            Found a definition inside another definition or element.
+Unexpected start of definition on line #{line} of input.
+Found a definition inside another definition or element.
           ERROR
         when :self_enclosing
           message = <<-ERROR
-            Unexpected content found after self enclosing node on line
-            #{line} of input.
+Unexpected content found after self enclosing node on line
+#{line} of input.
           ERROR
         when :self_enclosing_children
           message = <<-ERROR
-            Unexpected child elements found for self enclosing node on line
-            #{data[0] + 1} of input.
+Unexpected child elements found for self enclosing node on line
+#{data[0] + 1} of input.
           ERROR
         when :include
           message = <<-ERROR
-            The included file #{data[0]} does not exist or an incorrect path
+The included file #{data[0]} does not exist or an incorrect path
             has been specified.
           ERROR
         when :include_dir
           message = <<-ERROR
-            The included file path #{data[0]} is a directory.
+The included file path #{data[0]} is a directory.
           ERROR
         when :include_end
           message = <<-ERROR
-            Missing argument for include on line #{line} of input.
+Missing argument for include on line #{line} of input.
+          ERROR
+        else
+          message = <<-ERROR
+Unexpected syntax error on line #{line} of input.
           ERROR
         end
 
-        fail message, line, character
+        fail <<-OPULENT_ERROR
+\n
+[Opulent Parser] Runtime Error
+
+#{message}
+#{code[line - 1].chomp}
+#{' ' * character}^
+
+        OPULENT_ERROR
       end
     end
   end

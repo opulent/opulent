@@ -201,7 +201,8 @@ module Opulent
         accept_newline
         attributes_assignments list, true
         accept_newline
-        accept bracket.to_sym, :*
+
+        accept_stripped bracket.to_sym, :*
       end
 
       list

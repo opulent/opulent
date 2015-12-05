@@ -36,23 +36,7 @@ module Opulent
       @nodes, @def = Parser.new(@file, @def).parse @code
 
       # Compile our syntax tree using input context
-      # @template = Compiler.new.compile @nodes
-    end
-
-    private
-
-    # Read input as file or string input
-    #
-    # @param input [Object]
-    #
-    def read(input)
-      if input.is_a? Symbol
-        @file = File.expand_path get_eval_file input
-        File.read @file
-      else
-        @file = File.expand_path __FILE__
-        input
-      end
+      @template = Compiler.new.compile @nodes
     end
 
     # Avoid code duplication when layouting is set. When we have a layout, look
@@ -97,6 +81,20 @@ module Opulent
     end
 
     private
+
+    # Read input as file or string input
+    #
+    # @param input [Object]
+    #
+    def read(input)
+      if input.is_a? Symbol
+        @file = File.expand_path get_eval_file input
+        File.read @file
+      else
+        @file = File.expand_path __FILE__
+        input
+      end
+    end
 
     # Add .op extension to input file if it isn't already set.
     #

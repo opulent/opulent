@@ -248,9 +248,9 @@ module Opulent
     # @param escape [Boolean] Escape string
     #
     def buffer_split_by_interpolation(string, escape = true)
-      string.split(Utils::InterpolationPattern).each_with_index do |input, index|
+      string.split(Utils::INTERPOLATION_PATTERN).each_with_index do |input, index|
         if index % 2 == 0
-          escape ? (input =~ Utils::EscapeHTMLPattern ? buffer_escape(input.inspect) : buffer_freeze(input)) : buffer_freeze(input)
+          escape ? (input =~ Utils::ESCAPE_HTML_PATTERN ? buffer_escape(input.inspect) : buffer_freeze(input)) : buffer_freeze(input)
         else
           escape ? buffer_escape(input) : buffer(input)
         end
