@@ -21,22 +21,23 @@ module Opulent
     # @param overwrite [Boolean] Write changes directly to the parent binding
     #
     def initialize(input, settings = {})
-      # Set def from other Opulent instances
-      @def = settings.delete(:def) || {}
-
       # Update default settings with user settings
-      Settings.update_settings settings unless settings.empty?
+      @settings = Settings.new
+      @settings.update_settings settings unless settings.empty?
 
       # Read input parameter based on opening mode. If we have a file mode, we
       # get its path and read the code. We need to reset the mode in case the
       # next render call is on code, not on a file.
       @code = read input
 
+      # Pass filename into settings for Parser and Compiler
+      @settings[:file] = @file
+
       # Get the nodes tree
-      @nodes, @def = Parser.new(@file, @def).parse @code
+      @nodes, @def = Parser.new(@settings).parse @code
 
       # Compile our syntax tree using input context
-      @template = Compiler.new.compile @nodes
+      @template = Compiler.new(@settings).compile @nodes
     end
 
     # Avoid code duplication when layouting is set. When we have a layout, look

@@ -1,7 +1,7 @@
 # @Opulent
 module Opulent
   # @Settings
-  module Settings
+  class Settings
     # Set buffer variable name
     BUFFER = :@_opulent_buffer
 
@@ -34,7 +34,13 @@ module Opulent
 
     # Check if the attribute value is a bare string
     EVALUATION_CHECK = %r{
-      \A(("((?:[^"\\]|\\.)*?)")|('(?:[^'\\]|\\.)*?')|true|false|nil)\Z
+      \A(
+        ("((?:[^"\\]|\\.)*?)")|
+        ('(?:[^'\\]|\\.)*?')|
+        true|
+        false|
+        nil
+      )\Z
     }
 
     # Shorthand attribute associations
@@ -44,48 +50,56 @@ module Opulent
       '&': :name
     }
 
-    # @Singleton
-    class << self
-      # Opulent runtime options
-      DEFAULTS = {
-        # pretty: true, # At the moment, code cannot be uglified
-        # dependency_manager: true, # Soon to be implemented
-        indent: 2,
-        layouts: false,
-        pretty: false, # Under work
-        default_layout: :'views/layouts/application'
-      }
+    # Opulent runtime settings
+    DEFAULTS = {
+      # dependency_manager: true, # Soon to be implemented
+      indent: 2,
+      layouts: false,
+      pretty: false,
+      default_layout: :'views/layouts/application'
+    }
 
-      # Set defaults as initial options
-      @options = DEFAULTS
+    # Set defaults as initial settings
+    #
+    def initialize
+      @settings = DEFAULTS
+    end
 
-      # Get an option at runtime
-      #
-      # @param name [Symbol] Identifier for the option
-      #
-      def [](name)
-        @options[name]
-      end
+    # Get an option at runtime
+    #
+    # @param name [Symbol] Identifier for the option
+    #
+    def [](name)
+      @settings[name]
+    end
 
-      # Set a new option at runtime
-      #
-      # @param name [Symbol] Identifier for the option
-      # @param value Option value to be set
-      #
-      def []=(name, value)
-        @options[name] = value
-      end
+    # Set a new option at runtime
+    #
+    # @param name [Symbol] Identifier for the option
+    # @param value Option value to be set
+    #
+    def []=(name, value)
+      @settings[name] = value
+    end
 
-      # Update the engine options with the required option changes
-      #
-      # @param opts [Hash] Option extension hash
-      #
-      def update_settings(opts)
-        @options = DEFAULTS
+    # Remove an option at runtime
+    #
+    # @param name [Symbol] Identifier for the option
+    # @param value Option value to be set
+    #
+    def delete(name)
+      @settings.delete name
+    end
 
-        opts.each do |key, value|
-          @options[key] = value
-        end
+    # Update the engine settings with the required option changes
+    #
+    # @param opts [Hash] Option extension hash
+    #
+    def update_settings(opts)
+      @settings = DEFAULTS
+
+      opts.each do |key, value|
+        @settings[key] = value
       end
     end
   end

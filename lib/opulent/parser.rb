@@ -8,7 +8,7 @@ require_relative 'parser/expression.rb'
 require_relative 'parser/node.rb'
 # require_relative 'parser/include.rb'
 require_relative 'parser/root.rb'
-# require_relative 'parser/text.rb'
+require_relative 'parser/text.rb'
 # require_relative 'parser/yield.rb'
 
 # @Opulent
@@ -22,7 +22,7 @@ module Opulent
     #
     # [:node_type, :value, :attributes, :children, :indent]
     #
-    def initialize(file, definitions)
+    def initialize(settings = {})
       # Convention accessors
       @type = 0
       @value = 1
@@ -30,17 +30,20 @@ module Opulent
       @children = 3
       @indent = 4
 
+      # Inherit settings from Engine
+      @settings = settings
+
       # Set current compiled file as the first in the file stack together with
       # its base indentation. The stack is used to allow include directives to
       # be used with the last parent path found
-      @file = [[file, -1]]
+      @file = [[@settings.delete(:file), -1]]
 
       # Create a definition stack to disallow recursive calls. When inside a
       # definition and a named node is called, we render it as a plain node
       @definition_stack = []
 
       # Initialize definitions for the parser
-      @definitions = definitions
+      @definitions = @settings.delete(:def) || {}
     end
 
     # Initialize the parsing process by splitting the code into lines and

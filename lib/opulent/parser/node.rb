@@ -27,15 +27,11 @@ module Opulent
       # Node creation options
       options = {}
 
-      # Get leading and trailing whitespace
-      if accept_stripped :leading_whitespace
-        options[:leading_whitespace] = true
-        if accept :leading_trailing_whitespace
-          options[:trailing_whitespace] = true
-        end
-      elsif accept_stripped :trailing_whitespace
-        options[:trailing_whitespace] = true
-      end
+      # Get leading whitespace
+      options[:leading_whitespace] = accept_stripped(:leading_whitespace)
+
+      # Get trailing whitespace
+      options[:trailing_whitespace] = accept_stripped(:trailing_whitespace)
 
       # Get wrapped node attributes
       atts = attributes(shorthand) || {}
@@ -67,11 +63,14 @@ module Opulent
       # with increased base indentation
       if accept :inline_child
         # Inline node element
-        Logger.error :parse, @code, @i, @j, :inline_child unless node current_node, indent
+        Logger.error :parse,
+                     @code,
+                     @i,
+                     @j,
+                     :inline_child unless node current_node, indent
       else
         # Inline text element
-        # @TODO
-        # text current_node, indent, false
+        text current_node, indent, false
       end
 
       # Add the current node to the root

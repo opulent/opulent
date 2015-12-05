@@ -206,8 +206,65 @@ RSpec.describe Opulent do
         div(attr=value1 + value2 > value3)
       OPULENT
 
-      result = opulent.render(Object.new, value1: 5, value2: 5, value3:11) {}
+      result = opulent.render(Object.new, value1: 5, value2: 5, value3: 11) {}
       expect(result).to eq('<div></div>')
     end
+
+    it 'renders leading whitespace' do
+      opulent = Opulent.new <<-OPULENT
+        div'
+      OPULENT
+
+      result = opulent.render(Object.new, value1: 5, value2: 5, value3: 11) {}
+      expect(result).to eq(' <div></div>')
+    end
+
+    it 'renders trailing whitespace' do
+      opulent = Opulent.new <<-OPULENT
+        div"
+      OPULENT
+
+      result = opulent.render(Object.new, value1: 5, value2: 5, value3: 11) {}
+      expect(result).to eq('<div></div> ')
+    end
+
+    it 'renders leading and trailing whitespace' do
+      opulent = Opulent.new <<-OPULENT
+        div'"
+      OPULENT
+
+      result = opulent.render(Object.new, value1: 5, value2: 5, value3: 11) {}
+      expect(result).to eq(' <div></div> ')
+    end
+
+    it 'renders attribute extension' do
+      opulent = Opulent.new <<-OPULENT
+        div+ext
+      OPULENT
+
+      result = opulent.render(Object.new, ext: { a: 1, b: 2 }) {}
+      expect(result).to eq('<div a="1" b="2"></div>')
+    end
+
+    it 'renders inline children' do
+      opulent = Opulent.new <<-OPULENT
+        ul > li > a
+      OPULENT
+
+      result = opulent.render(Object.new, ext: { a: 1, b: 2 }) {}
+      expect(result).to eq('<ul><li><a></a></li></ul>')
+    end
+
+    # it 'renders expressions in wrapped context' do
+    #   opulent = Opulent.new <<-OPULENT
+    #     def node
+    #       div
+    #
+    #     node
+    #   OPULENT
+    #
+    #   result = opulent.render(Object.new, value1: 5, value2: 5, value3:11) {}
+    #   expect(result).to eq('<div></div>')
+    # end
   end
 end

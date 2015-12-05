@@ -22,9 +22,8 @@ module Opulent
       shorthand_lookahead: /\A[\.\#\&][a-zA-Z\_\(\"]/,
 
       # Leading and trailing whitespace
-      leading_whitespace: /\A(\<\-)/,
-      leading_trailing_whitespace: /\A(\>)/,
-      trailing_whitespace: /\A(\-\>)/,
+      leading_whitespace: /\A(\')/,
+      trailing_whitespace: /\A(\")/,
 
       # Self enclosing node
       self_enclosing: %r{\A\/(.*)},

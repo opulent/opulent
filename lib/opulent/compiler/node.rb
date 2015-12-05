@@ -38,7 +38,7 @@ module Opulent
 
         # Process each child element recursively, increasing indentation
         node[@children].each do |child|
-          root child, indent + Settings[:indent], context
+          root child, indent + @@settings[:indent], context
         end
 
         # Set tag closing code

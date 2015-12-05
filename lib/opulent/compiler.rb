@@ -26,13 +26,16 @@ module Opulent
     #
     # @param path [String] Current file path needed for include nodes
     #
-    def initialize
+    def initialize(settings = {})
       # Setup convention accessors
       @type = 0
       @value = 1
       @options = 2
       @children = 3
       @indent = 4
+
+      # Inherit settings from Engine
+      @settings = settings
 
       # Get special node types from the settings
       @multi_node = Settings::MULTI_NODE
