@@ -6,14 +6,13 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def filter(node, indent, context)
+    def filter(node, indent)
       # Evaluate and generate node attributes, then process each one to
       # by generating the required attribute code
       attributes = {}
       node[@options].each do |key, attribute|
-        attributes[key] = map_attribute key, attribute, context
+        attributes[key] = map_attribute key, attribute
       end
 
       # Get registered filter name
@@ -44,10 +43,10 @@ module Opulent
         wrapper_node = [:node, wrapper_tag, {attributes: atts}, [text_node], indent]
 
         # Begin code generation from the wrapper node
-        root wrapper_node, indent, context
+        root wrapper_node, indent
       else
         # Generate code for output text node
-        root text_node, indent, context
+        root text_node, indent
       end
     end
   end

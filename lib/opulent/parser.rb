@@ -1,6 +1,6 @@
 require_relative 'parser/comment.rb'
 # require_relative 'parser/control.rb'
-require_relative 'parser/define.rb' 
+require_relative 'parser/define.rb'
 # require_relative 'parser/doctype.rb'
 # require_relative 'parser/eval.rb'
 require_relative 'parser/expression.rb'
@@ -9,7 +9,7 @@ require_relative 'parser/node.rb'
 # require_relative 'parser/include.rb'
 require_relative 'parser/root.rb'
 require_relative 'parser/text.rb'
-# require_relative 'parser/yield.rb'
+require_relative 'parser/yield.rb'
 
 # @Opulent
 module Opulent

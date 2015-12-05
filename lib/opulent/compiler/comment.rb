@@ -6,9 +6,8 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def comment(node, indent, context)
+    def comment(node, indent)
       buffer_freeze "\n" if node[@options][:newline]
       buffer_freeze '<!-- '
       buffer_split_by_interpolation node[@value].strip, false

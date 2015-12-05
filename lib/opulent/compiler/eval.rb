@@ -6,9 +6,8 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def evaluate(node, indent, context)
+    def evaluate(node, indent)
       buffer_eval node[@value]
     end
   end

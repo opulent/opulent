@@ -1,8 +1,12 @@
 require_relative '../lib/opulent'
 
+puts "\n"
 opulent = Opulent.new <<-OPULENT
-def node(attr1, attr2)
+def node(attr1="default", attr2)
   .node
-OPULENT
+    yield
 
-result = opulent.render Object.new, {} {}
+node
+OPULENT
+opulent.render Object.new, {} {}
+puts "\n\n\n", opulent.template

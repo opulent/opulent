@@ -2,13 +2,37 @@
 module Opulent
   # @Compiler
   class Compiler
+    # Write out definition node using ruby def
+    #
+    # @param node [Node] Current node data with options
+    #
+    def define(node)
+      # Write out def method_name
+      definition = "def _opulent_definition_#{node[@value]}"
+
+      # Node attributes
+      parameters = []
+      node[@options][:parameters].each do |key, value|
+        parameters << "#{key} = #{value[@value]}"
+      end
+      parameters << '&block'
+      definition += '(' + parameters.join(', ') + ')' unless parameters.empty?
+
+      buffer_eval definition
+
+      node[@children].each do |child|
+        root child, 0
+      end
+
+      buffer_eval 'end'
+    end
+
     # Generate code for all nodes by calling the method with their type name
     #
     # @param current [Array] Current node data with options
     # @param indent [Fixnum] Indentation size for current node
-    # @param context [Context] Context holding environment variables
     #
-    def def_node(node, indent, context)
+    def def_node(node, indent)
       # Set a namespace for the current node definition and make it a valid ruby
       # method name
       key = "_opulent_definition_#{node[@value]}_#{@current_definition += 1}".gsub '-', '_'
@@ -17,7 +41,7 @@ module Opulent
       call_node = node[@options][:call]
 
       # Create the definition
-      buffer_eval "instance_eval do"
+      buffer_eval 'instance_eval do'
       buffer_eval "def #{key}(attributes = {}, &block)"
 
       # Set each parameter as a local variable
@@ -29,12 +53,12 @@ module Opulent
 
       # Evaluate definition child elements
       node[@children].each do |child|
-        root child, indent + @settings[:indent], context
+        root child, indent + @settings[:indent]
       end
 
       # End
-      buffer_eval "end"
-      buffer_eval "end"
+      buffer_eval 'end'
+      buffer_eval 'end'
 
       # If we have attributes set for our defined node, we will need to create
       # an extension parameter which will be o
@@ -53,7 +77,7 @@ module Opulent
           extension_attributes = buffer_set_variable :extension, call_node[@options][:extension][@value]
           buffer_eval "#{call_attributes}.merge!(#{extension_attributes}) do |#{OPULENT_KEY}, #{OPULENT_VALUE}1, #{OPULENT_VALUE}2|"
           buffer_eval "#{OPULENT_KEY} == :class ? (#{OPULENT_VALUE}1 += #{OPULENT_VALUE}2) : (#{OPULENT_VALUE}2)"
-          buffer_eval "end"
+          buffer_eval 'end'
         end
 
         buffer_eval "#{key}(#{call_attributes}) do"
@@ -62,7 +86,7 @@ module Opulent
       # Set call node children as block evaluation. Very useful for
       # performance and evaluating them in the parent context
       call_node[@children].each do |child|
-        root child, indent + @settings[:indent], context
+        root child, indent + @settings[:indent]
       end
 
       # End block

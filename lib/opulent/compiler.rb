@@ -71,15 +71,19 @@ module Opulent
       # Compiler generated code
       @code = ''
       @generator = ''
-
-      p definitions
+      @definitions = definitions
 
       # Set initial parent, from which we start generating code
       @sibling_stack << root_node[@children].size
 
+      # Write all node definitions as method defs
+      @definitions.each do |_, node|
+        define node
+      end
+
       # Start building up the code from the root node
       root_node[@children].each do |child|
-        root child, 0, context
+        root child, 0
       end
 
       @template << [:postamble]

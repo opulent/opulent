@@ -38,11 +38,11 @@ module Opulent
         current_node = node(parent, indent) ||
                        text(parent, indent) ||
                        comment(parent, indent) ||
-                       define(parent, indent)
+                       define(parent, indent) ||
                       # control(parent, indent)     ||
                       # evaluate(parent, indent)    ||
                       # filter(parent, indent)      ||
-                      # block_yield(parent, indent) ||
+                      block_yield(parent, indent)
                       # include_file(parent, indent)||
                       # html_text(parent, indent)   ||
                       # doctype(parent, indent)

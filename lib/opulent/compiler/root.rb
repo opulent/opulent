@@ -6,13 +6,12 @@ module Opulent
     #
     # @param current [Array] Current node data with options
     # @param indent [Fixnum] Indentation size for current node
-    # @param context [Context] Context holding environment variables
     #
-    def root(current, indent, context)
+    def root(current, indent)
       if KEYWORDS.include? current[@type]
-        send :"#{current[@type]}_node", current, indent, context
-      else 
-        send current[@type], current, indent, context
+        send :"#{current[@type]}_node", current, indent
+      else
+        send current[@type], current, indent
       end
     end
   end

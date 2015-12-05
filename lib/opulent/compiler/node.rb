@@ -7,9 +7,8 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def node(node, indent, context)
+    def node(node, indent)
       indentation = ' ' * indent
 
       # Add the tag opening, with leading whitespace to the code buffer
@@ -38,7 +37,7 @@ module Opulent
 
         # Process each child element recursively, increasing indentation
         node[@children].each do |child|
-          root child, indent + @settings[:indent], context
+          root child, indent + @settings[:indent]
         end
 
         # Set tag closing code

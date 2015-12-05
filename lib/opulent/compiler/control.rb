@@ -6,9 +6,8 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def if_node(node, indent, context)
+    def if_node(node, indent)
       # Check if we have any condition met, or an else branch
       node[@value].each_with_index do |value, index|
         # If we have a branch that meets the condition, generate code for the
@@ -21,7 +20,7 @@ module Opulent
 
         # Evaluate child nodes
         node[@children][index].each do |child|
-          root child, indent, context
+          root child, indent
         end
       end
 
@@ -33,9 +32,8 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def unless_node(node, indent, context)
+    def unless_node(node, indent)
       # Check if we have any condition met, or an else branch
       node[@value].each_with_index do |value, index|
         # If we have a branch that meets the condition, generate code for the
@@ -47,7 +45,7 @@ module Opulent
 
         # Evaluate child nodes
         node[@children][index].each do |child|
-          root child, indent, context
+          root child, indent
         end
       end
 
@@ -59,9 +57,8 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def case_node(node, indent, context)
+    def case_node(node, indent)
       # Evaluate the switching condition
       buffer_eval "case #{node[@options][:condition]}"
 
@@ -70,67 +67,64 @@ module Opulent
         # If we have a branch that meets the condition, generate code for the
         # children related to that specific branch
         case value
-        when node[@value].last then buffer_eval "else"
+        when node[@value].last then buffer_eval 'else'
         else buffer_eval "when #{value}"
         end
 
         # Evaluate child nodes
         node[@children][index].each do |child|
-          root child, indent, context
+          root child, indent
         end
       end
 
       # End
-      buffer_eval "end"
+      buffer_eval 'end'
     end
 
     # Generate the code for a while control structure
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def while_node(node, indent, context)
+    def while_node(node, indent)
       # While we have a branch that meets the condition, generate code for the
       # children related to that specific branch
       buffer_eval "while #{node[@value]}"
 
       # Evaluate child nodes
       node[@children].each do |child|
-        root child, indent, context
+        root child, indent
       end
 
       #End
-      buffer_eval "end"
+      buffer_eval 'end'
     end
 
     # Generate the code for a while control structure
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def until_node(node, indent, context)
+    def until_node(node, indent)
       # Until we have a branch that doesn't meet the condition, generate code for the
       # children related to that specific branch
       buffer_eval "until #{node[@value]}"
 
       # Evaluate child nodes
       node[@children].each do |child|
-        root child, indent, context
+        root child, indent
       end
 
       # End
-      buffer_eval "end"
+      buffer_eval 'end'
     end
 
     # Generate the code for a while control structure
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def each_node(node, indent, context)
+    def each_node(node, indent)
       # Process named variables for each structure
       variables = node[@value][1].clone
 
@@ -162,11 +156,11 @@ module Opulent
 
       # Evaluate child nodes
       node[@children].each do |child|
-        root child, indent, context
+        root child, indent
       end
 
       # End
-      buffer_eval "end"
+      buffer_eval 'end'
     end
   end
 end

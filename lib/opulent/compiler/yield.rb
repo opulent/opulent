@@ -6,10 +6,9 @@ module Opulent
     #
     # @param node [Array] Node code generation data
     # @param indent [Fixnum] Size of the indentation to be added
-    # @param context [Context] Processing environment data
     #
-    def yield_node(node, indent, context)
-      buffer_eval "yield if block_given?"
+    def yield_node(node, indent)
+      buffer_eval 'yield if block_given?'
     end
   end
 end
