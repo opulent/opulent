@@ -1,5 +1,6 @@
 # @Opulent
 module Opulent
+  # @Compiler
   class Compiler
     # Output an object stream into the template
     #
@@ -37,7 +38,8 @@ module Opulent
       @template << [:eval, string]
     end
 
-    # Set a local variable through buffer eval an object stream into the template
+    # Set a local variable through buffer eval an object stream into
+    # the template
     #
     # @param name [String] Variable identifier to be set
     # @param name [String] Variable value to be set
@@ -54,7 +56,7 @@ module Opulent
     # @param n [Fixnum] Number of characters to be removed
     #
     def buffer_remove_last_character(type = :freeze, n = 1)
-      @template[-1][1] = @template[-1][1][0..-1-n] if @template[-1][0] == type
+      @template[-1][1] = @template[-1][1][0..-1 - n] if @template[-1][0] == type
     end
 
     # Turn call node attributes into a hash string
@@ -62,15 +64,17 @@ module Opulent
     # @param attributes [Array] Array of node attributes
     #
     def buffer_attributes_to_hash(attributes)
-      "{" + attributes.inject([]) do |extend_map, (key, attribute)|
-        extend_map << (":\"#{key}\" => " + if key == :class
-          '[' + attribute.map do |exp|
-            exp[@value]
-          end.join(", ") + ']'
-        else
-          attribute[@value]
-        end)
-      end.join(', ') + "}"
+      '{' + attributes.inject([]) do |extend_map, (key, attribute)|
+        extend_map << (
+        ":\"#{key}\" => " + if key == :class
+                              '[' + attribute.map do |exp|
+                                exp[@value]
+                              end.join(', ') + ']'
+                            else
+                              attribute[@value]
+                            end
+        )
+      end.join(', ') + '}'
     end
 
     # Go through the node attributes and apply extension where needed
@@ -81,29 +85,49 @@ module Opulent
     def buffer_attributes(attributes, extension)
       # Proc for setting class attribute extension, used as DRY closure
       #
-      buffer_class_attribute_type_check = Proc.new do |variable, escape = true|
+      buffer_class_attribute_type_check = proc do |variable, escape = true|
         class_variable = buffer_set_variable :local, variable
+
         buffer_eval "if #{class_variable}.is_a? Array"
-        escape ? buffer_escape("#{class_variable}.join ' '") : buffer("#{class_variable}.join ' '")
+        if escape
+          buffer_escape("#{class_variable}.join ' '")
+        else
+          buffer("#{class_variable}.join ' '")
+        end
+
         buffer_eval "elsif #{class_variable}.is_a? Hash"
-        escape ? buffer_escape("#{class_variable}.to_a.join ' '") : buffer("#{class_variable}.to_a.join ' '")
-        buffer_eval "elsif [TrueClass, NilClass, FalseClass].include? #{class_variable}.class"
-        buffer_eval "else"
-        escape ? buffer_escape("#{class_variable}") : buffer("#{class_variable}")
-        buffer_eval "end"
+        if escape
+          buffer_escape("#{class_variable}.to_a.join ' '")
+        else
+          buffer("#{class_variable}.to_a.join ' '")
+        end
+
+        buffer_eval 'elsif [TrueClass, NilClass, FalseClass].include? ' \
+                    "#{class_variable}.class"
+
+        buffer_eval 'else'
+        if escape
+          buffer_escape("#{class_variable}")
+        else
+          buffer("#{class_variable}")
+        end
+
+        buffer_eval 'end'
       end
 
       # Handle class attributes by checking if they're simple, noninterpolated
       # strings and extend them if needed
       #
-      buffer_class_attribute = Proc.new do |attribute|
+      buffer_class_attribute = proc do |attribute|
         if attribute[@value] =~ Tokens[:exp_string]
           buffer_split_by_interpolation attribute[@value][1..-2]
         else
-          buffer_class_attribute_type_check[attribute[@value], attribute[@options][:escaped]]
+          buffer_class_attribute_type_check[
+            attribute[@value],
+            attribute[@options][:escaped]
+          ]
         end
       end
-
 
       # If we have class attributes, process each one and check if we have an
       # extension for them
@@ -113,7 +137,7 @@ module Opulent
         # Process every class attribute
         attributes[:class].each do |node_class|
           buffer_class_attribute[node_class]
-          buffer_freeze " "
+          buffer_freeze ' '
         end
 
         # Remove trailing whitespace from the buffer
@@ -122,9 +146,9 @@ module Opulent
         # Check for extension with :class key
         if extension
           buffer_eval "if #{extension}.has_key? :class"
-          buffer_freeze " "
+          buffer_freeze ' '
           buffer_class_attribute_type_check["#{extension}.delete(:class)"]
-          buffer_eval "end"
+          buffer_eval 'end'
         end
 
         buffer_freeze '"'
@@ -135,16 +159,22 @@ module Opulent
         buffer_freeze " class=\""
         buffer_class_attribute_type_check["#{extension}.delete(:class)"]
         buffer_freeze '"'
-        buffer_eval "end"
+        buffer_eval 'end'
       end
 
       # Proc for setting class attribute extension, used as DRY closure
       #
-      buffer_data_attribute_type_check = Proc.new do |key, variable, escape = true, dynamic = false|
+      buffer_data_attribute_type_check = proc do |key, variable, escape = true, dynamic = false|
         # @Array
         buffer_eval "if #{variable}.is_a? Array"
         dynamic ? buffer("\" #{key}=\\\"\"") : buffer_freeze(" #{key}=\"")
-        escape ? buffer_escape("#{variable}.join '_'") : buffer("#{variable}.join '_'")
+
+        if escape
+          buffer_escape("#{variable}.join '_'")
+        else
+          buffer("#{variable}.join '_'")
+        end
+
         buffer_freeze '"'
 
         # @Hash
@@ -153,9 +183,9 @@ module Opulent
         dynamic ? buffer("\" #{key}-\"") : buffer_freeze(" #{key}-") # key-hashkey="
         buffer "\"\#{#{OPULENT_KEY}}\""
         buffer_freeze "=\""
-        escape ? buffer_escape("_opulent_value") : buffer("_opulent_value") # value
+        escape ? buffer_escape('_opulent_value') : buffer('_opulent_value') # value
         buffer_freeze '"'
-        buffer_eval "end"
+        buffer_eval 'end'
 
         # @TrueClass
         buffer_eval "elsif #{variable}.is_a? TrueClass"
@@ -165,44 +195,51 @@ module Opulent
         buffer_eval "elsif [NilClass, FalseClass].include? #{variable}.class"
 
         # @Object
-        buffer_eval "else"
+        buffer_eval 'else'
         dynamic ? buffer("\" #{key}=\\\"\"") : buffer_freeze(" #{key}=\"")
         escape ? buffer_escape("#{variable}") : buffer("#{variable}")
         buffer_freeze '"'
 
         # End
-        buffer_eval "end"
+        buffer_eval 'end'
       end
 
       # Handle data (normal) attributes by checking if they're simple, noninterpolated
       # strings and extend them if needed
       #
-      buffer_data_attribute = Proc.new do |key, attribute|
+      buffer_data_attribute = proc do |key, attribute|
         # When we have an extension for our attributes, check current key.
         # If it exists, check it's type and generate everything dynamically
         if extension
           buffer_eval "if #{extension}.has_key? :\"#{key}\""
           variable = buffer_set_variable :local, "#{extension}.delete(:\"#{key}\")"
-          buffer_data_attribute_type_check[key, variable, attribute[@options][:escaped]]
-          buffer_eval "else"
+          buffer_data_attribute_type_check[
+            key,
+            variable,
+            attribute[@options][:escaped]
+          ]
+          buffer_eval 'else'
         end
 
         # Check if the set attribute is a simple string. If it is, freeze it or
         # escape it. Otherwise, evaluate and initialize the type check.
         if attribute[@value] =~ Tokens[:exp_string]
           buffer_freeze " #{key}=\""
-          buffer_split_by_interpolation attribute[@value][1..-2], attribute[@options][:escaped]
+          buffer_split_by_interpolation attribute[@value][1..-2],
+                                        attribute[@options][:escaped]
           buffer_freeze "\""
         else
           # Evaluate and type check
           variable = buffer_set_variable :local, attribute[@value]
-          buffer_data_attribute_type_check[key, variable, attribute[@options][:escaped]]
+          buffer_data_attribute_type_check[
+            key,
+            variable,
+            attribute[@options][:escaped]
+          ]
         end
 
         # Extension end
-        if extension
-          buffer_eval "end"
-        end
+        buffer_eval 'end' if extension
       end
 
       # Process the remaining, non-class related attributes
@@ -212,19 +249,24 @@ module Opulent
       end
 
       # Process remaining extension keys if there are any
-      if extension
-        buffer_eval "#{extension}.each do |ext#{OPULENT_KEY}, ext#{OPULENT_VALUE}|"
-        buffer_data_attribute_type_check["\#{ext#{OPULENT_KEY}}", "ext#{OPULENT_VALUE}", true, true]
-        buffer_eval "end"
-      end
+      return unless extension
+
+      buffer_eval "#{extension}.each do |ext#{OPULENT_KEY}, ext#{OPULENT_VALUE}|"
+      buffer_data_attribute_type_check[
+        "\#{ext#{OPULENT_KEY}}",
+        "ext#{OPULENT_VALUE}",
+        true,
+        true
+      ]
+      buffer_eval 'end'
     end
 
     # Transform buffer array into a reusable template
     #
     def templatize
-      separator = DEBUG ? "\n" : "; " # Readablity during development
-      @template.inject("") do |buffer, input|
-        buffer += case input[0]
+      separator = DEBUG ? "\n" : '; ' # Readablity during development
+      @template.map do |input|
+        case input[0]
         when :preamble
           "#{BUFFER} = []#{separator}"
         when :buffer
@@ -238,7 +280,7 @@ module Opulent
         when :postamble
           "#{BUFFER}.join"
         end
-      end
+      end.join
     end
 
     # Split a string by its interpolation, then check if it really needs to be
@@ -248,9 +290,14 @@ module Opulent
     # @param escape [Boolean] Escape string
     #
     def buffer_split_by_interpolation(string, escape = true)
-      string.split(Utils::INTERPOLATION_PATTERN).each_with_index do |input, index|
-        if index % 2 == 0
-          escape ? (input =~ Utils::ESCAPE_HTML_PATTERN ? buffer_escape(input.inspect) : buffer_freeze(input)) : buffer_freeze(input)
+      parts = string.split Utils::INTERPOLATION_PATTERN
+      parts.each_with_index do |input, index|
+        if index.even?
+          if escape && input =~ Utils::ESCAPE_HTML_PATTERN
+            buffer_escape(input.inspect)
+          else
+            buffer_freeze(input)
+          end
         else
           escape ? buffer_escape(input) : buffer(input)
         end

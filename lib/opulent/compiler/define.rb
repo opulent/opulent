@@ -29,7 +29,7 @@ module Opulent
 
       # Evaluate definition child elements
       node[@children].each do |child|
-        root child, indent + @@settings[:indent], context
+        root child, indent + @settings[:indent], context
       end
 
       # End
@@ -62,7 +62,7 @@ module Opulent
       # Set call node children as block evaluation. Very useful for
       # performance and evaluating them in the parent context
       call_node[@children].each do |child|
-        root child, indent + @@settings[:indent], context
+        root child, indent + @settings[:indent], context
       end
 
       # End block
