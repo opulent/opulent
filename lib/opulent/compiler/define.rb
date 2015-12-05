@@ -8,22 +8,25 @@ module Opulent
     #
     def define(node)
       # Write out def method_name
-      definition = "def _opulent_definition_#{node[@value]}"
+      definition = "def _opulent_definition_#{node[@value].to_s.tr '-', '_'}"
 
       # Node attributes
       parameters = []
       node[@options][:parameters].each do |key, value|
         parameters << "#{key} = #{value[@value]}"
       end
+      parameters << 'attributes = {}'
       parameters << '&block'
-      definition += '(' + parameters.join(', ') + ')' unless parameters.empty?
+      definition += '(' + parameters.join(', ') + ')'
 
+      buffer_eval 'instance_eval do'
       buffer_eval definition
 
       node[@children].each do |child|
         root child, 0
       end
 
+      buffer_eval 'end'
       buffer_eval 'end'
     end
 
@@ -35,36 +38,28 @@ module Opulent
     def def_node(node, indent)
       # Set a namespace for the current node definition and make it a valid ruby
       # method name
-      key = "_opulent_definition_#{node[@value]}_#{@current_definition += 1}".gsub '-', '_'
+      key = "_opulent_definition_#{node[@value].to_s.tr '-', '_'}"
 
       # Set call variable
       call_node = node[@options][:call]
-
-      # Create the definition
-      buffer_eval 'instance_eval do'
-      buffer_eval "def #{key}(attributes = {}, &block)"
-
-      # Set each parameter as a local variable
-      node[@options][:parameters].each do |parameter, value|
-        set_argument_code = "#{parameter} = attributes.delete(:#{parameter})"
-        set_argument_code += " || #{value[@value]}" if value[@value]
-        buffer_eval set_argument_code
-      end
-
-      # Evaluate definition child elements
-      node[@children].each do |child|
-        root child, indent + @settings[:indent]
-      end
-
-      # End
-      buffer_eval 'end'
-      buffer_eval 'end'
 
       # If we have attributes set for our defined node, we will need to create
       # an extension parameter which will be o
       if call_node[@options][:attributes].empty?
         # Call method without any extension
-        buffer_eval "#{key}() do"
+        call = "#{key}"
+
+        # Call arguments set to true, in correct order
+        arguments = []
+        @definitions[call_node[@value]][@options][:parameters].keys.each do
+          arguments << 'true'
+        end
+        arguments << '{}'
+
+        call += '(' + arguments.join(', ') + ')'
+        call += ' do'
+
+        buffer_eval call
       else
         call_attributes_code = buffer_attributes_to_hash call_node[@options][:attributes]
 
