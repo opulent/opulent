@@ -17,14 +17,21 @@ module Opulent
 
       # Evaluate node extension in the current context
       if node[@options][:extension]
-        extension = buffer_set_variable :extension,
-                                        node[@options][:extension][@value]
+        extension_name = buffer_set_variable :extension,
+                                             node[@options][:extension][@value]
+
+        extension = {
+          name: extension_name,
+          escaped: node[@options][:extension][@options][:escaped]
+        }
       end
 
       # Evaluate and generate node attributes, then process each one to
       # by generating the required attribute code
       # attributes = {}
-      buffer_attributes node[@options][:attributes], extension
+      buffer_attributes node[@options][:attributes],
+                        extension
+
 
       # Check if the current node is self enclosing. Self enclosing nodes
       # do not have any child elements

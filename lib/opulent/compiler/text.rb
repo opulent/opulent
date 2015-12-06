@@ -10,6 +10,9 @@ module Opulent
     def plain(node, indent)
       value = node[@options][:value]
 
+      # Leading whitespace
+      buffer_freeze ' ' if node[@options][:leading_whitespace]
+
       # Evaluate text node if it's marked as such and print nodes in the
       # current context
       if node[@value] == :text
@@ -17,6 +20,9 @@ module Opulent
       else
         node[@options][:escaped] ? buffer_escape(value) : buffer(value)
       end
+
+      # Trailing whitespace
+      buffer_freeze ' ' if node[@options][:trailing_whitespace]
     end
   end
 end

@@ -71,7 +71,33 @@ module Opulent
         case type
         when :parse
           parse_error data[0], data[1], data[2], data[3], data[4..-1]
+        when :compile
+          compile_error data[0], data[1], data[2..-1]
         end
+      end
+
+      # Output an error message based on class context and input data
+      #
+      # @param klass [Symbol] Class in which the error happens
+      # @param error [Symbol] Error identification symbol
+      # @param data [Array] Data to be displayed with the error
+      #
+      def compile_error(template, error, *data)
+        case error
+        when :explicit_end
+          message = <<-ERROR
+Explicit "end" evaluation nodes are not allowed. End expressions are
+inserted automatically.
+          ERROR
+        end
+
+        fail <<-OPULENT_ERROR
+\n
+[Opulent Compiler] Runtime Error
+
+#{message}
+
+        OPULENT_ERROR
       end
 
       # Output an error message based on class context and input data
@@ -142,7 +168,7 @@ Unexpected child elements found for self enclosing node on line
         when :include
           message = <<-ERROR
 The included file #{data[0]} does not exist or an incorrect path
-            has been specified.
+has been specified.
           ERROR
         when :include_dir
           message = <<-ERROR

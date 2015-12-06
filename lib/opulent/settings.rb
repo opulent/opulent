@@ -43,6 +43,12 @@ module Opulent
       )\Z
     }
 
+    # Check to see if we need to insert an end block for the current evaluation
+    # control do || .* end
+    END_INSERTION = /\A(if|begin|unless|else|elsif|when|rescue|ensure)\b|\bdo\s*(\|[^\|]*\|)?\s*$/
+    END_REMOVAL = /\A(else|elsif|when|rescue|ensure)/
+    END_EXPLICIT = /\A(end)/
+
     # Shorthand attribute associations
     SHORTHAND = {
       '.': :class,

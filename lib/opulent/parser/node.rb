@@ -76,7 +76,7 @@ module Opulent
       end
 
       # Add the current node to the root
-      root(current_node, indent)
+      root current_node, indent
 
       # Create a clone of the definition model. Cloning the options is also
       # necessary because it's a shallow copy
@@ -285,7 +285,7 @@ module Opulent
       unescaped = accept :unescaped_value
 
       extension = expression(false, false, false)
-      extension[@options][:escaped] = false if unescaped
+      extension[@options][:escaped] = !unescaped
 
       extension
     end

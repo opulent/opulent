@@ -32,8 +32,10 @@ module Opulent
           else
             buffer += right_term[@value]
           end
-        elsif (conditional = ternary_operator allow_assignments, wrapped)
-          buffer += conditional
+        elsif (op = array || op = method_call || op = ternary_operator(allow_assignments, wrapped))
+          p buffer
+          p op
+          buffer += op
         end
 
         # Do not continue if the expression has whitespace method calls in
@@ -319,7 +321,12 @@ module Opulent
     # Accept a ruby method call modifier
     #
     def method_call
-      accept(:exp_method_call)
+      return unless (method_code = accept(:exp_method_call))
+
+      argument = call
+      method_code += argument if argument
+
+      method_code
     end
 
     # Accept ternary operator syntax

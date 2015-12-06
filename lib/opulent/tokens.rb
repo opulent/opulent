@@ -107,6 +107,7 @@ module Opulent
       exp_operation: /\A( *(\+|\-|\*\*|\*|\/|\<\<|\>\>|\.\.|\%|\<\=\>|\<\=|\^|\<|\>\=|\>|\=\~|\!\~|\=\=\=|\=\=|\!|not|\&\&|\&|and|\|\||\||or) *)/,
       exp_regex: /\A(\/((?:[^\/\\]|\\.)*?)\/)/,
       exp_string: /\A(("((?:[^"\\]|\\.)*?)")|('(?:[^'\\]|\\.)*?'))/,
+      exp_string_match: /\A(("((?:[^"\\]|\\.)*?)")|('(?:[^'\\]|\\.)*?'))\Z/,
       exp_percent: /\A(\%[wWqQrxsiI]?.)/,
       exp_double: /\A([0-9]+\.[0-9]+([eE][-+]?[0-9]+)?)/,
       exp_fixnum: /\A([0-9]+)/,
@@ -127,8 +128,7 @@ module Opulent
       whitespace: /\A\s+/,
 
       # Evaluation
-      eval: /\A\-(.*)/,
-      eval_multiline: /\A\+(.*)/,
+      eval: /\A\-/,
 
       # Whitespace
       newline: /\A(\n+)/,

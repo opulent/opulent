@@ -119,7 +119,7 @@ module Opulent
       # strings and extend them if needed
       #
       buffer_class_attribute = proc do |attribute|
-        if attribute[@value] =~ Tokens[:exp_string]
+        if attribute[@value] =~ Tokens[:exp_string_match]
           buffer_split_by_interpolation attribute[@value][1..-2],
                                         attribute[@options][:escaped]
         else
@@ -146,9 +146,11 @@ module Opulent
 
         # Check for extension with :class key
         if extension
-          buffer_eval "if #{extension}.has_key? :class"
+          buffer_eval "if #{extension[:name]}.has_key? :class"
           buffer_freeze ' '
-          buffer_class_attribute_type_check["#{extension}.delete(:class)"]
+          buffer_class_attribute_type_check[
+            "#{extension[:name]}.delete(:class)"
+          ]
           buffer_eval 'end'
         end
 
@@ -156,9 +158,9 @@ module Opulent
       elsif extension
         # If we do not have class attributes but we do have an extension, try to
         # see if the extension contains a class attribute
-        buffer_eval "if #{extension}.has_key? :class"
+        buffer_eval "if #{extension[:name]}.has_key? :class"
         buffer_freeze " class=\""
-        buffer_class_attribute_type_check["#{extension}.delete(:class)"]
+        buffer_class_attribute_type_check["#{extension[:name]}.delete(:class)"]
         buffer_freeze '"'
         buffer_eval 'end'
       end
@@ -214,8 +216,10 @@ module Opulent
         # When we have an extension for our attributes, check current key.
         # If it exists, check it's type and generate everything dynamically
         if extension
-          buffer_eval "if #{extension}.has_key? :\"#{key}\""
-          variable = buffer_set_variable :local, "#{extension}.delete(:\"#{key}\")"
+          buffer_eval "if #{extension[:name]}.has_key? :\"#{key}\""
+          variable = buffer_set_variable :local,
+                                         "#{extension[:name]}" \
+                                         ".delete(:\"#{key}\")"
           buffer_data_attribute_type_check[
             key,
             variable,
@@ -226,7 +230,7 @@ module Opulent
 
         # Check if the set attribute is a simple string. If it is, freeze it or
         # escape it. Otherwise, evaluate and initialize the type check.
-        if attribute[@value] =~ Tokens[:exp_string]
+        if attribute[@value] =~ Tokens[:exp_string_match]
           buffer_freeze " #{key}=\""
           buffer_split_by_interpolation attribute[@value][1..-2],
                                         attribute[@options][:escaped]
@@ -254,12 +258,13 @@ module Opulent
       # Process remaining extension keys if there are any
       return unless extension
 
-      buffer_eval "#{extension}.each do " \
+      buffer_eval "#{extension[:name]}.each do " \
                   "|ext#{OPULENT_KEY}, ext#{OPULENT_VALUE}|"
+
       buffer_data_attribute_type_check[
         "\#{ext#{OPULENT_KEY}}",
         "ext#{OPULENT_VALUE}",
-        true,
+        extension[:escaped],
         true
       ]
       buffer_eval 'end'

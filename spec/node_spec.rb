@@ -326,16 +326,51 @@ RSpec.describe Opulent do
       expect(result).to eq('<div class="&lt;a&gt; <b>"></div>')
     end
 
-    # it 'renders expressions in wrapped context' do
-    #   opulent = Opulent.new <<-OPULENT
-    #     def node
-    #       div
-    #
-    #     node
-    #   OPULENT
-    #
-    #   result = opulent.render(Object.new, value1: 5, value2: 5, value3:11) {}
-    #   expect(result).to eq('<div></div>')
-    # end
+    it 'renders extension' do
+      opulent = Opulent.new <<-OPULENT
+        div+hash
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '1', b: '2' }) {}
+      expect(result).to eq('<div a="1" b="2"></div>')
+    end
+
+    it 'renders extension and wrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+        div(attr="value")+hash
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '1', b: '2' }) {}
+      expect(result).to eq('<div attr="value" a="1" b="2"></div>')
+    end
+
+    it 'renders extension and wrapped+unwrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+        div(attr="value")+hash unwrapped="value"
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '1', b: '2' }) {}
+      expect(result).to eq(
+        '<div attr="value" unwrapped="value" a="1" b="2"></div>'
+      )
+    end
+
+    it 'renders unescaped extension' do
+      opulent = Opulent.new <<-OPULENT
+        div+hash
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '<1>', b: '<2>' }) {}
+      expect(result).to eq('<div a="&lt;1&gt;" b="&lt;2&gt;"></div>')
+    end
+
+    it 'renders escaped extension' do
+      opulent = Opulent.new <<-OPULENT
+        div+~hash
+      OPULENT
+
+      result = opulent.render(Object.new, hash: { a: '<1>', b: '<2>' }) {}
+      expect(result).to eq('<div a="<1>" b="<2>"></div>')
+    end
   end
 end

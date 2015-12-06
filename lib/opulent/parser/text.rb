@@ -23,6 +23,12 @@ module Opulent
       # Check if the text or print node is escaped or unescaped
       escaped = accept(:unescaped_value) ? false : true
 
+      # Get leading whitespace
+      leading_whitespace = accept(:leading_whitespace)
+
+      # Get trailing whitespace
+      trailing_whitespace = accept(:trailing_whitespace)
+
       # Get text value
       value = accept :line_feed
       value = value[1..-1] if value[0] == '\\'
@@ -33,7 +39,9 @@ module Opulent
         type,
         {
           value: value.strip,
-          escaped: escaped
+          escaped: escaped,
+          leading_whitespace: leading_whitespace,
+          trailing_whitespace: trailing_whitespace
         },
         nil,
         indent
@@ -52,7 +60,7 @@ module Opulent
       end
 
       # Increase indentation if this is an inline text node
-      text_node[@indent] += Settings[:indent] unless multiline_or_print
+      text_node[@indent] += @settings[:indent] unless multiline_or_print
 
       # Add text node to the parent element
       parent[@children] << text_node
