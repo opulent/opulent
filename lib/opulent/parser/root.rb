@@ -39,16 +39,18 @@ module Opulent
                        text(parent, indent) ||
                        comment(parent, indent) ||
                        define(parent, indent) ||
-                      # control(parent, indent)     ||
-                      evaluate(parent, indent)    ||
-                      # filter(parent, indent)      ||
-                      block_yield(parent, indent) ||
-                      include_file(parent, indent)
-                      # html_text(parent, indent)   ||
-                      # doctype(parent, indent)
+                       control(parent, indent) ||
+                       evaluate(parent, indent) ||
+                       filter(parent, indent) ||
+                       block_yield(parent, indent) ||
+                       include_file(parent, indent) ||
+                       html_text(parent, indent) ||
+                       doctype(parent, indent)
 
-        # Throw an error if we couldn't find a valid node
-        Logger.error :parse, @code, @i, @j, :unknown_node_type unless current_node
+        # Throw an error if we couldn't find any valid node
+        unless current_node
+          Logger.error :parse, @code, @i, @j, :unknown_node_type
+        end
       end
 
       parent

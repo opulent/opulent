@@ -33,15 +33,7 @@ module Opulent
     INTERPOLATION_CHECK = /(?<!\\)\#\{.*\}/
 
     # Check if the attribute value is a bare string
-    EVALUATION_CHECK = %r{
-      \A(
-        ("((?:[^"\\]|\\.)*?)")|
-        ('(?:[^'\\]|\\.)*?')|
-        true|
-        false|
-        nil
-      )\Z
-    }
+    EVALUATION_CHECK = /\A(("((?:[^"\\]|\\.)*?)")|('(?:[^'\\]|\\.)*?')|true|false|nil)\Z/
 
     # Check to see if we need to insert an end block for the current evaluation
     # control do || .* end

@@ -65,6 +65,57 @@ module Opulent
         end
       end
 
+
+      # Output an error message based on class context and input data
+      #
+      # @param message [Symbol] Message to be displayed
+      # @param data [Array] Data to be displayed with the message
+      #
+      def log(message, *data)
+        case error
+        when :version
+          title = 'Version'
+          message = <<-LOG
+Version #{Opulent::VERSION} is currently installed.
+          LOG
+        when :successful_render
+          title = 'Render Complete'
+          message = <<-LOG
+Successfully rendered #{data[0].inspect} to #{data[1].inspect}.
+          LOG
+        when :successful_render_print
+          title = 'Render Complete'
+          message = <<-LOG
+Successfully rendered #{data[0].inspect}.
+
+No output file specified. Writing result to terminal.
+
+#{data[1]}"
+
+          LOG
+        when :help
+          title = 'Help'
+          message = <<-LOG
+You can use the following commands with the Opulent Command  Line Interface:
+
+opulent input.op output.op      Render an input file and write the result to
+                                the output file.
+opulent layout [-l] layout.op   Render an input file using given input
+                                layout file.
+opulent help [-h]               Show available command line options.
+opulent version [-v]            Show installed version.
+          LOG
+        end
+
+        puts <<-OPULENT_LOG
+\n
+[Opulent Engine] #{title}
+
+#{message}
+
+        OPULENT_LOG
+      end
+
       # Display an error message based on context
       #
       def error(type, *data)
@@ -73,7 +124,56 @@ module Opulent
           parse_error data[0], data[1], data[2], data[3], data[4..-1]
         when :compile
           compile_error data[0], data[1], data[2..-1]
+        when :exec
+          exec_error data[0], data[1..-1]
         end
+      end
+
+      # Output an error message based on class context and input data
+      #
+      # @param klass [Symbol] Class in which the error happens
+      # @param error [Symbol] Error identification symbol
+      # @param data [Array] Data to be displayed with the error
+      #
+      def exec_error(error, *data)
+        case error
+        when :input
+          message = <<-ERROR
+Given input file #{data[0].inspect} does not exist or an incorrect path
+has been specified.
+          ERROR
+        when :layout_error
+          message = <<-ERROR
+Missing input or incorrect file extension for layout [-l] argument.
+Found #{data[0]} instead.
+          ERROR
+        when :locals_file
+          message = <<-ERROR
+Given context file #{data[0].inspect} does not exist or
+an incorrect path has been specified.
+          ERROR
+        when :locals_file_format
+          message = <<-ERROR
+Unknown file extension #{data[0].inspect} given as locals file. Please use
+JSON or YAML as input.
+          ERROR
+        when :input_arguments
+          message = <<-ERROR
+Unknown input argument [#{data[0]}] has been encountered.
+          ERROR
+        when :no_input
+          message = <<-ERROR
+You haven't specified an input file.
+          ERROR
+        end
+
+        fail <<-OPULENT_ERROR
+\n
+[Opulent Engine] Runtime Error
+
+#{message}
+
+        OPULENT_ERROR
       end
 
       # Output an error message based on class context and input data

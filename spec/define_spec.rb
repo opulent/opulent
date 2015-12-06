@@ -71,5 +71,31 @@ RSpec.describe Opulent do
       expect(result).to eq('<div class="node" attr1="1" attr2="2"></div>')
     end
 
+    it 'uses definitions inside of definitions' do
+      opulent = Opulent.new <<-OPULENT
+      def type1
+        outer
+          yield
+
+      def type2
+        inner
+          yield
+
+      def type3
+        last
+          yield
+
+      type1
+        type2
+          type3
+          type3
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<outer><inner><last></last><last></last></inner></outer>'
+      )
+    end
+
   end
 end
