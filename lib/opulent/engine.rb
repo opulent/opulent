@@ -31,7 +31,7 @@ module Opulent
       @code = read input
 
       # Pass filename into settings for Parser and Compiler
-      @settings[:file] = @file
+      @settings[:file] = @file unless @settings[:file]
 
       # Get the nodes tree
       @nodes, @def = Parser.new(@settings).parse @code
