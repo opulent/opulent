@@ -33,8 +33,6 @@ module Opulent
             buffer += right_term[@value]
           end
         elsif (op = array || op = method_call || op = ternary_operator(allow_assignments, wrapped))
-          p buffer
-          p op
           buffer += op
         end
 
