@@ -20,14 +20,14 @@ module Opulent
       # Get text node type
       type = accept(:print) ? :print : :text
 
-      # Check if the text or print node is escaped or unescaped
-      escaped = accept(:unescaped_value) ? false : true
-
       # Get leading whitespace
       leading_whitespace = accept(:leading_whitespace)
 
       # Get trailing whitespace
       trailing_whitespace = accept(:trailing_whitespace)
+
+      # Check if the text or print node is escaped or unescaped
+      escaped = accept(:unescaped_value) ? false : true
 
       # Get text value
       value = accept :line_feed
