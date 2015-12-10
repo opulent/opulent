@@ -12,7 +12,8 @@ module Opulent
 
   # @Engine
   class Engine
-    attr_reader :nodes, :parser, :def, :file, :template, :buffer
+    attr_reader :nodes, :parser, :def, :file, :template, :buffer,
+                :code, :settings
 
     # Update render settings
     #
