@@ -142,7 +142,7 @@ div | Hello world!
 
     it 'renders escaped text with leading and trailing whitespace' do
       opulent = Opulent.new <<-OPULENT
-|~'" This has <whitespace>
+|'"~ This has <whitespace>
       OPULENT
 
       result = opulent.render Object.new, {} {}

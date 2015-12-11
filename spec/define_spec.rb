@@ -97,5 +97,52 @@ RSpec.describe Opulent do
       )
     end
 
+    it 'contains a node with same name as the definition' do
+      opulent = Opulent.new <<-OPULENT
+      def footer
+        footer
+          yield
+
+      footer
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq('<footer></footer>')
+    end
+
+    it 'contains a node with same name as the definition with children' do
+      opulent = Opulent.new <<-OPULENT
+      def node
+        node
+          yield
+
+      node
+        node
+          inside
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq('<node><node><inside></inside></node></node>')
+    end
+
+    it 'uses a definition inside of definition' do
+      opulent = Opulent.new <<-OPULENT
+      def insidenode
+        test
+          yield
+
+      def node
+        insidenode
+          yield
+
+      node
+        child
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<test><child></child></test>'
+      )
+    end
   end
 end
