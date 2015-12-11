@@ -97,7 +97,7 @@ RSpec.describe Opulent do
       )
     end
 
-    it 'contains a node with same name as the definition' do
+    it 'contains a non-recursive node with same name as the definition' do
       opulent = Opulent.new <<-OPULENT
       def footer
         footer
@@ -108,6 +108,25 @@ RSpec.describe Opulent do
 
       result = opulent.render Object.new, {} {}
       expect(result).to eq('<footer></footer>')
+    end
+
+    it 'contains a recursive node with same name as the definition' do
+      opulent = Opulent.new <<-OPULENT
+      def node(count = 3)
+        - count -= 1
+        if count > 0
+          node* count=count
+            node
+              yield
+        else
+          yield
+
+      node
+        child
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq('<node><node><child></child></node></node>')
     end
 
     it 'contains a node with same name as the definition with children' do
@@ -133,6 +152,26 @@ RSpec.describe Opulent do
 
       def node
         insidenode
+          yield
+
+      node
+        child
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<test><child></child></test>'
+      )
+    end
+
+    it 'should disregard definition order' do
+      opulent = Opulent.new <<-OPULENT
+      def node
+        insidenode
+          yield
+
+      def insidenode
+        test
           yield
 
       node

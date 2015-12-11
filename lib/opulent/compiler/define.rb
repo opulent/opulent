@@ -40,24 +40,24 @@ module Opulent
       # method name
       key = "_opulent_definition_#{node[@value].to_s.tr '-', '_'}"
 
-      # Set call variable
-      call_node = node[@options][:call]
 
       # If we have attributes set for our defined node, we will need to create
       # an extension parameter which will be o
-      if call_node[@options][:attributes].empty?
+      if node[@options][:attributes].empty?
         # Call method without any extension
         method_call = "#{key}"
 
         # Call arguments set to true, in correct order
         arguments = []
-        @definitions[call_node[@value]][@options][:parameters].keys.each do |k|
-          arguments << 'true'
+        @definitions[node[@value]][@options][:parameters].keys.each do |k|
+          arguments << @definitions[
+            node[@value]
+          ][@options][:parameters][k][@value]
         end
         arguments << '{}'
 
         method_call += '(' + arguments.join(', ') + ')'
-        method_call += ' do' unless call_node[@children].empty?
+        method_call += ' do' unless node[@children].empty?
 
         buffer_eval method_call
       else
@@ -66,27 +66,27 @@ module Opulent
         # Extract node definition arguments in the correct order. If the given
         # key does not exist, set the value to default or true
         @definitions[
-          call_node[@value]
+          node[@value]
         ][@options][:parameters].keys.each do |k|
-          if call_node[@options][:attributes].keys.include? k
-            arguments << call_node[@options][:attributes].delete(k)[@value]
+          if node[@options][:attributes].key? k
+            arguments << node[@options][:attributes].delete(k)[@value]
           else
             arguments << @definitions[
-              call_node[@value]
+              node[@value]
             ][@options][:parameters][k][@value]
           end
         end
 
         call_attributes = buffer_attributes_to_hash(
-          call_node[@options][:attributes]
+          node[@options][:attributes]
         )
 
         # If the call node is extended as well, merge the call attributes hash
         # with the extension hash
-        if call_node[@options][:extension]
+        if node[@options][:extension]
           # .merge!(var_name)
           call_attributes += '.merge!(' \
-                             "#{call_node[@options][:extension][@value]}" \
+                             "#{node[@options][:extension][@value]}" \
                              ')'
 
           # { |key, value1, value2|
@@ -106,19 +106,19 @@ module Opulent
         arguments << call_attributes
 
         call = "#{key}(#{arguments.join ', '})"
-        call += ' do' unless call_node[@children].empty?
+        call += ' do' unless node[@children].empty?
 
         buffer_eval call
       end
 
       # Set call node children as block evaluation. Very useful for
       # performance and evaluating them in the parent context
-      call_node[@children].each do |child|
+      node[@children].each do |child|
         root child, indent + @settings[:indent]
       end
 
       # End block
-      buffer_eval 'end' unless call_node[@children].empty?
+      buffer_eval 'end' unless node[@children].empty?
     end
   end
 end

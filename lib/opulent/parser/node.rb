@@ -13,6 +13,7 @@ module Opulent
       return unless (name = lookahead(:node_lookahead) ||
                             lookahead(:shorthand_lookahead))
 
+      # Skip node if it's a reserved keyword
       return nil if KEYWORDS.include? name[0].to_sym
 
       # Accept either explicit node_name or implicit :div node_name
@@ -26,6 +27,9 @@ module Opulent
 
       # Node creation options
       options = {}
+
+      # Get leading whitespace
+      options[:recursive] = accept(:recursive)
 
       # Get leading whitespace
       options[:leading_whitespace] = accept_stripped(:leading_whitespace)
@@ -78,64 +82,57 @@ module Opulent
       # Add the current node to the root
       root current_node, indent
 
-      # Create a clone of the definition model. Cloning the options is also
-      # necessary because it's a shallow copy
-      if @definitions.keys.include?(node_name)
-        @definition_stack << node_name
-        parent[@children] << process_definition(node_name, current_node)
-        @definition_stack.pop
-      else
-        parent[@children] << current_node
-      end
+      # Add the parsed node to the parent
+      parent[@children] << current_node
     end
 
+    # Deprecated @version 1.6.6
+    #
     # When entering a definition model, we replace all the node types with their
     # know definitions at definition call time.
     #
     # @param node_name [Symbol] Node identifier
     # @param call_context [Node] Initial node call with its attributes
     #
-    def process_definition(node_name, call_context)
-      model = [
-        :def,
-        node_name,
-        {},
-        [],
-        call_context[@indent]
-      ]
-      model[@options] = {}.merge model[@options]
-      model[@options][:call] = call_context
-
-      # Deprecated @version 1.6.4
-      #
-      # Recursively map each child nodes to their definitions
-      # for the initial call node children and for the model
-      # children
-      # process_definition_child model[@options][:call]
-      # process_definition_child model
-
-      model
-    end
-
+    # def process_definition(node_name, call_context)
+    # model = [
+    #   :def,
+    #   node_name,
+    #   {},
+    #   [],
+    #   call_context[@indent]
+    # ]
+    #
+    # model[@options] = {}.merge model[@options]
+    # model[@options][:call] = call_context
+    #
+    # Recursively map each child nodes to their definitions
+    # for the initial call node children and for the model
+    # children
+    # process_definition_child model[@options][:call]
+    # process_definition_child model
+    # model
+    # end
+    #
     # Process definition children for the current node.
     #
     # @param node [Node] Callee node
     #
-    def process_definition_child(node)
-      node[@children].map! do |child|
-        if child[@type] == :node
-          if !@definition_stack.include?(child[@value]) &&
-             @definitions.key?(child[@value])
-            process_definition child[@value], child
-          else
-            process_definition_child child if child[@children]
-            child
-          end
-        else
-          child
-        end
-      end
-    end
+    # def process_definition_child(node)
+    #   node[@children].map! do |child|
+    #     if child[@type] == :node
+    #       if !@definition_stack.include?(child[@value]) &&
+    #          @definitions.key?(child[@value])
+    #         process_definition child[@value], child
+    #       else
+    #         process_definition_child child if child[@children]
+    #         child
+    #       end
+    #     else
+    #       child
+    #     end
+    #   end
+    # end
 
     # Helper method to create an array of values when an attribute is set
     # multiple times. This happens unless the key is id, which is unique

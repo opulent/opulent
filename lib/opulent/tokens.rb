@@ -127,6 +127,9 @@ module Opulent
       # Whitespace
       whitespace: /\A\s+/,
 
+      # Recursive Node Definitions
+      recursive: /\A\*/,
+
       # Evaluation
       eval: /\A\-/,
 

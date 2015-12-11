@@ -1,10 +1,18 @@
-require_relative '../lib/opulent'
+require_relative '../../lib/opulent'
 
 puts "\n"
 opulent = Opulent.new <<-OPULENT
-div+{a: "<<", b: 2} id=test[:ext]
+def node(count = 5)
+  - count -= 1
+  if count > 0
+    node* count=count
+      node
+        yield
+
+node
+  child
 OPULENT
-puts "\n\n\n", opulent.template
 
 result = opulent.render Object.new, test: { ext: 123 } {}
+puts opulent.template
 puts "\n\n\n", result

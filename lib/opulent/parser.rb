@@ -70,7 +70,54 @@ module Opulent
       # nodes and definitions
       root @root
 
+      # Check whether nodes inside definitions have a custom definition
+      @definitions.each do |name, node|
+        @current_def = name
+        apply_definitions node
+      end
+      @current_def = nil
+
+      # Check whether nodes have a custom definition
+      apply_definitions @root
+
+      # Return root element
       [@root, @definitions]
+    end
+
+    # Set each node as a defined node if a definition exists with the given
+    # node name, unless we're inside a definition with the same name as the node
+    # because we want to avoid recursion.
+    #
+    # @param node [Node] Input Node to checked for existence of definitions
+    #
+    def apply_definitions(node)
+      # Apply definition check to all of the node's children
+      process_definitions = proc do |children|
+        children.each do |child|
+          # Check if we have a definition
+          is_definition = if child[@value] == @current_def
+                            child[@options][:recursive]
+                          else
+                            @definitions.key?(child[@value])
+                          end
+
+          # Set child as a defined node
+          child[@type] = :def if is_definition
+
+          # Recursively apply definitions to child nodes
+          apply_definitions child if child[@children]
+        end
+      end
+
+      # Apply definitions to each case of the control node
+      if %i(if unless case each while until).include? node[@type]
+        node[@children].each do |array|
+          process_definitions[array]
+        end
+      # Apply definition to all of the node's children
+      else
+        process_definitions[node[@children]]
+      end
     end
 
     # Check and accept or reject a given token as long as we have tokens
