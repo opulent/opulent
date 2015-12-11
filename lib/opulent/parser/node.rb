@@ -96,15 +96,23 @@ module Opulent
     # @param call_context [Node] Initial node call with its attributes
     #
     def process_definition(node_name, call_context)
-      model = @definitions[node_name].clone
+      model = [
+        :def,
+        node_name,
+        {},
+        [],
+        call_context[@indent]
+      ]
       model[@options] = {}.merge model[@options]
       model[@options][:call] = call_context
 
+      # Deprecated @version 1.6.4
+      #
       # Recursively map each child nodes to their definitions
       # for the initial call node children and for the model
       # children
-      process_definition_child model[@options][:call]
-      process_definition_child model
+      # process_definition_child model[@options][:call]
+      # process_definition_child model
 
       model
     end
@@ -117,7 +125,7 @@ module Opulent
       node[@children].map! do |child|
         if child[@type] == :node
           if !@definition_stack.include?(child[@value]) &&
-             @definitions.keys.include?(child[@value])
+             @definitions.key?(child[@value])
             process_definition child[@value], child
           else
             process_definition_child child if child[@children]

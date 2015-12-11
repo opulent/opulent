@@ -51,7 +51,7 @@ module Opulent
 
         # Call arguments set to true, in correct order
         arguments = []
-        @definitions[call_node[@value]][@options][:parameters].keys.each do
+        @definitions[call_node[@value]][@options][:parameters].keys.each do |k|
           arguments << 'true'
         end
         arguments << '{}'

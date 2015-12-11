@@ -2,7 +2,7 @@
 module Opulent
   # Debug enable
   #
-  DEBUG = false
+  DEBUG = true
 
   # Module method wrapper for creating a new engine instance
   #
