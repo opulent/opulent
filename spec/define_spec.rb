@@ -47,6 +47,18 @@ RSpec.describe Opulent do
       expect(result).to eq('<div class="node" attr1="1" attr2="2"></div>')
     end
 
+    it 'sets unspecified arguments to nil' do
+      opulent = Opulent.new <<-OPULENT
+      def node(attr1="default", attr2)
+        .node attr1=attr1 attr2=attr2
+
+      node
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq('<div class="node" attr1="default"></div>')
+    end
+
     it 'defines and uses a new element with default attributes' do
       opulent = Opulent.new <<-OPULENT
       def node(attr1="default", attr2)

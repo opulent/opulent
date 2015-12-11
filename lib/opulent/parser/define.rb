@@ -23,7 +23,13 @@ module Opulent
       name = accept(:node, :*).to_sym
 
       # Create node
-      definition = [:def, name, { parameters: attributes }, [], indent]
+      definition = [
+        :def,
+        name,
+        { parameters: attributes({}, true) },
+        [],
+        indent
+      ]
 
       # Set definition as root node and let the parser know that we're inside
       # a definition. This is used because inside definitions we do not

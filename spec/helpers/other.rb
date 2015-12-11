@@ -2,15 +2,10 @@ require_relative '../../lib/opulent'
 
 puts "\n"
 opulent = Opulent.new <<-OPULENT
-def node(count = 5)
-  - count -= 1
-  if count > 0
-    node* count=count
-      node
-        yield
+def node(attr1="default", attr2)
+  .node attr1=attr1 attr2=attr2
 
 node
-  child
 OPULENT
 
 result = opulent.render Object.new, test: { ext: 123 } {}

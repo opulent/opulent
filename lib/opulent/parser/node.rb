@@ -189,11 +189,12 @@ module Opulent
 
     # Get element attributes
     #
-    # @atts [Hash] Accumulator for node attributes
+    # @param atts [Hash] Accumulator for node attributes
+    # @param for_definition [Boolean] Set default value in wrapped to nil
     #
-    def attributes(atts = {})
-      wrapped_attributes atts
-      attributes_assignments atts, false
+    def attributes(atts = {}, for_definition = false)
+      wrapped_attributes atts, for_definition
+      attributes_assignments atts, false, for_definition
       atts
     end
 
@@ -203,27 +204,26 @@ module Opulent
     #
     # @param as_parameters [Boolean] Accept or reject identifier nodes
     #
-    def wrapped_attributes(list)
-      if (bracket = accept :brackets)
-        accept_newline
-        attributes_assignments list, true
-        accept_newline
+    def wrapped_attributes(list = {}, for_definition = false)
+      return unless (bracket = accept :brackets)
 
-        accept_stripped bracket.to_sym, :*
-      end
+      accept_newline
+      attributes_assignments list, true, for_definition
+      accept_newline
+
+      accept_stripped bracket.to_sym, :*
 
       list
     end
 
-    # Check if we match an expression node or
-    # a node node
+    # Get all attribute assignments as key=value pairs or standalone keys
     #
     # [ assignments ]
     #
     # @param list [Hash] Parent to which we append nodes
     # @param as_parameters [Boolean] Accept or reject identifier nodes
     #
-    def attributes_assignments(list, wrapped = true)
+    def attributes_assignments(list, wrapped = true, for_definition = false)
       if wrapped && lookahead(:exp_identifier_stripped_lookahead).nil? ||
          !wrapped && lookahead(:assignment_lookahead).nil?
         return list
@@ -253,7 +253,8 @@ module Opulent
         end
       else
         unless list[argument]
-          list[argument] = [:expression, 'true', { escaped: false }]
+          default_value = for_definition ? 'nil' : 'true'
+          list[argument] = [:expression, default_value, { escaped: false }]
         end
       end
 
@@ -267,13 +268,13 @@ module Opulent
 
         # Lookahead for attributes on the current line and the next one
         if lookahead(:exp_identifier_stripped_lookahead)
-          attributes_assignments list, wrapped
+          attributes_assignments list, wrapped, for_definition
         elsif lookahead_next_line(:exp_identifier_stripped_lookahead)
           accept_newline
-          attributes_assignments list, wrapped
+          attributes_assignments list, wrapped, for_definition
         end
       elsif !wrapped && lookahead(:assignment_lookahead)
-        attributes_assignments list, wrapped
+        attributes_assignments list, wrapped, for_definition
       end
 
       list
