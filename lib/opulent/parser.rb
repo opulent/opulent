@@ -110,7 +110,7 @@ module Opulent
       end
 
       # Apply definitions to each case of the control node
-      if %i(if unless case each while until).include? node[@type]
+      if %i(if unless case).include? node[@type]
         node[@children].each do |array|
           process_definitions[array]
         end
