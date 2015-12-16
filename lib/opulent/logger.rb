@@ -72,7 +72,7 @@ module Opulent
       # @param data [Array] Data to be displayed with the message
       #
       def log(message, *data)
-        case error
+        case message
         when :version
           title = 'Version'
           message = <<-LOG
