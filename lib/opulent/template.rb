@@ -1,7 +1,7 @@
 # @Opulent
 module Opulent
   # @OpulentTemplate
-  class OpulentTemplate < ::Tilt::Template
+  class Template < ::Tilt::Template
     # Allow accessing engine definitions
     attr_reader :def
 
@@ -47,5 +47,5 @@ module Opulent
   end
 
   # Register Opulent to Tilt
-  ::Tilt.register OpulentTemplate, 'opulent', 'op'
+  ::Tilt.register Template, 'opulent', 'op'
 end
