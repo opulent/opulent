@@ -319,12 +319,15 @@ module Opulent
     # Accept a ruby method call modifier
     #
     def method_call
-      return unless (method_code = accept(:exp_method_call))
+      method_code = ''
 
-      argument = call
-      method_code += argument if argument
+      while (method_start = accept(:exp_method_call))
+        method_code += method_start
+        argument = call
+        method_code += argument if argument
+      end
 
-      method_code
+      method_code == '' ? nil : method_code
     end
 
     # Accept ternary operator syntax

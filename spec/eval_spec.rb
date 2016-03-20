@@ -63,7 +63,7 @@ RSpec.describe Opulent do
       expect(result).to eq('2')
     end
 
-    it 'renders fails on explicit end' do 
+    it 'renders fails on explicit end' do
       expect do
         Opulent.new <<-OPULENT
   - if false
@@ -72,5 +72,41 @@ RSpec.describe Opulent do
         OPULENT
       end.to raise_error(RuntimeError)
     end
+
+    it 'renders accepts methods in wrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+div(id="upcase".upcase)
+      OPULENT
+
+      result = opulent.render Object.new, { var: 'print' } {}
+      expect(result).to eq('<div id="UPCASE"></div>')
+    end
+
+    it 'renders accepts methods in unwrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+div id="upcase".upcase
+      OPULENT
+
+      result = opulent.render Object.new, { var: 'print' } {}
+      expect(result).to eq('<div id="UPCASE"></div>')
+    end
+
+    it 'renders accepts multiple methods in wrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+div(id="downcase".upcase().downcase())
+      OPULENT
+
+      result = opulent.render Object.new, { var: 'print' } {}
+      expect(result).to eq('<div id="downcase"></div>')
+    end
+# 
+#     it 'renders accepts multiple methods in unwrapped attributes' do
+#       opulent = Opulent.new <<-OPULENT
+# div id="downcase".upcase().downcase()
+#       OPULENT
+#
+#       result = opulent.render Object.new, { var: 'print' } {}
+#       expect(result).to eq('<div id="downcase"></div>')
+#     end
   end
 end
