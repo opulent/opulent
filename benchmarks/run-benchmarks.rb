@@ -17,8 +17,8 @@ class Benchmarks
   def initialize(slow)
     @benches = Hash.new { |h, k| h[k] = [] }
 
-    @opulent_code  = File.read(File.dirname(__FILE__) + '/view.erb')
-    @erb_code  = File.read(File.dirname(__FILE__) + '/view.erb')
+    @opulent_code = File.read(File.dirname(__FILE__) + '/view.op')
+    @erb_code = File.read(File.dirname(__FILE__) + '/view.erb')
     @haml_code = File.read(File.dirname(__FILE__) + '/view.haml')
     @slim_code = File.read(File.dirname(__FILE__) + '/view.slim')
 
@@ -82,7 +82,7 @@ class Benchmarks
     context  = Context.new
     context_binding = context.instance_eval { binding }
 
-    bench(:parsing, 'opulent')     { Opulent.new(@opulent_code).result(context_binding) }
+    bench(:parsing, 'opulent')     { Opulent.new(@opulent_code).render(context) }
     bench(:parsing, 'erb')         { ERB.new(@erb_code).result(context_binding) }
     bench(:parsing, 'erubis')      { Erubis::Eruby.new(@erb_code).result(context_binding) }
     bench(:parsing, 'fast erubis') { Erubis::FastEruby.new(@erb_code).result(context_binding) }

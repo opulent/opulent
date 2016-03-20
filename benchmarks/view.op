@@ -3,7 +3,7 @@ html
   head
     title Simple Benchmark
   body
-    h1 == header
+    h1 =~ header
     unless item.empty?
       ul
         - for i in item
