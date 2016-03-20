@@ -195,5 +195,22 @@ RSpec.describe Opulent do
         '<test><child></child></test>'
       )
     end
+
+    it 'should pass definition arguments to inside definition' do
+      opulent = Opulent.new <<-OPULENT
+def x(xparam)
+  y yparam=xparam
+
+def y(yparam)
+  div class=yparam
+
+x xparam="test"
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<div class="test"></div>'
+      )
+    end
   end
 end
