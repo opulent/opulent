@@ -91,7 +91,7 @@ div id="upcase".upcase
       expect(result).to eq('<div id="UPCASE"></div>')
     end
 
-    it 'renders accepts multiple methods in wrapped attributes' do
+    it 'renders accepts chained methods in wrapped attributes' do
       opulent = Opulent.new <<-OPULENT
 div(id="downcase".upcase().downcase())
       OPULENT
@@ -99,14 +99,50 @@ div(id="downcase".upcase().downcase())
       result = opulent.render Object.new, { var: 'print' } {}
       expect(result).to eq('<div id="downcase"></div>')
     end
-# 
-#     it 'renders accepts multiple methods in unwrapped attributes' do
-#       opulent = Opulent.new <<-OPULENT
-# div id="downcase".upcase().downcase()
-#       OPULENT
-#
-#       result = opulent.render Object.new, { var: 'print' } {}
-#       expect(result).to eq('<div id="downcase"></div>')
-#     end
+
+    it 'renders accepts chained methods in unwrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+div id="downcase".upcase().downcase()
+      OPULENT
+
+      result = opulent.render Object.new, { var: 'print' } {}
+      expect(result).to eq('<div id="downcase"></div>')
+    end
+
+    it 'renders accepts hash access in wrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+div(id=var[:id])
+      OPULENT
+
+      result = opulent.render Object.new, { var: { id: 'id' } } {}
+      expect(result).to eq('<div id="id"></div>')
+    end
+
+    it 'renders accepts hash access in unwrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+div id=var[:id]
+      OPULENT
+
+      result = opulent.render Object.new, { var: { id: 'id' } } {}
+      expect(result).to eq('<div id="id"></div>')
+    end
+
+    it 'renders accepts chained hash access in wrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+div(id=var[:id][0])
+      OPULENT
+
+      result = opulent.render Object.new, { var: { id: ['id'] } } {}
+      expect(result).to eq('<div id="id"></div>')
+    end
+
+    it 'renders accepts chained hash access in unwrapped attributes' do
+      opulent = Opulent.new <<-OPULENT
+div id=var[:id][0]
+      OPULENT
+
+      result = opulent.render Object.new, { var: { id: ['id'] } } {}
+      expect(result).to eq('<div id="id"></div>')
+    end
   end
 end

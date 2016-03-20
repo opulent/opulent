@@ -55,14 +55,20 @@ module Opulent
     # hash_close: "]" token is required next
     #
     # [array_elements]
+    # [access][access]
     #
     def array
-      return unless (buffer = accept :square_bracket)
-      accept_newline
-      buffer += array_elements
-      accept_newline
-      buffer += accept :'[', :*
-      buffer
+      buffer = ''
+
+      while (bracket = accept :square_bracket)
+        buffer += bracket
+        accept_newline
+        buffer += array_elements
+        accept_newline
+        buffer += accept :'[', :*
+      end
+
+      buffer == '' ? nil : buffer
     end
 
     # Recursively gather expressions separated by a comma and add them to the
@@ -171,6 +177,21 @@ module Opulent
       buffer += expression[@value]
       buffer += accept_stripped :'(', :*
       buffer
+    end
+
+
+    # Accept a ruby method call modifier
+    #
+    def method_call
+      method_code = ''
+
+      while (method_start = accept(:exp_method_call))
+        method_code += method_start
+        argument = call
+        method_code += argument if argument
+      end
+
+      method_code == '' ? nil : method_code
     end
 
     # Check if it's possible to parse a ruby call literal. First, try to see
@@ -314,20 +335,6 @@ module Opulent
     #
     def operation
       accept(:exp_operation)
-    end
-
-    # Accept a ruby method call modifier
-    #
-    def method_call
-      method_code = ''
-
-      while (method_start = accept(:exp_method_call))
-        method_code += method_start
-        argument = call
-        method_code += argument if argument
-      end
-
-      method_code == '' ? nil : method_code
     end
 
     # Accept ternary operator syntax
