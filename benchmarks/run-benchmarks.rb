@@ -57,7 +57,7 @@ class Benchmarks
   end
 
   def init_tilt_benches
-    tilt_opulent     = Opulent::Template.new { @opulent_code }
+    tilt_opulent     = Opulent::Template.new() { @opulent_code }
     tilt_erb         = Tilt::ERBTemplate.new { @erb_code }
     tilt_erubis      = Tilt::ErubisTemplate.new { @erb_code }
     tilt_temple_erb  = Temple::ERB::Template.new { @erb_code }
