@@ -2,6 +2,10 @@
 
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'), File.dirname(__FILE__))
 
+W = 5000
+N = 100000
+
+require 'benchmark'
 require 'benchmark/ips'
 
 require 'tilt'
@@ -14,17 +18,19 @@ require 'slim'
 require_relative 'context'
 
 class Benchmarks
-  def initialize(slow)
+  def initialize(test_case)
     @benches = Hash.new { |h, k| h[k] = [] }
 
-    @opulent_code = File.read(File.dirname(__FILE__) + '/view.op')
-    @erb_code = File.read(File.dirname(__FILE__) + '/view.erb')
-    @haml_code = File.read(File.dirname(__FILE__) + '/view.haml')
-    @slim_code = File.read(File.dirname(__FILE__) + '/view.slim')
+    test_case = "page" unless test_case
+
+    @opulent_code = File.read(File.dirname(__FILE__) + "/#{test_case}/view.op")
+    @erb_code = File.read(File.dirname(__FILE__) + "/#{test_case}/view.erb")
+    @haml_code = File.read(File.dirname(__FILE__) + "/#{test_case}/view.haml")
+    @slim_code = File.read(File.dirname(__FILE__) + "/#{test_case}/view.slim")
 
     init_compiled_benches
     init_tilt_benches
-    init_parsing_benches if slow
+    init_parsing_benches
   end
 
   def init_compiled_benches
@@ -39,7 +45,6 @@ class Benchmarks
       def run_opulent_ugly; #{Opulent.new(@opulent_code).template}; end
       def run_erb; #{ERB.new(@erb_code).src}; end
       def run_erubis; #{Erubis::Eruby.new(@erb_code).src}; end
-      def run_temple_erb; #{Temple::ERB::Engine.new.call @erb_code}; end
       def run_fast_erubis; #{Erubis::FastEruby.new(@erb_code).src}; end
       def run_slim_pretty; #{Slim::Engine.new(pretty: true).call @slim_code}; end
       def run_slim_ugly; #{Slim::Engine.new.call @slim_code}; end
@@ -49,7 +54,6 @@ class Benchmarks
     bench(:compiled, 'erb')         { context.run_erb }
     bench(:compiled, 'erubis')      { context.run_erubis }
     bench(:compiled, 'fast erubis') { context.run_fast_erubis }
-    bench(:compiled, 'temple erb')  { context.run_temple_erb }
     bench(:compiled, 'slim pretty') { context.run_slim_pretty }
     bench(:compiled, 'slim ugly')   { context.run_slim_ugly }
     bench(:compiled, 'haml pretty') { context.run_haml_pretty }
@@ -60,7 +64,6 @@ class Benchmarks
     tilt_opulent     = Opulent::Template.new() { @opulent_code }
     tilt_erb         = Tilt::ERBTemplate.new { @erb_code }
     tilt_erubis      = Tilt::ErubisTemplate.new { @erb_code }
-    tilt_temple_erb  = Temple::ERB::Template.new { @erb_code }
     tilt_haml_pretty = Tilt::HamlTemplate.new(format: :html5) { @haml_code }
     tilt_haml_ugly   = Tilt::HamlTemplate.new(format: :html5, ugly: true) { @haml_code }
     tilt_slim_pretty = Slim::Template.new(pretty: true) { @slim_code }
@@ -71,7 +74,6 @@ class Benchmarks
     bench(:tilt, 'opulent')     { tilt_opulent.render(context) }
     bench(:tilt, 'erb')         { tilt_erb.render(context) }
     bench(:tilt, 'erubis')      { tilt_erubis.render(context) }
-    bench(:tilt, 'temple erb')  { tilt_temple_erb.render(context) }
     bench(:tilt, 'slim pretty') { tilt_slim_pretty.render(context) }
     bench(:tilt, 'slim ugly')   { tilt_slim_ugly.render(context) }
     bench(:tilt, 'haml pretty') { tilt_haml_pretty.render(context) }
@@ -86,7 +88,6 @@ class Benchmarks
     bench(:parsing, 'erb')         { ERB.new(@erb_code).result(context_binding) }
     bench(:parsing, 'erubis')      { Erubis::Eruby.new(@erb_code).result(context_binding) }
     bench(:parsing, 'fast erubis') { Erubis::FastEruby.new(@erb_code).result(context_binding) }
-    bench(:parsing, 'temple erb')  { Temple::ERB::Template.new { @erb_code }.render(context) }
     bench(:parsing, 'slim pretty') { Slim::Template.new(pretty: true) { @slim_code }.render(context) }
     bench(:parsing, 'slim ugly')   { Slim::Template.new { @slim_code }.render(context) }
     bench(:parsing, 'haml pretty') { Haml::Engine.new(@haml_code, format: :html5).render(context) }
@@ -95,7 +96,25 @@ class Benchmarks
 
   def run
     @benches.each do |group_name, group_benches|
-      puts "Running #{group_name} benchmarks:"
+      puts "\nRunning #{group_name} benchmarks\n\n"
+
+      puts "Warming up -------------------------------------"
+      Benchmark.bm do |x|
+        group_benches.each do |name, block|
+          x.report("#{group_name} #{name}") {
+            W.times do block.call end
+          }
+        end
+      end
+
+      puts "Measuring -------------------------------------"
+      Benchmark.bm do |x|
+        group_benches.each do |name, block|
+          x.report("#{group_name} #{name}") {
+            N.times do block.call end
+          }
+        end
+      end
 
       Benchmark.ips do |x|
         group_benches.each do |name, block|
@@ -120,9 +139,6 @@ Compiled Tilt benchmark: Template is compiled with Tilt, which gives a more
 Parsing benchmark: Template is parsed every time.
     This is not the recommended way to use the template engine
     and Slim is not optimized for it. Activate this benchmark with 'rake bench slow=1'.
-
-Temple ERB is the ERB implementation using the Temple framework. It shows the
-overhead added by the Temple framework compared to ERB.
 "
   end
 
@@ -131,4 +147,4 @@ overhead added by the Temple framework compared to ERB.
   end
 end
 
-Benchmarks.new(ENV['slow']).run
+Benchmarks.new(ARGV[0]).run

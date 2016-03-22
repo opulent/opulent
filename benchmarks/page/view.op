@@ -4,14 +4,14 @@ html
     title Simple Benchmark
   body
     h1 =~ header
-    unless item.empty?
+    - unless item.empty?
       ul
         - for i in item
-          if i[:current]
+          - if i[:current]
             li
               strong =~ i[:name]
-          else
+          - else
             li
               a href=~i[:url] =~ i[:name]
-    else
+    - else
       p The list is empty.
