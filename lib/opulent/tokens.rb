@@ -88,10 +88,10 @@ module Opulent
       # Receive matching brackets for allowing multiple bracket types for
       # element attributes
       brackets: /\A([\(\[\{])/,
-      '(': /\A(\))/,
-      '[': /\A(\])/,
-      '{': /\A(\})/,
-      '<': /\A(\>)/,
+      '(' => /\A(\))/,
+      '[' => /\A(\])/,
+      '{' => /\A(\})/,
+      '<' => /\A(\>)/,
 
       # Terminators
       comma: /\A(\s*\,\s*)/,
