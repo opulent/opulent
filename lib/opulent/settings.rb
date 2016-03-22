@@ -43,9 +43,9 @@ module Opulent
 
     # Shorthand attribute associations
     SHORTHAND = {
-      '.': :class,
-      '#': :id,
-      '&': :name
+      '.' => :class,
+      '#' => :id,
+      '&' => :name
     }
 
     # Opulent runtime settings
