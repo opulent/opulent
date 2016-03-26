@@ -1,7 +1,6 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 
-
 # RSpec task
 RSpec::Core::RakeTask.new(:spec)
 task :test => :spec
@@ -10,3 +9,6 @@ task :test => :spec
 task :benchmark do
   ruby 'benchmarks/run-benchmarks.rb'
 end
+
+# Default Rake task
+task default: 'test'

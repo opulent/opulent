@@ -42,7 +42,7 @@ class Benchmarks
     haml_pretty.def_method(context, :run_haml_pretty)
     haml_ugly.def_method(context, :run_haml_ugly)
     context.instance_eval %{
-      def run_opulent_ugly; #{Opulent.new(@opulent_code).template}; end
+      def run_opulent_ugly; #{Opulent.new(@opulent_code).src}; end
       def run_erb; #{ERB.new(@erb_code).src}; end
       def run_erubis; #{Erubis::Eruby.new(@erb_code).src}; end
       def run_fast_erubis; #{Erubis::FastEruby.new(@erb_code).src}; end

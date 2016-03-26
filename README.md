@@ -1,4 +1,5 @@
 # Opulent
+[![Build Status](https://travis-ci.org/opulent/opulent.svg?branch=master)](https://travis-ci.org/opulent/opulent)
 
 Opulent is an __Intelligent Web Templating Engine__ created for extremely fast and efficient Web Development. Based on the idea of lightweight and reusable __Web Components__, Opulent greatly increases your development speed for any project.
 
