@@ -39,7 +39,7 @@ module Opulent
     # compilation.
     #
     def precompiled_template(_locals = {})
-      @engine.template
+      @engine.src
     end
   end
 

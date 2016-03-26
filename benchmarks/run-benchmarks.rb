@@ -9,7 +9,7 @@ require 'benchmark'
 require 'benchmark/ips'
 
 require 'tilt'
-require 'opulent'
+require '../lib/opulent'
 require 'erubis'
 require 'erb'
 require 'haml'

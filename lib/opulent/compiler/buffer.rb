@@ -333,14 +333,17 @@ module Opulent
             buffer_escape code[1..-2]
           end
         when /\A([#\\]?[^#\\]*([#\\][^\\#\{][^#\\]*)*)/
+          string_remaining = $'
+          string_current = $&
+
           # Static text
-          if escape
-            buffer_escape "\"#{$&}\""
+          if escape && string_current =~ Utils::ESCAPE_HTML_PATTERN
+            buffer_escape "\"#{string_current}\""
           else
-            buffer_freeze $&
+            buffer_freeze string_current
           end
 
-          string = $'
+          string = string_remaining
         end
       end until string.empty?
     end
