@@ -98,21 +98,23 @@ class Benchmarks
     @benches.each do |group_name, group_benches|
       puts "\nRunning #{group_name} benchmarks\n\n"
 
-      puts "Warming up -------------------------------------"
-      Benchmark.bm do |x|
-        group_benches.each do |name, block|
-          x.report("#{group_name} #{name}") {
-            W.times do block.call end
-          }
+      unless group_name == :parsing
+        puts "Warming up -------------------------------------"
+        Benchmark.bm do |x|
+          group_benches.each do |name, block|
+            x.report("#{group_name} #{name}") {
+              W.times do block.call end
+            }
+          end
         end
-      end
 
-      puts "Measuring -------------------------------------"
-      Benchmark.bm do |x|
-        group_benches.each do |name, block|
-          x.report("#{group_name} #{name}") {
-            N.times do block.call end
-          }
+        puts "Measuring -------------------------------------"
+        Benchmark.bm do |x|
+          group_benches.each do |name, block|
+            x.report("#{group_name} #{name}") {
+              N.times do block.call end
+            }
+          end
         end
       end
 
