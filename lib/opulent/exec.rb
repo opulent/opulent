@@ -17,7 +17,7 @@ module Opulent
       while arguments[i]
         case arguments[i]
 
-        # opulent input.op output.op
+        # opulent input.op output.html
         when EXTENSION
           @input = arguments[i]
           is_keyword = KEYWORDS.include? arguments[i + 1]
@@ -69,11 +69,14 @@ module Opulent
 
         Logger.error :exec, @input, :input unless File.file? @input
 
-        opulent_layout = Opulent.new @layout
-        opulent_page = Opulent.new @input
+        input_file = File.read @input
+        opulent_page = Opulent.new input_file
+
         scope = Object.new
 
         if @layout
+          layout_file = File.read @layout
+          opulent_layout = Opulent.new layout_file
           output = proc do
             opulent_layout.render scope, @locals do
               opulent_page.render scope, @locals do

@@ -98,7 +98,7 @@ No output file specified. Writing result to terminal.
           message = <<-LOG
 You can use the following commands with the Opulent Command  Line Interface:
 
-opulent input.op output.op      Render an input file and write the result to
+opulent input.op output.html    Render an input file and write the result to
                                 the output file.
 opulent layout [-l] layout.op   Render an input file using given input
                                 layout file.
