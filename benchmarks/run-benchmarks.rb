@@ -9,7 +9,7 @@ require 'benchmark'
 require 'benchmark/ips'
 
 require 'tilt'
-require 'opulent'
+require '../lib/opulent'
 require 'erubis'
 require 'erb'
 require 'haml'
@@ -42,7 +42,7 @@ class Benchmarks
     haml_pretty.def_method(context, :run_haml_pretty)
     haml_ugly.def_method(context, :run_haml_ugly)
     context.instance_eval %{
-      def run_opulent_ugly; #{Opulent.new(@opulent_code).template}; end
+      def run_opulent_ugly; #{Opulent.new(@opulent_code).src}; end
       def run_erb; #{ERB.new(@erb_code).src}; end
       def run_erubis; #{Erubis::Eruby.new(@erb_code).src}; end
       def run_fast_erubis; #{Erubis::FastEruby.new(@erb_code).src}; end
@@ -98,21 +98,23 @@ class Benchmarks
     @benches.each do |group_name, group_benches|
       puts "\nRunning #{group_name} benchmarks\n\n"
 
-      puts "Warming up -------------------------------------"
-      Benchmark.bm do |x|
-        group_benches.each do |name, block|
-          x.report("#{group_name} #{name}") {
-            W.times do block.call end
-          }
+      unless group_name == :parsing
+        puts "Warming up -------------------------------------"
+        Benchmark.bm do |x|
+          group_benches.each do |name, block|
+            x.report("#{group_name} #{name}") {
+              W.times do block.call end
+            }
+          end
         end
-      end
 
-      puts "Measuring -------------------------------------"
-      Benchmark.bm do |x|
-        group_benches.each do |name, block|
-          x.report("#{group_name} #{name}") {
-            N.times do block.call end
-          }
+        puts "Measuring -------------------------------------"
+        Benchmark.bm do |x|
+          group_benches.each do |name, block|
+            x.report("#{group_name} #{name}") {
+              N.times do block.call end
+            }
+          end
         end
       end
 

@@ -66,13 +66,13 @@ module Opulent
     def buffer_attributes_to_hash(attributes)
       '{' + attributes.inject([]) do |extend_map, (key, attribute)|
         extend_map << (
-        ":\"#{key}\" => " + if key == :class
-                              '[' + attribute.map do |exp|
-                                exp[@value]
-                              end.join(', ') + ']'
-                            else
-                              attribute[@value]
-                            end
+          ":\"#{key}\" => " + if key == :class
+                                '[' + attribute.map do |exp|
+                                  exp[@value]
+                                end.join(', ') + ']'
+                              else
+                                attribute[@value]
+                              end
         )
       end.join(', ') + '}'
     end
@@ -88,35 +88,45 @@ module Opulent
       buffer_class_attribute_type_check = proc do |variable, escape = true|
         class_variable = buffer_set_variable :local, variable
 
-        buffer_eval "if #{class_variable}.is_a? Array"
+        # Check if we need to add the class attribute
+        buffer_eval "unless #{class_variable} and true === #{class_variable}"
+
+        # Check if class attribute has array value
+        buffer_eval "if Array === #{class_variable}"
+        ruby_code = "#{class_variable}.join ' '"
         if escape
-          buffer_escape("#{class_variable}.join ' '")
+          buffer_escape ruby_code
         else
-          buffer("#{class_variable}.join ' '")
+          buffer ruby_code
         end
 
-        buffer_eval "elsif #{class_variable}.is_a? Hash"
+        # Check if class attribute has hash value
+        buffer_eval "elsif Hash === #{class_variable}"
+        ruby_code = "#{class_variable}.to_a.join ' '"
         if escape
-          buffer_escape("#{class_variable}.to_a.join ' '")
+          buffer_escape ruby_code
         else
-          buffer("#{class_variable}.to_a.join ' '")
+          buffer ruby_code
         end
 
-        buffer_eval 'elsif [TrueClass, NilClass, FalseClass].include? ' \
-                    "#{class_variable}.class"
-
+        # Other values
         buffer_eval 'else'
+        ruby_code = "#{class_variable}"
         if escape
-          buffer_escape("#{class_variable}")
+          buffer_escape ruby_code
         else
-          buffer("#{class_variable}")
+          buffer ruby_code
         end
 
+        # End cases
+        buffer_eval 'end'
+
+        # End
         buffer_eval 'end'
       end
 
       # Handle class attributes by checking if they're simple, noninterpolated
-      # strings and extend them if needed
+      # strings or not and extend them if needed
       #
       buffer_class_attribute = proc do |attribute|
         if attribute[@value] =~ Tokens[:exp_string_match]
@@ -168,42 +178,46 @@ module Opulent
       # Proc for setting class attribute extension, used as DRY closure
       #
       buffer_data_attribute_type_check = proc do |key, variable, escape = true, dynamic = false|
+        # Check if variable is set
+        buffer_eval "if #{variable}"
+
         # @Array
-        buffer_eval "if #{variable}.is_a? Array"
+        buffer_eval "if Array === #{variable}"
         dynamic ? buffer("\" #{key}=\\\"\"") : buffer_freeze(" #{key}=\"")
 
+        ruby_code = "#{variable}.join '_'"
         if escape
-          buffer_escape("#{variable}.join '_'")
+          buffer_escape ruby_code
         else
-          buffer("#{variable}.join '_'")
+          buffer ruby_code
         end
 
         buffer_freeze '"'
 
         # @Hash
-        buffer_eval "elsif #{variable}.is_a? Hash"
+        buffer_eval "elsif Hash === #{variable}"
         buffer_eval "#{variable}.each do |#{OPULENT_KEY}, #{OPULENT_VALUE}|"
         # key-hashkey
         dynamic ? buffer("\" #{key}-\"") : buffer_freeze(" #{key}-")
-        buffer "\"\#{#{OPULENT_KEY}}\""
+        buffer "#{OPULENT_KEY}.to_s"
         #="value"
         buffer_freeze "=\""
-        escape ? buffer_escape('_opulent_value') : buffer('_opulent_value')
+        escape ? buffer_escape(OPULENT_VALUE) : buffer(OPULENT_VALUE)
         buffer_freeze '"'
         buffer_eval 'end'
 
         # @TrueClass
-        buffer_eval "elsif #{variable}.is_a? TrueClass"
+        buffer_eval "elsif true === #{variable}"
         dynamic ? buffer("\" #{key}\"") : buffer_freeze(" #{key}")
-
-        # @FalseClass
-        buffer_eval "elsif [NilClass, FalseClass].include? #{variable}.class"
 
         # @Object
         buffer_eval 'else'
         dynamic ? buffer("\" #{key}=\\\"\"") : buffer_freeze(" #{key}=\"")
         escape ? buffer_escape("#{variable}") : buffer("#{variable}")
         buffer_freeze '"'
+
+        # End Cases
+        buffer_eval 'end'
 
         # End
         buffer_eval 'end'
@@ -298,24 +312,40 @@ module Opulent
     # @param string [String] Input string
     # @param escape [Boolean] Escape string
     #
+    # @ref slim-lang Thank you for the interpolation code
+    #
     def buffer_split_by_interpolation(string, escape = true)
-      parts = string.split Utils::INTERPOLATION_PATTERN
-      parts.each do |input|
-        if input =~ Utils::INTERPOLATION_PATTERN
-          input = input[2..-2]
+      # Interpolate variables in text (#{variable}).
+      # Split the text into multiple dynamic and static parts.
+      begin
+        case string
+        when /\A\\#\{/
+          # Escaped interpolation
+          buffer_freeze '#{'
+          string = $'
+        when /\A#\{((?>[^{}]|(\{(?>[^{}]|\g<1>)*\}))*)\}/
+          # Interpolation
+          string, code = $', $1
+          # escape = code !~ /\A\{.*\}\Z/
           if escape
-            buffer_escape input
+            buffer code
           else
-            buffer input
+            buffer_escape code[1..-2]
           end
-        else
-          if escape && input =~ Utils::ESCAPE_HTML_PATTERN
-            buffer_escape(input.inspect)
+        when /\A([#\\]?[^#\\]*([#\\][^\\#\{][^#\\]*)*)/
+          string_remaining = $'
+          string_current = $&
+
+          # Static text
+          if escape && string_current =~ Utils::ESCAPE_HTML_PATTERN
+            buffer_escape "\"#{string_current}\""
           else
-            buffer_freeze(input)
+            buffer_freeze string_current
           end
+
+          string = string_remaining
         end
-      end
+      end until string.empty?
     end
   end
 end

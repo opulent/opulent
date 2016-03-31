@@ -1,5 +1,16 @@
 language: ruby
+
 rvm:
- - "2.1.0"
- - rbx
+  - ruby-head
+  - 2.2.2
+  - 2.1.6
+  - 2.0.0
+  - rbx-2
+  - rbx
+  - 1.9.3
+  - jruby-head
+  - jruby-19mode
+
 script: bundle exec rspec spec
+
+sudo: false
