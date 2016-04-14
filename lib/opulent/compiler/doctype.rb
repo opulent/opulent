@@ -27,6 +27,8 @@ module Opulent
                 '?xml version="1.0" encoding="utf-8" ?'
               when :'xml ISO-8859-1'
                 '?xml version="1.0" encoding="iso-8859-1" ?'
+              else
+                "!DOCTYPE #{node[@value]}"
               end
 
       @node_stack << :doctype
