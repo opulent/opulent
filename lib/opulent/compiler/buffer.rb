@@ -340,7 +340,7 @@ module Opulent
 
           # Static text
           if escape && string_current =~ Utils::ESCAPE_HTML_PATTERN
-            buffer_escape "\"#{string_current.gsub '"', '\"'}\""
+            buffer_escape string_current.inspect
           else
             buffer_freeze string_current
           end
