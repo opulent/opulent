@@ -15,5 +15,12 @@ script: bundle exec rspec spec
 
 sudo: false
 
-allow_failures:
-  - rvm: jruby-19mode
+env:
+  matrix:
+    - "TASK=benchmark"
+
+matrix:
+  allow_failures:
+    # - rvm: ruby-head
+    - rvm: jruby-19mode
+    - rvm: jruby-head
