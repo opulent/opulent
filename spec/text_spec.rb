@@ -160,13 +160,25 @@ p This is \#{interpolated}.
       expect(result).to eq('<p>This is true.</p>')
     end
 
-    it 'renders interpolated variables' do
+    it 'renders escapes interpolated variables' do
       opulent = Opulent.new <<-OPULENT
 p This is not \\\#{interpolated}.
       OPULENT
 
       result = opulent.render Object.new, { interpolated: 'true' } {}
       expect(result).to eq('<p>This is not #{interpolated}.</p>')
+    end
+
+    it 'renders interpolated variables' do
+      opulent = Opulent.new <<-OPULENT
+pre |
+  - href = "/css/\\\#{href}.css"
+      OPULENT
+
+      require 'pp'
+      pp opulent.src
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq("<pre>- href = &quot;/css/\#{href}.css&quot;</pre>")
     end
   end
 end

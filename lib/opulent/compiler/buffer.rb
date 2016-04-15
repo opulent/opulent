@@ -319,26 +319,28 @@ module Opulent
       # Split the text into multiple dynamic and static parts.
       begin
         case string
-        when /\A\\#\{/
+        when /\A\\\#\{/
           # Escaped interpolation
           buffer_freeze '#{'
           string = $'
         when /\A#\{((?>[^{}]|(\{(?>[^{}]|\g<1>)*\}))*)\}/
           # Interpolation
-          string, code = $', $1
+          string = $'
+          code = $1
+
           # escape = code !~ /\A\{.*\}\Z/
           if escape
             buffer code
           else
             buffer_escape code[1..-2]
           end
-        when /\A([#\\]?[^#\\]*([#\\][^\\#\{][^#\\]*)*)/
+        when /\A([\\#]?[^#\\]*([#\\][^\\#\{][^#\\]*)*)/
           string_remaining = $'
           string_current = $&
 
           # Static text
           if escape && string_current =~ Utils::ESCAPE_HTML_PATTERN
-            buffer_escape "\"#{string_current}\""
+            buffer_escape "\'#{string_current}\'"
           else
             buffer_freeze string_current
           end
