@@ -150,5 +150,23 @@ div | Hello world!
         ' This has <whitespace> '
       )
     end
+
+    it 'renders interpolated variables' do
+      opulent = Opulent.new <<-OPULENT
+p This is \#{interpolated}.
+      OPULENT
+
+      result = opulent.render Object.new, { interpolated: 'true' } {}
+      expect(result).to eq('<p>This is true.</p>')
+    end
+
+    it 'renders interpolated variables' do
+      opulent = Opulent.new <<-OPULENT
+p This is not \\\#{interpolated}.
+      OPULENT
+
+      result = opulent.render Object.new, { interpolated: 'true' } {}
+      expect(result).to eq('<p>This is not #{interpolated}.</p>')
+    end
   end
 end
