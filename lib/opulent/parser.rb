@@ -55,7 +55,7 @@ module Opulent
     #
     def parse(code)
       # Split the code into lines and parse them one by one
-      @code = code.lines
+      @code = code.lines.to_a
 
       # Current line index
       @i = -1
@@ -110,7 +110,7 @@ module Opulent
       end
 
       # Apply definitions to each case of the control node
-      if %i(if unless case).include? node[@type]
+      if [:if, :unless, :case].include? node[@type]
         node[@children].each do |array|
           process_definitions[array]
         end

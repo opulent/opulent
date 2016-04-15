@@ -175,8 +175,6 @@ pre |
   - href = "/css/\\\#{href}.css"
       OPULENT
 
-      require 'pp'
-      pp opulent.src
       result = opulent.render Object.new, {} {}
       expect(result).to eq("<pre>- href = &quot;/css/\#{href}.css&quot;</pre>")
     end

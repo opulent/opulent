@@ -6,7 +6,7 @@ module Opulent
     BUFFER = :@_opulent_buffer
 
     # Default Opulent file extension
-    FILE_EXTENSION = '.op'
+    FILE_EXTENSION = '.op'.freeze
 
     # Default yield target which is used for child block replacements
     DEFAULT_EACH_KEY = :key
@@ -15,19 +15,20 @@ module Opulent
     DEFAULT_EACH_VALUE = :value
 
     # List of self enclosing node elements
-    SELF_ENCLOSING = %i(
-      img link input meta br hr area base col command embed keygen param source
-      track wbr
-    )
+    SELF_ENCLOSING = [
+      :img, :link, :input, :meta, :br, :hr, :area, :base, :col, :command,
+      :embed, :keygen, :param, :source, :track, :wbr
+    ].freeze
 
     # List of inline node parents which can be either inline or have complex
     # structures inside of them, such as anchor tags
-    MULTI_NODE = %i(a)
+    MULTI_NODE = [:a].freeze
 
     # List of inline node names
-    INLINE_NODE = %i(
-      text a span strong em br i b small label sub sup abbr var code kbd
-    )
+    INLINE_NODE = [
+      :text, :a, :span, :strong, :em, :br, :i, :b, :small, :label, :sub, :sup,
+      :abbr, :var, :code, :kbd
+    ].freeze
 
     # Check whether text should or shouldn't be evaluated
     INTERPOLATION_CHECK = /(?<!\\)\#\{.*\}/
@@ -46,11 +47,10 @@ module Opulent
       :'.' => :class,
       :'#' => :id,
       :'&' => :name
-    }
+    }.freeze
 
     # Opulent runtime settings
     DEFAULTS = {
-      # dependency_manager: true, # Soon to be implemented
       indent: 2,
       layouts: false,
       pretty: false,

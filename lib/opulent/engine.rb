@@ -67,8 +67,14 @@ module Opulent
       end
 
       # Set input local variables in current scope
-      locals.each do |key, value|
-        scope.local_variable_set key, value
+      if RUBY_VERSION.start_with?('1.9', '2.0')
+        locals.each do |key, value|
+          eval "#{key} = #{value.inspect}", scope
+        end
+      else
+        locals.each do |key, value|
+          scope.local_variable_set key, value
+        end
       end
 
       # Evaluate the template in the given scope (context)

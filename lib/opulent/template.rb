@@ -16,6 +16,7 @@ module Opulent
     #
     def prepare
       # Set up the rendering engine
+      @options[:file] = eval_file
       @engine = ::Opulent.new @data, @options
     end
 

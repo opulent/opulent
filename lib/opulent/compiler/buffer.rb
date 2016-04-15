@@ -332,7 +332,7 @@ module Opulent
           if escape
             buffer code
           else
-            buffer_escape code[1..-2]
+            buffer_escape code
           end
         when /\A([\\#]?[^#\\]*([#\\][^\\#\{][^#\\]*)*)/
           string_remaining = $'
@@ -340,7 +340,7 @@ module Opulent
 
           # Static text
           if escape && string_current =~ Utils::ESCAPE_HTML_PATTERN
-            buffer_escape "\'#{string_current}\'"
+            buffer_escape "\"#{string_current.gsub '"', '\"'}\""
           else
             buffer_freeze string_current
           end

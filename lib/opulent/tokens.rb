@@ -1,9 +1,10 @@
 # @Opulent
 module Opulent
   # Opulent KEYWORDS
-  KEYWORDS = %i(
-    def yield include if else elsif unless case when each while until doctype
-  )
+  KEYWORDS = [
+    :def, :yield, :include, :if, :else, :elsif, :unless, :case, :when, :each,
+    :while, :until, :doctype
+  ].freeze
 
   # @Tokens
   class Tokens
