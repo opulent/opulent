@@ -67,13 +67,13 @@ module Opulent
       end
 
       # Set input local variables in current scope
-      if RUBY_VERSION.start_with?('1.9', '2.0')
+      if scope.respond_to? :local_variable_set
         locals.each do |key, value|
-          eval "#{key} = #{value.inspect}", scope
+          scope.local_variable_set key, value
         end
       else
         locals.each do |key, value|
-          scope.local_variable_set key, value
+          eval "#{key} = #{value.inspect}", scope
         end
       end
 
