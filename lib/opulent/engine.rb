@@ -73,7 +73,7 @@ module Opulent
         end
       else
         locals.each do |key, value|
-          eval "#{key} = #{value.inspect}", scope
+          eval("#{key} = nil; lambda {|v| #{key} = v}", scope).call(value)
         end
       end
 
