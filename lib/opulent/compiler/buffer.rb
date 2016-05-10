@@ -330,9 +330,9 @@ module Opulent
 
           # escape = code !~ /\A\{.*\}\Z/
           if escape
-            buffer code
-          else
             buffer_escape code
+          else
+            buffer code
           end
         when /\A([\\#]?[^#\\]*([#\\][^\\#\{][^#\\]*)*)/
           string_remaining = $'

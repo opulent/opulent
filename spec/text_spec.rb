@@ -160,7 +160,25 @@ p This is \#{interpolated}.
       expect(result).to eq('<p>This is true.</p>')
     end
 
-    it 'renders escapes interpolated variables' do
+    it 'renders escaped interpolated variables' do
+      opulent = Opulent.new <<-OPULENT
+p This is \#{interpolated}.
+      OPULENT
+
+      result = opulent.render Object.new, { interpolated: '<interpolate>' } {}
+      expect(result).to eq('<p>This is &lt;interpolate&gt;.</p>')
+    end
+
+    it 'renders unescaped interpolated variables' do
+      opulent = Opulent.new <<-OPULENT
+p ~ This is \#{interpolated}.
+      OPULENT
+
+      result = opulent.render Object.new, { interpolated: '<interpolate>' } {}
+      expect(result).to eq('<p>This is <interpolate>.</p>')
+    end
+
+    it 'escapes interpolated variables' do
       opulent = Opulent.new <<-OPULENT
 p This is not \\\#{interpolated}.
       OPULENT

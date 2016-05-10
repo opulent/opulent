@@ -212,5 +212,63 @@ x xparam="test"
         '<div class="test"></div>'
       )
     end
+
+    it 'should escape passed variable' do
+      opulent = Opulent.new <<-OPULENT
+def x(var)
+  p = var
+
+x var="<test>"
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<p>&lt;test&gt;</p>'
+      )
+    end
+
+    it 'should unescape passed variable' do
+      opulent = Opulent.new <<-OPULENT
+def x(var)
+  p =~ var
+
+x var="<test>"
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<p><test></p>'
+      )
+    end
+
+    it 'should escape passed interpolated variable' do
+      opulent = Opulent.new <<-OPULENT
+def x(var)
+  p Hello \#{var}
+
+x var="<test>"
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<p>Hello &lt;test&gt;</p>'
+      )
+    end
+
+    it 'should escape passed interpolated variable' do
+      opulent = Opulent.new <<-OPULENT
+def x(var)
+  p ~ Hello \#{var}
+
+x var="<test>"
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq(
+        '<p>Hello <test></p>'
+      )
+    end
+
+
   end
 end
