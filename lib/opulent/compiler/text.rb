@@ -8,7 +8,26 @@ module Opulent
     # @param indent [Fixnum] Size of the indentation to be added
     #
     def plain(node, indent)
+      # Text value
       value = node[@options][:value]
+
+      # Pretty print
+      if @settings[:pretty]
+        indentation = ' ' * indent
+        inline = @sibling_stack[-1][-1][0] == :node &&
+                 Settings::INLINE_NODE.include?(@sibling_stack[-1][-1][1])
+
+        # Add current node to the siblings stack
+        @sibling_stack[-1] << [node[@type], node[@value]]
+
+        # If we have a text on multiple lines and the text isn't supposed to be
+        # inline, indent all the lines of the text
+        if !inline || value.split("\n").size > 1
+          value.gsub!(/^(?!$)/, indentation)
+        else
+          value.strip!
+        end
+      end
 
       # Leading whitespace
       buffer_freeze ' ' if node[@options][:leading_whitespace]
@@ -23,6 +42,11 @@ module Opulent
 
       # Trailing whitespace
       buffer_freeze ' ' if node[@options][:trailing_whitespace]
+
+      # Pretty print
+      if @settings[:pretty]
+        buffer_freeze "\n" unless inline
+      end
     end
   end
 end

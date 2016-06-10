@@ -47,7 +47,7 @@ module Opulent
           @loaded = true
         rescue LoadError
           # Error output with filter name and installation instructions
-          Compiler.error :filter_load, @name, install_error
+          Logger.error :compile, :filter_load, @name, install_error
         end
       end
 

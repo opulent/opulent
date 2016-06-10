@@ -23,11 +23,9 @@ module Opulent
       buffer_eval node[@value]
 
       # If the node has children, evaluate each one of them
-      if node[@children]
-        node[@children].each do |child|
-          root child, indent + @settings[:indent]
-        end
-      end
+      node[@children].each do |child|
+        root child, indent + @settings[:indent]
+      end if node[@children]
 
       # Check if the node is actually a block expression
       buffer_eval 'end' if node[@value] =~ Settings::END_INSERTION

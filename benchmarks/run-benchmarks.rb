@@ -43,6 +43,7 @@ class Benchmarks
     haml_ugly.def_method(context, :run_haml_ugly)
     context.instance_eval %{
       def run_opulent_ugly; #{Opulent.new(@opulent_code).src}; end
+      def run_opulent_pretty; #{Opulent.new(@opulent_code, pretty: true).src}; end
       def run_erb; #{ERB.new(@erb_code).src}; end
       def run_erubis; #{Erubis::Eruby.new(@erb_code).src}; end
       def run_fast_erubis; #{Erubis::FastEruby.new(@erb_code).src}; end
@@ -50,10 +51,11 @@ class Benchmarks
       def run_slim_ugly; #{Slim::Engine.new.call @slim_code}; end
     }
 
-    bench(:compiled, 'opulent')     { context.run_opulent_ugly }
     bench(:compiled, 'erb')         { context.run_erb }
     bench(:compiled, 'erubis')      { context.run_erubis }
     bench(:compiled, 'fast erubis') { context.run_fast_erubis }
+    bench(:compiled, 'opulent pretty')     { context.run_opulent_pretty }
+    bench(:compiled, 'opulent ugly')     { context.run_opulent_ugly }
     bench(:compiled, 'slim pretty') { context.run_slim_pretty }
     bench(:compiled, 'slim ugly')   { context.run_slim_ugly }
     bench(:compiled, 'haml pretty') { context.run_haml_pretty }
@@ -61,7 +63,8 @@ class Benchmarks
   end
 
   def init_tilt_benches
-    tilt_opulent     = Opulent::Template.new() { @opulent_code }
+    tilt_opulent_ugly     = Opulent::Template.new() { @opulent_code }
+    tilt_opulent_pretty     = Opulent::Template.new(pretty: true) { @opulent_code }
     tilt_erb         = Tilt::ERBTemplate.new { @erb_code }
     tilt_erubis      = Tilt::ErubisTemplate.new { @erb_code }
     tilt_haml_pretty = Tilt::HamlTemplate.new(format: :html5) { @haml_code }
@@ -71,9 +74,10 @@ class Benchmarks
 
     context = Context.new
 
-    bench(:tilt, 'opulent')     { tilt_opulent.render(context) }
     bench(:tilt, 'erb')         { tilt_erb.render(context) }
     bench(:tilt, 'erubis')      { tilt_erubis.render(context) }
+    bench(:tilt, 'opulent pretty')     { tilt_opulent_pretty.render(context) }
+    bench(:tilt, 'opulent ugly')     { tilt_opulent_ugly.render(context) }
     bench(:tilt, 'slim pretty') { tilt_slim_pretty.render(context) }
     bench(:tilt, 'slim ugly')   { tilt_slim_ugly.render(context) }
     bench(:tilt, 'haml pretty') { tilt_haml_pretty.render(context) }
@@ -84,10 +88,11 @@ class Benchmarks
     context  = Context.new
     context_binding = context.instance_eval { binding }
 
-    bench(:parsing, 'opulent')     { Opulent.new(@opulent_code).render(context) }
     bench(:parsing, 'erb')         { ERB.new(@erb_code).result(context_binding) }
     bench(:parsing, 'erubis')      { Erubis::Eruby.new(@erb_code).result(context_binding) }
     bench(:parsing, 'fast erubis') { Erubis::FastEruby.new(@erb_code).result(context_binding) }
+    bench(:parsing, 'opulent pretty')     { Opulent.new(@opulent_code, pretty: true).render(context) }
+    bench(:parsing, 'opulent ugly')     { Opulent.new(@opulent_code).render(context) }
     bench(:parsing, 'slim pretty') { Slim::Template.new(pretty: true) { @slim_code }.render(context) }
     bench(:parsing, 'slim ugly')   { Slim::Template.new { @slim_code }.render(context) }
     bench(:parsing, 'haml pretty') { Haml::Engine.new(@haml_code, format: :html5).render(context) }
@@ -139,8 +144,8 @@ Compiled Tilt benchmark: Template is compiled with Tilt, which gives a more
     compilation.)
 
 Parsing benchmark: Template is parsed every time.
-    This is not the recommended way to use the template engine
-    and Slim is not optimized for it. Activate this benchmark with 'rake bench slow=1'.
+    This is not the recommended way to use the template engine because
+    performance is greatly increased when reusing the compiled source code.
 "
   end
 

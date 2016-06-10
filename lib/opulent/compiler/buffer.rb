@@ -59,6 +59,20 @@ module Opulent
       @template[-1][1] = @template[-1][1][0..-1 - n] if @template[-1][0] == type
     end
 
+    # Remove last n characters from the most recent template item
+    #
+    # @param type [Symbol] Remove only if last buffer part is of this type
+    # @param n [Fixnum] Number of characters to be removed
+    #
+    def buffer_remove_trailing_whitespace(type = :freeze)
+      if @template[-1][0] == type
+        n = @template[-1][1][/\s$/]
+        return if n.nil?
+
+        @template[-1][1] = @template[-1][1][0..-1 - n.size]
+      end
+    end
+
     # Turn call node attributes into a hash string
     #
     # @param attributes [Array] Array of node attributes

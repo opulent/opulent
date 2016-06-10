@@ -42,7 +42,7 @@ module Opulent
       @inline_node = Settings::INLINE_NODE
 
       # Initialize amble object
-      @template = [[:preamble]]
+      @template = []
 
       # Incrmental counters
       @current_variable_count = 0
@@ -54,13 +54,15 @@ module Opulent
       # from the current branch level
       @node_stack = []
 
-      # The sibling stack keeps track of the sibling count from the current
-      # branch level being generated
-      @sibling_stack = []
-
       # Whenever we enter a definition compilation, add the provided blocks to
       # the current block stack. When exiting a definition, remove blocks.
       @block_stack = []
+
+      # Remember last compiled node, required for pretty printing purposes
+      @sibling_stack = [[[:root, nil]]]
+
+      # Set parent node, required for pretty printing
+      @parent_stack = []
     end
 
     # Compile input nodes, replace them with their definitions and
@@ -73,8 +75,7 @@ module Opulent
       @generator = ''
       @definitions = definitions
 
-      # Set initial parent, from which we start generating code
-      @sibling_stack << root_node[@children].size
+      @template << [:preamble]
 
       # Write all node definitions as method defs
       @definitions.each do |_, node|

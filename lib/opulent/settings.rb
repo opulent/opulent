@@ -60,7 +60,7 @@ module Opulent
     # Set defaults as initial settings
     #
     def initialize
-      @settings = DEFAULTS
+      @settings = DEFAULTS.clone
     end
 
     # Get an option at runtime
@@ -94,8 +94,6 @@ module Opulent
     # @param opts [Hash] Option extension hash
     #
     def update_settings(opts)
-      @settings = DEFAULTS
-
       opts.each do |key, value|
         @settings[key] = value
       end
