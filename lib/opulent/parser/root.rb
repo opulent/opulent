@@ -6,7 +6,7 @@ module Opulent
     # In case no match was found, throw an exception.
     # In special cases, modify the token hash.
     #
-    # @param nodes [Array] Parent node to which we append to
+    # @param parent [Array] Parent node to which we append to
     #
     def root(parent = @root, min_indent = -1)
       while (@line = @code[(@i += 1)])

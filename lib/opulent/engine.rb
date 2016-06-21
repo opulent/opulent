@@ -17,9 +17,8 @@ module Opulent
 
     # Update render settings
     #
+    # @param input [Symbol/String] Input code or file
     # @param settings [Hash] Opulent settings override
-    # @param def [Hash] def from previously parsed files
-    # @param overwrite [Boolean] Write changes directly to the parent binding
     #
     def initialize(input, settings = {})
       # Update default settings with user settings
