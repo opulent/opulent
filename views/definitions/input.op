@@ -1,0 +1,22 @@
+def input-text
+  input.form-control+attributes type="text"
+  
+def input-email
+  input.form-control+attributes type="email"
+  
+def input-number
+  input.form-control+attributes type="number"
+  
+def input-textarea
+  textarea.form-control+attributes
+    yield
+  
+def input-password
+  input.form-control+attributes type="password"
+  
+def input-file
+  input.form-control+attributes type="file"
+  
+def submit(theme: "primary", fullwidth: true)
+  input.btn."btn-#{theme}"+attributes type="submit"
+    yield

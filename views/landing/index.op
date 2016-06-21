@@ -1,0 +1,300 @@
+include ../definitions/*
+
+container-wrapper#header
+  container.padding-vertical-9x
+    row
+      col
+        .text-center md=12  
+          h1.margin-reset.font-thin.text-white The home of elegant markup
+          h4.margin-vertical-2x.font-thin.text-lightgray Templating Engine for Creative Web Developers
+        
+        .margin-top-5x
+          .rock-slider#browser
+            .rock-slide
+              .rock-content
+                .rock-content-container
+                  .browser-window
+                    .browser-navbar 
+                      .browser-icon.red
+                      .browser-icon.yellow
+                      .browser-icon.green
+                    .browser-content
+                      .browser-linenumbers
+                        .browser-linenumber 1
+                        .browser-linenumber 2
+                        .browser-linenumber 3
+                        .browser-linenumber 4
+                        .browser-linenumber 5
+                        .browser-linenumber 6
+                        .browser-linenumber 7
+                        .browser-linenumber 8
+                        .browser-linenumber 9
+                        .browser-linenumber 10
+                        .browser-linenumber 11
+                        .browser-linenumber 12
+                      .browser-lines
+                        .browser-line 
+                          span.token-node html
+                        .browser-line 
+                          |~ &nbsp;&nbsp;
+                          span.token-node head
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-node title 
+                          span.token-text' Hello Opulent!
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-node meta 
+                          span.token-attribute' \name=
+                          span.token-string \"keywords" 
+                          span.token-attribute' \content=
+                          span.token-variable keywords
+                        .browser-line 
+                          |~ &nbsp;&nbsp;
+                          span.token-node body
+                          
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-control if 
+                          span.token-variable' user.logged_in?
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-node" h1 
+                          span.token-text Welcome, #{
+                          span.token-variable user.name
+                          span.token-text \ }!
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-control else
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-node" h1 
+                          span.token-text Welcome!
+                          
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-node #content 
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-node p 
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-text \ | Code has never looked so clean.
+                  
+                  
+            .rock-slide
+              .rock-content
+                .rock-content-container
+                  .browser-window
+                    .browser-navbar 
+                      .browser-icon.red
+                      .browser-icon.yellow
+                      .browser-icon.green
+                    .browser-content
+                      .browser-linenumbers
+                        .browser-linenumber 1
+                        .browser-linenumber 2
+                        .browser-linenumber 3
+                        .browser-linenumber 4
+                        .browser-linenumber 5
+                        .browser-linenumber 6
+                        .browser-linenumber 7
+                        .browser-linenumber 8
+                        .browser-linenumber 9
+                        .browser-linenumber 10
+                        .browser-linenumber 11
+                        .browser-linenumber 12
+                      .browser-lines
+                        .browser-line
+                          span.token-comment \/ Simple markup, made simpler
+                        .browser-line 
+                        .browser-line 
+                          span.token-control def 
+                          span.token-node' btn-primary
+                        .browser-line 
+                          |~ &nbsp;&nbsp;
+                          span.token-node a
+                          span.token-attribute .btn.btn-primary
+                          span.text-darkgray \+attributes
+                        .browser-line 
+                          |~ &nbsp;&nbsp;&nbsp;&nbsp;
+                          span.token-yield yield
+                          
+                        .browser-line
+                        .browser-line 
+                          span.token-control def 
+                          span.token-node' fa
+                          span.token-variable\ (icon)
+                        .browser-line 
+                          |~ &nbsp;&nbsp;
+                          span.token-node i
+                          span.token-attribute .fa."fa-#{
+                          span.token-variable icon
+                          span.token-attribute }"
+                          span.text-darkgray \+attributes
+                        .browser-line
+                        .browser-line 
+                          span.token-node" btn-primary 
+                          span.token-attribute \ href=
+                          span.token-string \ "/"
+                        .browser-line 
+                          |~ &nbsp;&nbsp;
+                          span.token-node" fa 
+                          span.token-attribute \ icon=
+                          span.token-string \ "home"
+                        
+                        .browser-line 
+                          |~ &nbsp;&nbsp;
+                          span.token-text \ | Go to Homepage
+                          
+            .rock-slide
+              .rock-content
+                .rock-content-container
+                  .browser-window
+                    .browser-navbar 
+                      .browser-icon.red
+                      .browser-icon.yellow
+                      .browser-icon.green
+                    .browser-content
+                      .browser-linenumbers
+                        .browser-linenumber 1
+                        .browser-linenumber 2
+                        .browser-linenumber 3
+                        .browser-linenumber 4
+                        .browser-linenumber 5
+                        .browser-linenumber 6
+                        .browser-linenumber 7
+                        .browser-linenumber 8
+                        .browser-linenumber 9
+                        .browser-linenumber 10
+                      .browser-lines
+                        .browser-line
+                          span.token-comment \/ DRY, clean, elegant
+                          
+                        .browser-line 
+                        .browser-line 
+                          span.token-control def 
+                          span.token-node' css
+                          span.token-variable \ (href)
+                        .browser-line 
+                          |~ &nbsp;&nbsp;
+                          span.token-node link
+                          span.text-darkgray \+attributes
+                          span.token-attribute' \ href=
+                          span.token-string \ "assets/css/#{ 
+                          span.token-string \ link
+                          span.token-string \ }.css"
+                          
+                        .browser-line 
+                        .browser-line 
+                          span.token-control def 
+                          span.token-node' js
+                          span.token-variable \ (src)
+                        .browser-line 
+                          |~ &nbsp;&nbsp;
+                          span.token-node script
+                          span.text-darkgray \+attributes
+                          span.token-attribute' \ src=
+                          span.token-string \ "assets/js/#{ 
+                          span.token-string \ src
+                          span.token-string \ }.js"
+                          
+                        .browser-line
+                        .browser-line 
+                          span.token-node" css
+                          span.token-attribute \ href=
+                          span.token-string \ "bootstrap/panel"
+                        .browser-line 
+                          span.token-node" js
+                          span.token-attribute \ src=
+                          span.token-string \ "jquery/jquery"
+                        
+            
+          
+container-wrapper.services-wrapper#features
+  container.padding-vertical-5x
+    row.text-center  
+      col xs=12 
+        image#landing-logo.img-responsive width="120" src="logo/logo-primary.png" data-revelate="fade out, scale 1.2"
+        h2.font-light data-revelate="fade out, move y -100" 
+          | What is 
+          span.text-primary' opulent
+          |? 
+        .h1.margin-vertical-1x data-revelate="scale 0, easing spring" > fa.text-lightgray icon="ellipsis-h"
+        
+        div data-revelate="fade out"
+          p.text-concrete
+            | Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. 
+              It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. 
+              Opulent provides the cleanliness, readability and development speed you need for your project.
+              
+              
+          a.btn.btn-concrete.btn-wide.btn-lg.cursor-default.margin-top-3x.margin-right-1x href="#{@application_route}/documentation"
+            fa icon="book"
+            |Documentation
+          a.btn.btn-primary.btn-wide.btn-lg.cursor-default.margin-top-3x href="https://github.com/opulent/opulent"
+            fa icon="cloud-download"
+            |gem install opulent
+          
+
+container-wrapper.silver
+  container.padding-vertical-5x
+    row
+      col xs=12
+        .text-center  
+          h2.font-light data-revelate="fade out, move y -100" 
+            | Powering
+            span.text-primary' productivity
+          .h1.margin-vertical-1x data-revelate="scale 0, easing spring" > fa.text-lightgray icon="ellipsis-h"
+        
+        row.text-center.margin-top-3x
+          col xs=6 sm=4 md=3
+            .h3 > fa icon="pagelines"
+            h4.font-light
+              | Elegance
+            p.text-gray | 
+              Markup should beautiful and clean. Opulent  
+              makes markup a pleasant experience.
+             
+          col xs=6 sm=4 md=3
+            .h3 > fa icon="cubes"
+            h4.font-light
+              | Reusability
+            p.text-gray |
+              Completely DRY, in opulent you can define reusable markup 
+              elements easily.
+            
+              
+          col xs=6 sm=4 md=3
+            .h3 > fa icon="list"
+            h4.font-light
+              | Full Featured
+            p.text-gray |
+              Everything you need, right from the start.
+              Ready for all the major Ruby frameworks.
+              
+          col xs=6 sm=4 md=3
+            .h3 > fa icon="bar-chart"
+            h4.font-light
+              | Performance
+            p.text-gray |
+              Opulent is lightweight, blazing fast.
+              Performance is measued with every release.
+                
+        
+container-wrapper
+  background.radial-black-background color="black"
+  container.padding-vertical-5x
+    row.text-center
+      col xs=12
+        h2.font-thin data-revelate="fade out, move y -100"
+          span.text-primary'" Great 
+          span.text-white results speak for themselves
+          
+        .h1.margin-vertical-1x data-revelate="scale 0, easing spring" > fa.text-darkgray icon="ellipsis-h"
+    row.text-center
+      col md=6 sm=8 offset={md: 3, sm: 2}
+        .h2.text-grayabenchmark-tooltip data-toggle="tooltip" title="The final results are calculated using average parsing, code generation and rendering instructions per second of each Templating Engine." > fa icon="question-circle" 
+        canvas#benchmark-chart
+      
+        

@@ -1,0 +1,46 @@
+.services-wrapper
+  border-bottom: 2px solid darken($silver,5%) 
+
+.service-column
+  transition: background 0.7s ease
+  border-left: 1px solid white
+  border-right: 1px solid lightgray
+
+  &:hover
+    background: rgba(0,0,0,0.05)
+  &:last-child
+    border-right: 0px !important
+  &:first-child
+    border-left: 0px !important
+
+.service
+  .service-title
+    margin-top: 0
+    margin-bottom: 0
+    transition: all 0.5s ease
+    font-weight: 300
+
+  .service-icon
+    transition: all 0.5s ease
+    margin-right: 10px
+  .service-divider
+    margin: 20px auto
+    position: relative
+    display: block
+    height: 1px
+    width: 20px
+    background: $gray
+    transition: all 0.5s ease
+  &:hover
+    .service-divider
+      width: 40px
+      background: $primary
+    .service-icon
+      transform: scale(1.25) translate3d(0,-5px,0)
+      color: $primary
+
+  .service-description
+    color: $text-muted
+    margin-top: 0
+
+  padding: 40px 20px

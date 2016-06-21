@@ -1,0 +1,5 @@
+# Landing
+landing/index.op:
+  :title: Opulent - Template Engine for Creative Web Developers
+  :output: index.html
+  :layout: layouts/landing.op

@@ -1,0 +1,1 @@
+{"version":3,"sources":["restaurant.css"],"names":[],"mappings":"AAAA,oEAAoE;AACpE;EACE,uCAAuC;CACxC;;AAED;EACE,iBAAiB;CAClB","file":"application/restaurant.css","sourcesContent":["@import url(https://fonts.googleapis.com/css?family=Dancing+Script);\n.font-dancing {\n  font-family: 'Dancing Script', cursive;\n}\n\n.font-thin {\n  font-weight: 300;\n}\n"],"sourceRoot":"/source/"}

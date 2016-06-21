@@ -1,0 +1,1213 @@
+.btn {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+}
+
+.text-aqua {
+  color: #7fdfff;
+}
+
+.btn-aqua {
+  background: #7fdfff;
+  color: #000000;
+}
+
+.btn-aqua:hover, .btn-aqua:focus, .btn-aqua:active {
+  background: #66d9ff;
+  color: #000000;
+}
+
+.aqua {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #7fdfff;
+}
+
+.hover-aqua:hover {
+  background: #7fdfff;
+}
+
+.text-blue {
+  color: #0074d9;
+}
+
+.btn-blue {
+  background: #0074d9;
+  color: #ffffff;
+}
+
+.btn-blue:hover, .btn-blue:focus, .btn-blue:active {
+  background: #0066c0;
+  color: #ffffff;
+}
+
+.blue {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #0074d9;
+}
+
+.hover-blue:hover {
+  background: #0074d9;
+}
+
+.text-navy {
+  color: #001f3f;
+}
+
+.btn-navy {
+  background: #001f3f;
+  color: #ffffff;
+}
+
+.btn-navy:hover, .btn-navy:focus, .btn-navy:active {
+  background: #001226;
+  color: #ffffff;
+}
+
+.navy {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #001f3f;
+}
+
+.hover-navy:hover {
+  background: #001f3f;
+}
+
+.text-teal {
+  color: #39cccc;
+}
+
+.btn-teal {
+  background: #39cccc;
+  color: #ffffff;
+}
+
+.btn-teal:hover, .btn-teal:focus, .btn-teal:active {
+  background: #30bbbb;
+  color: #ffffff;
+}
+
+.teal {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #39cccc;
+}
+
+.hover-teal:hover {
+  background: #39cccc;
+}
+
+.text-green {
+  color: #2ecc40;
+}
+
+.btn-green {
+  background: #2ecc40;
+  color: #ffffff;
+}
+
+.btn-green:hover, .btn-green:focus, .btn-green:active {
+  background: #29b739;
+  color: #ffffff;
+}
+
+.green {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #2ecc40;
+}
+
+.hover-green:hover {
+  background: #2ecc40;
+}
+
+.text-olive {
+  color: #3d9970;
+}
+
+.btn-olive {
+  background: #3d9970;
+  color: #ffffff;
+}
+
+.btn-olive:hover, .btn-olive:focus, .btn-olive:active {
+  background: #368763;
+  color: #ffffff;
+}
+
+.olive {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #3d9970;
+}
+
+.hover-olive:hover {
+  background: #3d9970;
+}
+
+.text-lime {
+  color: #01ff70;
+}
+
+.btn-lime {
+  background: #01ff70;
+  color: #ffffff;
+}
+
+.btn-lime:hover, .btn-lime:focus, .btn-lime:active {
+  background: #00e765;
+  color: #ffffff;
+}
+
+.lime {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #01ff70;
+}
+
+.hover-lime:hover {
+  background: #01ff70;
+}
+
+.text-yellow {
+  color: #ffdc00;
+}
+
+.btn-yellow {
+  background: #ffdc00;
+  color: #ffffff;
+}
+
+.btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active {
+  background: #e6c600;
+  color: #ffffff;
+}
+
+.yellow {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #ffdc00;
+}
+
+.hover-yellow:hover {
+  background: #ffdc00;
+}
+
+.text-orange {
+  color: #ff851b;
+}
+
+.btn-orange {
+  background: #ff851b;
+  color: #ffffff;
+}
+
+.btn-orange:hover, .btn-orange:focus, .btn-orange:active {
+  background: #ff7702;
+  color: #ffffff;
+}
+
+.orange {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #ff851b;
+}
+
+.hover-orange:hover {
+  background: #ff851b;
+}
+
+.text-red {
+  color: #ff4136;
+}
+
+.btn-red {
+  background: #ff4136;
+  color: #ffffff;
+}
+
+.btn-red:hover, .btn-red:focus, .btn-red:active {
+  background: #ff291d;
+  color: #ffffff;
+}
+
+.red {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #ff4136;
+}
+
+.hover-red:hover {
+  background: #ff4136;
+}
+
+.text-fuchsia {
+  color: #f012be;
+}
+
+.btn-fuchsia {
+  background: #f012be;
+  color: #ffffff;
+}
+
+.btn-fuchsia:hover, .btn-fuchsia:focus, .btn-fuchsia:active {
+  background: #db0ead;
+  color: #ffffff;
+}
+
+.fuchsia {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #f012be;
+}
+
+.hover-fuchsia:hover {
+  background: #f012be;
+}
+
+.text-purple {
+  color: #b10dc9;
+}
+
+.btn-purple {
+  background: #b10dc9;
+  color: #ffffff;
+}
+
+.btn-purple:hover, .btn-purple:focus, .btn-purple:active {
+  background: #9c0bb1;
+  color: #ffffff;
+}
+
+.purple {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #b10dc9;
+}
+
+.hover-purple:hover {
+  background: #b10dc9;
+}
+
+.text-maroon {
+  color: #85144b;
+}
+
+.btn-maroon {
+  background: #85144b;
+  color: #ffffff;
+}
+
+.btn-maroon:hover, .btn-maroon:focus, .btn-maroon:active {
+  background: #6f113f;
+  color: #ffffff;
+}
+
+.maroon {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #85144b;
+}
+
+.hover-maroon:hover {
+  background: #85144b;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.btn-white {
+  background: #fff;
+  color: #000000;
+}
+
+.btn-white:hover, .btn-white:focus, .btn-white:active {
+  background: #f2f2f2;
+  color: #000000;
+}
+
+.white {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #fff;
+}
+
+.hover-white:hover {
+  background: #fff;
+}
+
+.text-silver {
+  color: #f2f2f2;
+}
+
+.btn-silver {
+  background: #f2f2f2;
+  color: #000000;
+}
+
+.btn-silver:hover, .btn-silver:focus, .btn-silver:active {
+  background: #e5e5e5;
+  color: #000000;
+}
+
+.silver {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #f2f2f2;
+}
+
+.hover-silver:hover {
+  background: #f2f2f2;
+}
+
+.text-darksilver {
+  color: #e3e3e3;
+}
+
+.btn-darksilver {
+  background: #e3e3e3;
+  color: #000000;
+}
+
+.btn-darksilver:hover, .btn-darksilver:focus, .btn-darksilver:active {
+  background: #d6d6d6;
+  color: #000000;
+}
+
+.darksilver {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #e3e3e3;
+}
+
+.hover-darksilver:hover {
+  background: #e3e3e3;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.btn-gray {
+  background: #aaa;
+  color: #ffffff;
+}
+
+.btn-gray:hover, .btn-gray:focus, .btn-gray:active {
+  background: #9d9d9d;
+  color: #ffffff;
+}
+
+.gray {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #aaa;
+}
+
+.hover-gray:hover {
+  background: #aaa;
+}
+
+.text-lightgray {
+  color: #ccc;
+}
+
+.btn-lightgray {
+  background: #ccc;
+  color: #000000;
+}
+
+.btn-lightgray:hover, .btn-lightgray:focus, .btn-lightgray:active {
+  background: #bfbfbf;
+  color: #000000;
+}
+
+.lightgray {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #ccc;
+}
+
+.hover-lightgray:hover {
+  background: #ccc;
+}
+
+.text-concrete {
+  color: #333;
+}
+
+.btn-concrete {
+  background: #333;
+  color: #ffffff;
+}
+
+.btn-concrete:hover, .btn-concrete:focus, .btn-concrete:active {
+  background: #262626;
+  color: #ffffff;
+}
+
+.concrete {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #333;
+}
+
+.hover-concrete:hover {
+  background: #333;
+}
+
+.text-black {
+  color: #111;
+}
+
+.btn-black {
+  background: #111;
+  color: #ffffff;
+}
+
+.btn-black:hover, .btn-black:focus, .btn-black:active {
+  background: #040404;
+  color: #ffffff;
+}
+
+.black {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #111;
+}
+
+.hover-black:hover {
+  background: #111;
+}
+
+.text-primary {
+  color: #E32546;
+}
+
+.primary {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #E32546;
+}
+
+.hover-primary:hover {
+  background: #E32546;
+}
+
+.text-secondary {
+  color: #555;
+}
+
+.btn-secondary {
+  background: #555;
+  color: #ffffff;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active {
+  background: #484848;
+  color: #ffffff;
+}
+
+.secondary {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #555;
+}
+
+.hover-secondary:hover {
+  background: #555;
+}
+
+.text-ternary {
+  color: #333;
+}
+
+.btn-ternary {
+  background: #333;
+  color: #ffffff;
+}
+
+.btn-ternary:hover, .btn-ternary:focus, .btn-ternary:active {
+  background: #262626;
+  color: #ffffff;
+}
+
+.ternary {
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+  background: #333;
+}
+
+.hover-ternary:hover {
+  background: #333;
+}
+
+.btn-black-transparent {
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+}
+
+.btn-black-transparent:hover, .btn-black-transparent:focus, .btn-black-transparent:active {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.full-width {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+img.full-width {
+  height: auto;
+}
+
+.max-full-width {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+.full-height {
+  height: 100% !important;
+  box-sizing: border-box;
+}
+
+img.full-height {
+  width: auto;
+}
+
+.max-full-height {
+  max-height: 100% !important;
+  box-sizing: border-box;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.margin-reset {
+  margin: 0 !important;
+}
+
+.padding-reset {
+  padding: 0 !important;
+}
+
+.rock-slider {
+  background: #1a1a1a;
+  height: 600px;
+}
+
+.rock-slider.rock-inverse {
+  background: #1a1a1a;
+}
+
+.rock-slider.rock-inverse .rock-loader-wrapper {
+  background: #1a1a1a;
+}
+
+.rock-slider.rock-inverse .rock-loader-wrapper .rock-loader-inner {
+  border: 1px solid black !important;
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.75);
+}
+
+.rock-slider.rock-inverse .rock-loader-wrapper .rock-loader-inner .rock-loader-text .rock-loader-title {
+  color: #f2f2f2;
+}
+
+.rock-slider.rock-inverse .rock-loader-wrapper .rock-loader-inner .rock-loader-text .rock-loader-subtitle {
+  color: #bfbfbf;
+}
+
+@media screen and (max-width: 767px) {
+  .rock-slider {
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 979px) {
+  .rock-slider {
+    height: 360px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .rock-slider {
+    height: 450px;
+  }
+}
+
+.rock-slider .rock-loader-wrapper {
+  background: #f2f2f2;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader-text .rock-loader-title {
+  color: #111;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader-text .rock-loader-subtitle {
+  color: #333;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader {
+  margin-top: -80px;
+  margin-left: -40px;
+  width: 80px;
+  height: 80px;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader .rock-loader-inner {
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader .rock-loader-inner .rock-loader-tile {
+  height: 80px;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader .rock-loader-inner .rock-loader-tile:nth-child(1) {
+  -webkit-animation: loader-tile1 1.5s linear infinite;
+  animation: loader-tile1 1.5s linear infinite;
+  background: #3E2D54;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader .rock-loader-inner .rock-loader-tile:nth-child(2) {
+  -webkit-animation: loader-tile2 1.5s linear infinite;
+  animation: loader-tile2 1.5s linear infinite;
+  background: #40587B;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader .rock-loader-inner .rock-loader-tile:nth-child(3) {
+  -webkit-animation: loader-tile3 1.5s linear infinite;
+  animation: loader-tile3 1.5s linear infinite;
+  background: #4D90A3;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader .rock-loader-inner .rock-loader-tile:nth-child(4) {
+  -webkit-animation: loader-tile4 1.5s linear infinite;
+  animation: loader-tile4 1.5s linear infinite;
+  background: #7CB694;
+}
+
+.rock-slider .rock-loader-wrapper .rock-loader .rock-loader-inner .rock-loader-tile:nth-child(5) {
+  -webkit-animation: loader-tile5 1.5s linear infinite;
+  animation: loader-tile5 1.5s linear infinite;
+  background: #DCD280;
+}
+
+.rock-slider .rock-progress {
+  height: 5px;
+}
+
+.rock-slider .rock-progress .rock-progress-bar {
+  height: 5px;
+}
+
+.rock-slider .rock-progress.rock-progress-light {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.rock-slider .rock-progress.rock-progress-light .rock-progress-bar {
+  background: white;
+}
+
+.rock-slider .rock-progress.rock-progress-dark {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.rock-slider .rock-progress.rock-progress-dark .rock-progress-bar {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.rock-slider:hover .rock-control {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+
+.rock-slider .rock-control {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+  margin-top: -54px;
+  width: 54px;
+  height: 108px;
+}
+
+.rock-slider .rock-control .rock-control-inner .rock-control-text {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 0.33;
+  -khtml-opacity: 0.33;
+  opacity: 0.33;
+  font-size: 18px;
+  line-height: 108px;
+  width: 54px;
+  height: 108px;
+}
+
+.rock-slider .rock-control:hover .rock-control-inner .rock-control-text {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+
+.rock-slider .rock-control.rock-prev:hover .rock-control-inner .rock-control-thumbnail {
+  -webkit-transform: translate3d(54px, 0, 0);
+  transform: translate3d(54px, 0, 0);
+}
+
+.rock-slider .rock-control.rock-controls-light .rock-control-inner .rock-control-text {
+  background: #fff;
+  color: #181619;
+}
+
+.rock-slider .rock-control.rock-controls-light:hover .rock-control-inner .rock-control-text {
+  background: #fff;
+  color: #181619;
+}
+
+.rock-slider .rock-control.rock-controls-dark .rock-control-inner .rock-control-text {
+  background: #181619;
+  color: #fff;
+}
+
+.rock-slider .rock-control.rock-controls-dark:hover .rock-control-inner .rock-control-text {
+  background: #181619;
+  color: #fff;
+}
+
+.rock-slider .rock-control.rock-controls-alternate .rock-control-inner .rock-control-text {
+  background: #181619;
+  color: #fff;
+}
+
+.rock-slider .rock-control.rock-controls-alternate:hover .rock-control-inner .rock-control-text {
+  background: #fff;
+  color: #181619;
+}
+
+.rock-slider .rock-scroller-wrapper {
+  position: absolute;
+  bottom: 25px;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.rock-slider .rock-scroller-wrapper.rock-scroller-left {
+  left: 25px;
+}
+
+.rock-slider .rock-scroller-wrapper.rock-scroller-center {
+  left: 50%;
+  margin-left: -13px;
+}
+
+.rock-slider .rock-scroller-wrapper.rock-scroller-right {
+  right: 25px;
+}
+
+.rock-slider .rock-scroller-1 {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  display: block;
+  width: 26px;
+  height: 50px;
+}
+
+.rock-slider .rock-scroller-1:hover {
+  -webkit-transform: scale(1.5) translate3d(0, -5px, 0);
+  transform: scale(1.5) translate3d(0, -5px, 0);
+}
+
+.rock-slider .rock-scroller-1::after {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  content: "";
+  display: block;
+  margin-top: 25px;
+  margin-left: 5px;
+  border-bottom: 2px solid #fff;
+  border-left: 2px solid #fff;
+  width: 15px;
+  height: 15px;
+}
+
+.rock-slider .rock-scroller-1::before {
+  -webkit-animation: rock-sliderscroller1 1.5s linear infinite;
+  animation: rock-sliderscroller1 1.5s linear infinite;
+  content: "";
+  display: block;
+  background: #fff;
+  margin-top: 5px;
+  margin-left: 9px;
+  border-radius: 100%;
+  width: 8px;
+  height: 8px;
+}
+
+.rock-slider .rock-scroller-2 {
+  display: block;
+  background: transparent;
+  border-width: 2px;
+  border-color: #fff;
+  border-style: solid;
+  border-radius: 13px;
+  width: 26px;
+  height: 50px;
+}
+
+.rock-slider .rock-scroller-2::before {
+  -webkit-animation: rock-sliderscroller2 1.5s linear infinite;
+  animation: rock-sliderscroller2 1.5s linear infinite;
+  content: "";
+  display: block;
+  position: absolute;
+  background: #fff;
+  margin-top: 5px;
+  margin-left: 7px;
+  border-radius: 100%;
+  width: 8px;
+  height: 8px;
+}
+
+@-webkit-keyframes rock-sliderscroller1 {
+  0% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    -webkit-transform: scale(0) translate3d(0, 0, 0);
+    transform: scale(0) translate3d(0, 0, 0);
+  }
+  75% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+  }
+  100% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    -webkit-transform: scale(1) translate3d(0, 30px, 0);
+    transform: scale(1) translate3d(0, 30px, 0);
+  }
+}
+
+@keyframes rock-sliderscroller1 {
+  0% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    -webkit-transform: scale(0) translate3d(0, 0, 0);
+    transform: scale(0) translate3d(0, 0, 0);
+  }
+  75% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+  }
+  100% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    -webkit-transform: scale(1) translate3d(0, 30px, 0);
+    transform: scale(1) translate3d(0, 30px, 0);
+  }
+}
+
+@-webkit-keyframes rock-sliderscroller2 {
+  0% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    -webkit-transform: scale(0) translate3d(0, 0, 0);
+    transform: scale(0) translate3d(0, 0, 0);
+  }
+  75% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+  }
+  100% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    -webkit-transform: scale(1) translate3d(0, 30px, 0);
+    transform: scale(1) translate3d(0, 30px, 0);
+  }
+}
+
+@keyframes rock-sliderscroller2 {
+  0% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    -webkit-transform: scale(0) translate3d(0, 0, 0);
+    transform: scale(0) translate3d(0, 0, 0);
+  }
+  75% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+  }
+  100% {
+    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+    filter: "alpha(opacity=(${iefactor}))";
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
+    -webkit-transform: scale(1) translate3d(0, 30px, 0);
+    transform: scale(1) translate3d(0, 30px, 0);
+  }
+}
+
+@-webkit-keyframes loader-tile1 {
+  0% {
+    background: #3E2C53;
+  }
+  33.3333% {
+    background: #AC2B61;
+  }
+  66.6666% {
+    background: #F3E3B4;
+  }
+}
+
+@keyframes loader-tile1 {
+  0% {
+    background: #3E2C53;
+  }
+  33.3333% {
+    background: #AC2B61;
+  }
+  66.6666% {
+    background: #F3E3B4;
+  }
+}
+
+@-webkit-keyframes loader-tile2 {
+  0% {
+    background: #3F577A;
+  }
+  33.3333% {
+    background: #E33D5F;
+  }
+  66.6666% {
+    background: #BADCC8;
+  }
+}
+
+@keyframes loader-tile2 {
+  0% {
+    background: #3F577A;
+  }
+  33.3333% {
+    background: #E33D5F;
+  }
+  66.6666% {
+    background: #BADCC8;
+  }
+}
+
+@-webkit-keyframes loader-tile3 {
+  0% {
+    background: #4C8FA2;
+  }
+  33.3333% {
+    background: #EF7C5E;
+  }
+  66.6666% {
+    background: #7FC7BF;
+  }
+}
+
+@keyframes loader-tile3 {
+  0% {
+    background: #4C8FA2;
+  }
+  33.3333% {
+    background: #EF7C5E;
+  }
+  66.6666% {
+    background: #7FC7BF;
+  }
+}
+
+@-webkit-keyframes loader-tile4 {
+  0% {
+    background: #7BB594;
+  }
+  33.3333% {
+    background: #F9C65F;
+  }
+  66.6666% {
+    background: #EE7B73;
+  }
+}
+
+@keyframes loader-tile4 {
+  0% {
+    background: #7BB594;
+  }
+  33.3333% {
+    background: #F9C65F;
+  }
+  66.6666% {
+    background: #EE7B73;
+  }
+}
+
+@-webkit-keyframes loader-tile5 {
+  0% {
+    background: #DBD17F;
+  }
+  33.3333% {
+    background: #F5EF9E;
+  }
+  66.6666% {
+    background: #D4385F;
+  }
+}
+
+@keyframes loader-tile5 {
+  0% {
+    background: #DBD17F;
+  }
+  33.3333% {
+    background: #F5EF9E;
+  }
+  66.6666% {
+    background: #D4385F;
+  }
+}
+
+.rock-slider:hover .rock-pagination.rock-pagination-inside {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+
+.rock-pagination {
+  -webkit-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+}
+
+.rock-pagination.rock-pagination-inside {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  opacity: 0;
+  height: 20px;
+}
+
+.rock-pagination.rock-pagination-outside {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  margin: 50px auto;
+}
+
+.rock-pagination.rock-pagination-light .rock-pagination-bullet {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.rock-pagination.rock-pagination-light .rock-pagination-bullet.active {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  background: white;
+}
+
+.rock-pagination.rock-pagination-dark .rock-pagination-bullet {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.rock-pagination.rock-pagination-dark .rock-pagination-bullet.active {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.rock-pagination .rock-pagination-bullet {
+  border-radius: 100%;
+  background-clip: padding-box;
+  margin: 10px;
+  width: 10px;
+  height: 10px;
+}
+
+.rock-thumbnails {
+  background: #000;
+}
+
+.rock-thumbnails-inner {
+  display: block;
+  margin: 0;
+}
+
+.rock-thumbnails-inner .rock-thumbnail-wrapper .rock-thumbnail {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+.rock-thumbnails-inner .rock-thumbnail-wrapper:hover .rock-thumbnail {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+
+.rock-thumbnails-inner .rock-thumbnail-wrapper.active .rock-thumbnail {
+  -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+  filter: "alpha(opacity=(${iefactor}))";
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  opacity: 1;
+}
+
+/*# sourceMappingURL=../../src/maps/rock-slider/themes/default.css.map */

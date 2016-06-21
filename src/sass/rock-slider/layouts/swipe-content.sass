@@ -1,0 +1,38 @@
+// RockSlider Swipe Layout
+@import ../../helpers/mixins
+
+.rock-slider.rock-slider-swipe-content
+  width: 100%
+  height: auto
+  background: transparent
+  display: block
+
+  .rock-inner
+    .rock-slide
+      +opacity(1)
+      display: block
+      position: relative
+      &.active
+        z-index: 2
+
+    .rock-swipe-wrapper
+      display: block
+      position: relative
+      float: left
+      overflow: hidden
+
+  .rock-swipe-highlight
+    display: block
+    position: absolute
+    top: 0
+    &.animating
+      transition: all 0.7s ease
+    &.left
+      left: -1px
+    &.right
+      right: -1px
+    width: 1px
+    height: 100%
+    margin: 0
+    padding: 0
+    z-index: 4

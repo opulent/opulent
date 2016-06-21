@@ -1,0 +1,14 @@
+include ../definitions/*
+
+doctype html
+html
+  head
+    include ../partials/head
+  body itemscope=true itemtype="http://schema.org/WebPage"
+    .wrapper-overlay.top
+    navbar.navbar-fixed-top transparent=false theme="inverse" items=navbar active=request.path_info logo="logo-primary"
+    #wrapper
+      =~ yield if block_given?
+      footer 
+    .wrapper-overlay.bottom
+    include ../partials/footer 

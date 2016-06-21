@@ -1,0 +1,163 @@
+$background-color: $white
+$body-margin: 15px
+
+body
+  font-weight: 300
+
+//The wrapper is used to create a polaroid effect around our content, and then
+  it is covered with an overlay to allow direct page scrolling
+#wrapper
+  display: block
+  position: relative
+  margin: $body-margin
+  overflow: hidden
+
+.wrapper-overlay
+  left: 0
+  &.top
+    top: 0
+  &.bottom
+    bottom: 0
+  position: fixed
+  display: block
+  width: 100%
+  height: $body-margin
+  background: $background-color
+  z-index: 999
+
+// Links covering whole divs
+*[data-href]
+  cursor: pointer
+
+.container-wrapper
+  display: block
+  position: relative
+  width: 100%
+  overflow: hidden
+
+// Row of services
+.container-background
+  display: block
+  overflow: hidden
+  position: absolute
+  width: 100%
+  height: 100%
+
+  img
+    display: block
+
+  &.left
+    left: 0
+  &.right
+    right: 0
+
+  &.half
+    width: 50%
+
+    @media screen and (max-width: 767px)
+      &.responsive
+        width: 100%
+
+#handshake
+  max-width: 600px
+
+// Bootstrap button class extension
+//
+.btn-wide
+  padding-left: 32px
+  padding-right: 32px
+
+// Navbar restyle
+.navbar-brand-logo
+  height: 20px
+  margin-top: 3px
+  margin-right: 10px
+
+
+// Enable transitions on anchor elements
+//
+a
+  transition: background 0.5s ease, color 0.5s ease
+
+.square-hover
+  margin: 5px
+  padding: 5px
+  border: 1px dotted transparent
+  transition: all 0.5s ease
+
+  &:hover
+    padding: 5px 10px
+    text-decoration: none
+    color: $white
+    border: 1px solid rgba($white, 0.25)
+
+// Radial backgrounds for containers
+.radial-silver-background
+  background: radial-gradient(at top, $white, $silver)
+
+.radial-darksilver-background
+  background: radial-gradient(at top, $silver, $darksilver)
+
+.radial-concrete-background
+  background: radial-gradient(top, lighten($concrete, 3%), darken($concrete, 7%))
+
+.radial-black-background
+  background: radial-gradient(top, lighten($black, 3%), darken($black, 7%))
+
+.lightsilver
+  background: lighten($silver, 3%)
+
+// Social icon styling
+//
+.icon-facebook:hover
+  color: #3b5998
+.icon-twitter:hover
+  color: #55acee
+.icon-google-plus:hover
+  color: #dd4b39
+.icon-github:hover
+  color: #333333
+.icon-envato
+  position: relative
+  i
+    transition: color 0.3s ease
+  .fa-leaf
+    position: absolute
+    left: 0
+    top: 10px
+  .fa-square
+    color: $gray
+  .fa-leaf
+    font-size: 26px
+    color: $darksilver
+  &:hover
+    .fa-square
+      color: #82b541
+
+.img-transparent
+  opacity: 0.3
+
+.copyright
+  font-size: 0.8em
+
+.cursor-default
+  cursor: default
+
+#browser
+  .rock-control
+    opacity: 0.5
+
+#header
+  background: $primary
+  background: linear-gradient(to bottom right, $primary 0%, $olive 100%)
+
+
+#landing-logo
+  margin: 0px auto 40px
+
+#benchmark-tooltip
+  transition: all 0.5s ease
+  &:hover
+    opacity: 0.6
+.tooltip-inner
+  max-width: 400px

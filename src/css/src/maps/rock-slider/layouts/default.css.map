@@ -1,0 +1,1 @@
+{"version":3,"sources":["default.css"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,aAAa;CACd","file":"rock-slider/layouts/default.css","sourcesContent":[".rock-slider.rock-slider-default {\n  width: 100%;\n  height: auto;\n}\n"],"sourceRoot":"/source/"}

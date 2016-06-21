@@ -1,0 +1,100 @@
+.navbar
+  transition: all 0.5s ease
+  &.navbar-scroll
+    transform: translate3d(0,25px,0)
+
+  font-size: 0.8em
+  font-weight: 300
+
+  margin-left: 15px
+  margin-right: 15px
+
+  .navbar-nav > li > a
+    transition: all 0.5s ease
+    border-bottom: 1px solid transparent
+    &:hover
+      border-bottom-color: $primary
+    &.active
+      font-weight: 600 !important
+
+  li.has-btn
+    max-height: 100%
+    .btn
+      margin-top: -7px
+      margin-bottom: -7px
+
+  &.navbar-fixed-top
+    margin-top: 15px
+
+  @media screen and (max-width: 767px)
+    .nav
+      float: none !important
+    .navbar-nav
+      background: $navbar-inverse-bg
+      > li > a
+        border-bottom: 0px
+        &:hover
+          background: $navbar-inverse-link-active-bg
+
+
+.dropdown-inverse
+  background-color: $navbar-inverse-bg
+  border-color: #080808
+  & > li > a
+    color: #999
+
+    &:hover
+      color: #fff
+      background-color: #000
+
+  &>.divider
+    background-color: #000
+
+  h4
+    color: #fff
+
+
+.open > .dropdown-menu
+  transform: translate3d(0, 0, 0) scale(1,1)
+  opacity: 1
+
+.open > .dropdown-menu
+  &.dropdown-inverse li a
+    color: #fff
+  li a
+    color: #000
+
+.dropdown-menu li a
+  color: #fff
+
+.dropdown-menu
+  display: block
+  animation-fill-mode: forwards
+  transform: translate3d(0, 20px, 0) scale(1,0)
+  opacity: 0
+  transition: all 0.2s ease-out
+  transform-origin: top
+
+
+.dropup .dropdown-menu
+  transform-origin: bottom
+
+//.navbar .nav > li > .dropdown-menu:after
+
+
+.dropup > .dropdown-menu:after
+  content: ''
+  display: inline-block
+  position: absolute
+  top: auto
+  bottom: -6px
+  left: 50%
+  border-top: 6px solid rgba(39, 45, 51, 0.9)
+  border-bottom: 0
+  border-left: 6px solid transparent
+  border-right: 6px solid transparent
+
+.navbar-homepage-link
+  font-size: 10px
+  color: $gray
+  margin-left: 7px

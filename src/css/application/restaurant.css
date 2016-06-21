@@ -1,0 +1,10 @@
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script);
+.font-dancing {
+  font-family: 'Dancing Script', cursive;
+}
+
+.font-thin {
+  font-weight: 300;
+}
+
+/*# sourceMappingURL=../src/maps/application/restaurant.css.map */

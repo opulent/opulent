@@ -1,0 +1,21 @@
+.rock-slider.rock-slider-content {
+  width: 100%;
+  height: auto;
+  background: transparent !important;
+}
+
+.rock-slider.rock-slider-content .rock-loader-wrapper {
+  background: transparent !important;
+}
+
+.rock-slider.rock-slider-content .rock-content {
+  display: block !important;
+}
+
+.rock-slider.rock-slider-content .rock-content-container {
+  display: inline-block !important;
+  position: relative !important;
+  width: 100%;
+}
+
+/*# sourceMappingURL=../../src/maps/rock-slider/layouts/content.css.map */

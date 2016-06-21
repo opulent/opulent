@@ -1,0 +1,59 @@
+@import url(https://fonts.googleapis.com/css?family=Shadows+Into+Light|Julius+Sans+One|Anton);
+#header {
+  height: auto;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.font-sil {
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.font-julius {
+  font-family: 'Julius Sans One', sans-serif;
+}
+
+.font-anton {
+  font-family: 'Anton', sans-serif;
+}
+
+.font-thin {
+  font-weight: 300;
+}
+
+#go-text, #hard-text {
+  display: inline-block;
+  margin: 0;
+  font-size: 240px;
+}
+
+#go-text {
+  margin-right: 10px;
+}
+
+#go-home-text {
+  margin-top: -60px;
+}
+
+#beast-text h1 {
+  margin: 0;
+}
+
+#mode-text h1 {
+  margin-top: 0;
+}
+
+#on-text {
+  margin-top: -60px;
+  font-size: 106px;
+}
+
+#limits-text {
+  margin-top: -40px;
+  font-size: 80px;
+}
+
+/*# sourceMappingURL=../src/maps/application/fitness.css.map */

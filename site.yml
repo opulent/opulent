@@ -1,0 +1,67 @@
+:title:
+  :index: Rock Slider - A Slider for a Solid User Experience
+  :blog: Pixevil - A Million Pixels Ahead
+  :contact: Pixevil - Leave a Message
+:description: >
+  Pixel perfect themes, templates and plugins crafted with extreme attention to detail for you and your website.
+:keywords: >
+  rock slider, slider, jquery, pixobyte, grozav, carousel, html5, css3, template,
+  theme, plugin, page, wordpress, themeforest, codecanyon
+:author: Alex Grozav
+:viewport: >
+  user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1
+
+:navbar:
+  :index:
+    :href: /opulent
+    :text: Home
+  :documentation:
+    :href: /opulent/documentation
+    :text: Documentation
+  :contact:
+    :type: button
+    :href: https://github.com/opulent/opulent
+    :text: Download
+
+:testimonials:
+  :webballoon:
+    :author: WebBalloon, Web Development Agency
+    :item: rock slider
+    :image: webballoon
+    :review: >
+      This is the most complete documentation I've seen on CodeCanyon until now. After reading through the documentation I made a slider which looked exactly the way I wanted. Thank you! I wish I had purchased an extended license just to support your work. Keep up the great work!
+  :adrian222:
+    :author: Adrian, Senior Web Developer
+    :item: rock slider
+    :image: adrian222
+    :review: >
+      Besides the code quality and a very detailed documentation, author's
+      customer support exceeded my expectations. He is open to suggestions
+      and gives a quick response.
+  :methyus:
+    :author: Methyus, Web Designer
+    :item: rock-slider
+    :image: user
+    :review: >
+      The slider is awesome and basically limited only by your imagination!
+      And, support is awesome as well! Keep up the great work you're doing!
+  :ersineser:
+    :author: Ersin Eser, Web Developer
+    :item: webrock
+    :image: ersineser
+    :review: >
+      I've seen so many other page builders and composers but WebRock is simply the best.
+      Best wishes from Turkey, Istanbul!
+  :sjsp:
+    :author: SJSP, Web Developer
+    :item: rock slider
+    :image: sjsp
+    :review: >
+      Amazing slider with even better support! Hats off to Pixevil for his hard
+      work in creating a great customisable slider and lighting fast support.
+
+:product_links:
+  :rock-slider: http://codecanyon.net/item/rock-slider-a-smarter-responsive-slider-plugin/10895461?ref=Pixevil
+  :webrock: http://codecanyon.net/item/webrock-page-builder-framework-for-html5/7573470?ref=Pixevil
+  :openloom: http://themeforest.net/item/openloom-multipurpose-template-with-page-builder/9338541?ref=Pixevil
+  :bootslider: http://codecanyon.net/item/bootslider-responsive-bootstrap-css3-slider/6477433?ref=Pixevil

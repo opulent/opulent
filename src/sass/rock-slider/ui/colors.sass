@@ -1,0 +1,33 @@
+// RockSlider UI Colors
+
+@import "../helpers/mixins"
+@import "../helpers/colors"
+@import "../helpers/utilities"
+
+// Generate text helpers
+@each $name, $color in $colors
+  .text-#{$name}
+    color: $color
+
+  @if $name != 'primary'
+    .btn-#{$name}
+      $btn-color: dynamic-text-color($color)
+      background: $color
+      color: $btn-color
+      &:hover, &:focus, &:active
+        background: darken($color, 5%)
+        color: $btn-color
+
+  .#{$name} 
+    transition: background 0.3s ease
+    background: $color
+
+  .hover-#{$name}:hover
+    background: $color
+
+.btn-black-transparent
+  background: rgba(0,0,0,0.45)
+  color: #fff
+  &:hover, &:focus, &:active
+    color: #fff
+    background: rgba(0,0,0,0.55)

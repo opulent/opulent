@@ -1,0 +1,63 @@
+def navbar(items, theme='default', logo, transparent=true, collapse_id='navbar-collapse')
+  - attributes[:id] = 'navbar' unless attributes[:id]
+  - navbar_theme = "navbar-#{theme}"
+  - menu_theme = "dropdown-#{theme}" 
+  - transparent = 'navbar-transparent' if transparent
+
+  /!^ Navbar 
+  nav.navbar.(navbar_theme).megamenu.(transparent)+attributes
+    /!^ Nav Container
+    .container-fluid
+      /!^Nav Brand
+      /! Set your company's logo here using a local path or an URL in the "src" attribute
+      .navbar-header
+        -logo = "#{@application_route}/img/logo/#{logo}" unless logo =~ /\A(https?\:)?\/\//
+        -logo += '.png' unless logo =~ /\.jpg\Z/
+        
+        button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="##{collapse_id}" aria-expanded="false"
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        .navbar-brand 
+          a href=@application_route
+            img.pull-left.navbar-brand-logo src=logo height=30
+            strong opulent
+            a.navbar-homepage-link href="http://pixevil.com" by pixevil
+          
+      
+      /!^Nav Menu
+      /! Change the navigation menu here and set the current menu item as active using the "active" class.  
+      div.collapse.navbar-collapse#(collapse_id)
+        ul.nav.navbar-nav.pull-right
+          each items do |key, item|
+            case item[:type]
+              when 'megamenu'
+                li.dropdown.megamenu-fw
+                  a.dropdown-toggle class=((key == @current_page) ? 'active' : nil) href=item[:href] data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                    = item[:text]
+                    span.caret'
+                  ul.dropdown-menu.(menu_theme)
+                    li.megamenu-menu
+                      - column_class = "col-md-#{12 / item[:items].length}"
+                      each item[:items] do |column_index, column|
+                        .(column_class)
+                          h4.dropdown-header = column[:title] 
+                        
+                      
+              when 'dropdown'
+                li.dropdown
+                  a.dropdown-toggle class=((key == @current_page) ? 'active' : nil) href=item[:href] data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                    = item[:text]
+                    span.caret'
+                  ul.dropdown-menu.(menu_theme)
+                    each item[:items] do |drop_key, drop_item|
+                      li > a href=drop_item[:href] class=((drop_key == @current_page) ? 'active' : nil)  =~ drop_item[:text]
+
+              when 'button'
+                /! Nav Item #{item[1]}
+                li.has-btn > a href=item[:href] class=((key == @current_page) ? 'active' : nil) > .btn.btn-primary =~ item[:text]
+
+              else
+                /! Nav Item #{item[1]}
+                li > a href=item[:href] class=((key == @current_page) ? 'active' : nil)  =~ item[:text]
+        

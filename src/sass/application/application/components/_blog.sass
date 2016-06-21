@@ -1,0 +1,77 @@
+#blog-heading
+  color: $white
+  font-size: 1.3em
+
+#blog-heading-wrapper
+  transform: translate(-50%, -50%)
+  top: 50%
+  left: 50%
+  display: block
+  position: absolute
+  width: 100%
+
+#blog-cover
+  background: $black
+
+#blog-cover-image
+  opacity: 0.5
+
+#blog-content
+  margin: 100px 0
+  #blog-title
+    margin-bottom: 50px
+
+#blog-posts
+  hr
+    margin: 60px 0
+  hr:last-child
+    display: none
+  article.blog-post
+    text-align: center
+
+    &.blog-post-has-image
+      margin-top: 15px
+      background: $black
+
+      .blog-post-link
+        color: $white
+        &:hover
+          text-shadow: 0px 0px 15px rgba($black, 0.7)
+          color: $white
+
+      .blog-post-excerpt
+        color: $lightgray
+
+
+    .blog-post-image
+      opacity: 0.6
+      position: relative
+      display: block
+      transition: opacity 0.5s ease
+
+    .blog-post-excerpt
+      margin-top: 30px
+      color: $black
+
+    .blog-post-posted
+      font-size: 12px
+
+    .blog-post-link
+      display: block
+      width: 100%
+      position: relative
+      color: $black
+      transition: all 0.5s ease
+      &:hover, &:focus, &:active
+        color: $primary
+        text-decoration: none
+        .blog-post-image
+          opacity: 0.4
+
+    .container
+      padding: 100px 0
+      position: relative
+      display: block
+
+    .blog-post-title
+      font-weight: bold

@@ -1,0 +1,75 @@
+@function dynamic-text-color($color)
+  @if (lightness($color) > 70)
+    @return #000000
+  @else
+    @return #ffffff
+
+.btn
+  transition: background 0.3s ease
+
+// Generate text helpers
+@each $name, $color in $colors
+  .text-#{$name}
+    color: $color
+
+  @if $name != 'primary'
+    .btn-#{$name}
+      $btn-color: dynamic-text-color($color)
+      background: $color
+      color: $btn-color
+      &:hover, &:focus, &:active
+        background: darken($color, 5%)
+        color: $btn-color
+
+  .#{$name}
+    transition: background 0.3s ease
+    background: $color
+
+  .hover-#{$name}:hover
+    background: $color
+
+.btn-black-transparent
+  background: rgba(0,0,0,0.45)
+  color: #fff
+  &:hover, &:focus, &:active
+    color: #fff
+    background: rgba(0,0,0,0.55)
+
+
+// Utilities
+.full-width
+  width: 100% !important
+  box-sizing: border-box
+
+img.full-width
+  height: auto
+
+.max-full-width
+  max-width: 100% !important
+  box-sizing: border-box
+
+.full-height
+  height: 100% !important
+  box-sizing: border-box
+
+img.full-height
+  width: auto
+
+.max-full-height
+  max-height: 100% !important
+  box-sizing: border-box
+
+.clearfix
+  +clearfix
+
+.margin-reset
+  margin: 0 !important
+
+.padding-reset
+  padding: 0 !important
+
+.spacer
+  position: relative
+  width: 100%
+  height: $spacer-height
+  display: block

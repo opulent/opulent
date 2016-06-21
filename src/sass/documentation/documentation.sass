@@ -1,0 +1,67 @@
+
+// Global Helpers
+//
+@import ../helpers/variables
+@import ../helpers/mixins
+@import ../helpers/colors
+@import ../bootstrap/bootstrap/variables
+
+$sidebar-width: 200px
+
+body
+  position: relative
+
+#documentation
+  #content
+    width: 100%
+    display: block
+    position: relative
+    padding-left: $sidebar-width - 16px
+
+    .content-spacer
+      padding-right: 40px
+      padding-left: 40px
+
+    h4
+      margin-bottom: 20px
+    p
+      margin-bottom: 30px
+
+  #sidebar
+    border-right: 1px solid $darksilver
+    display: block
+    position: fixed
+    top: 90px
+    left: 0px
+    padding-bottom: 15px
+    bottom: 0
+    width: $sidebar-width
+    z-index: 1
+
+ul.table-of-contents
+  list-style: none
+  padding: 0
+  margin: 20px 0 0 20px
+  font-size: 14px
+
+
+  li
+    &.active a
+      color: $concrete
+      border-left: 2px solid $primary
+    a
+      color: $gray
+      border-left: 2px solid transparent
+      transition: all 0.5s ease
+      padding-left: 20px
+      &:hover
+        color: $concrete
+        border-left: 2px solid $primary
+
+    margin-bottom: 5px
+    &.table-heading
+      padding-left: 0px
+      margin: 0 0 10px
+
+  h6
+    font-size: 16px

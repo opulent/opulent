@@ -1,0 +1,34 @@
+#rock-slider
+  .rock-slider-progress
+    height: 2px !important
+    .rock-slider-progress-bar
+      height: 2px !important
+      background: black !important
+
+  .rock-slider-slide
+    .rock-slider-canvas
+      transition: all 1.3s ease
+
+    &.background-enlarge
+      .rock-slider-canvas
+          transform: scale(1.2, 1.2)
+
+  .rock-slider-background-wrapper
+    > .rock-slider-background::before
+      width: 100%
+      height: 100%
+      display: block
+      position: absolute
+      left: 0
+      right: 0
+      z-index: 100
+      content: ""
+      background: rgba(0,0,0,0.65)
+
+#products
+  .rock-slider-pagination
+    +opacity(1)
+
+#testimonials
+  .rock-slider-loader-wrapper
+    background: white

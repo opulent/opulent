@@ -1,0 +1,57 @@
+/ Create a new bootstrap container 
+/
+def container
+  .container+attributes 
+    yield
+
+/ Create a new bootstrap fluid container 
+/
+def container-fluid
+  .container-fluid+attributes 
+    yield
+
+/ Create a new bootstrap container wrapper to allow fullwidth background 
+/
+def container-wrapper
+  .container-wrapper+attributes 
+    yield
+
+
+/ Create a new bootstrap row
+/
+def row
+  .row+attributes
+    yield
+
+/ Create a boostrap column
+/
+def col(xs, sm, md, lg, offset = {})
+  - col_class = []
+  - col_class << 'col-xs-' + xs.to_s if xs
+  - col_class << 'col-sm-' + sm.to_s if sm
+  - col_class << 'col-md-' + md.to_s if md
+  - col_class << 'col-lg-' + lg.to_s if lg
+  
+  - col_class << 'col-xs-offset-' + offset[:xs].to_s if offset[:xs]
+  - col_class << 'col-sm-offset-' + offset[:sm].to_s if offset[:sm]
+  - col_class << 'col-md-offset-' + offset[:md].to_s if offset[:md]
+  - col_class << 'col-lg-offset-' + offset[:lg].to_s if offset[:lg]
+  
+  div+attributes class=col_class
+    yield
+
+/ Create a bootstrap button 
+/
+def btn(lg=false, wide=false, color="default")
+  - wide = "btn-wide" if wide
+  - lg = "btn-lg" if lg
+  a.btn."btn-#{color}".(wide).(lg)+attributes
+    yield
+    
+/ Create a bootstrap button 
+/
+def btn-primary(lg=false, wide=false)
+  - wide = "btn-wide" if wide
+  - lg = "btn-lg" if lg
+  a.btn.btn-primary.(wide).(lg)+attributes
+    yield

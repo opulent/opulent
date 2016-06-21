@@ -1,0 +1,27 @@
+include ../definitions/*
+
+doctype html
+html
+  head
+    include ../partials/head
+  body itemscope=true itemtype="http://schema.org/WebPage"
+    .wrapper-overlay.top
+    navbar.navbar-scroll.navbar-fixed-top theme="inverse" items=navbar active=request.path_info logo="logo"
+    #wrapper
+      
+      .padding-vertical-10x.black.text-center 
+        container-fluid
+          row 
+            col xs=12
+                h1.text-white Honey, I broke the internet!
+                p.text-silver 
+                  | Just kidding. Looks like you reached a page that doesn't exist.
+                  
+                
+                a.margin-vertical-2x.btn.btn-primary.btn-lg href="#{@application_route}" Back to Rock Slider  
+                
+                p.text-darkgray |
+                  ERROR 404
+      footer 
+    .wrapper-overlay.bottom
+    include ../partials/footer 
