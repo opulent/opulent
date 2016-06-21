@@ -24,6 +24,8 @@ make_plugins = [
   'slidea'
 ]
 
+static_site = true
+
 gulp.task 'express', =>
   app = express()
   app.use(require('connect-livereload')())
@@ -68,7 +70,7 @@ gulp.task('build', require('./gulp/build')(gulp, runsequence));
 gulp.task('make', require('./gulp/build')(gulp, runsequence));
 
 # Require Watch file
-gulp.task('watch', require('./gulp/watch')(gulp, plugins, paths, livereload_port, make_plugins));
+gulp.task('watch', require('./gulp/watch')(gulp, plugins, paths, livereload_port, make_plugins, static_site));
 
 # Default task which is run using the 'gulp' command
 gulp.task 'default', [
