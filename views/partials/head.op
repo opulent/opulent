@@ -32,7 +32,6 @@ link rel="manifest" href="/icon/manifest.json"
 meta name="msapplication-TileColor" content="#202020"
 meta name="msapplication-TileImage" content="/icon/ms-icon-144x144.png"
 meta name="theme-color" content="#202020"     
-meta name='csrf-token' content=session[:csrf]
 
 /!^ Application CSS
 css href="bootstrap/bootstrap"

@@ -45,6 +45,11 @@ gulp.task('videos-copy', require('./gulp/copy').videos(gulp, plugins, paths));
 # Images
 gulp.task('imagemin', require('./gulp/images')(gulp, plugins, paths));
 
+# Opulent
+gulp.task('opulent-all', require('./gulp/opulent')['opulent-all'](gulp, plugins, paths));
+gulp.task('opulent-page', require('./gulp/opulent')['opulent-page'](gulp, plugins, paths));
+gulp.task('generate-pages', require('./gulp/opulent')['generate-pages'](gulp, plugins, paths));
+
 # Plugins
 gulp.task('plugins-coffee', require('./gulp/plugins').coffee(gulp, plugins, paths, collect_plugins));
 gulp.task('plugins-sass', require('./gulp/plugins').sass(gulp, plugins, paths, collect_plugins));

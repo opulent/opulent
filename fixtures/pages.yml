@@ -2,4 +2,12 @@
 landing/index.op:
   :title: Opulent - Template Engine for Creative Web Developers
   :output: index.html
-  :layout: layouts/landing.op
+  :navbar: 'index'
+  :layout: landing/layout.op
+
+# Landing
+documentation/index.op:
+  :title: Opulent - Documentation
+  :output: documentation/index.html
+  :navbar: 'documentation'
+  :layout: landing/layout.op

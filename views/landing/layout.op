@@ -6,7 +6,7 @@ html
     include ../partials/head
   body itemscope=true itemtype="http://schema.org/WebPage"
     .wrapper-overlay.top
-    navbar.navbar-fixed-top transparent=false theme="inverse" items=navbar active=request.path_info logo="logo-primary"
+    navbar.navbar-fixed-top transparent=false theme="inverse" items=navbar active=navbar_active logo="logo-primary"
     #wrapper
       =~ yield if block_given?
       footer 

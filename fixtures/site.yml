@@ -1,16 +1,3 @@
-:title:
-  :index: Rock Slider - A Slider for a Solid User Experience
-  :blog: Pixevil - A Million Pixels Ahead
-  :contact: Pixevil - Leave a Message
-:description: >
-  Pixel perfect themes, templates and plugins crafted with extreme attention to detail for you and your website.
-:keywords: >
-  rock slider, slider, jquery, pixobyte, grozav, carousel, html5, css3, template,
-  theme, plugin, page, wordpress, themeforest, codecanyon
-:author: Alex Grozav
-:viewport: >
-  user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1
-
 :navbar:
   :index:
     :href: /opulent

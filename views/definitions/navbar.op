@@ -1,4 +1,4 @@
-def navbar(items, theme='default', logo, transparent=true, collapse_id='navbar-collapse')
+def navbar(items, theme='default', logo, transparent=true, collapse_id='navbar-collapse', active=:index)
   - attributes[:id] = 'navbar' unless attributes[:id]
   - navbar_theme = "navbar-#{theme}"
   - menu_theme = "dropdown-#{theme}" 
@@ -19,7 +19,7 @@ def navbar(items, theme='default', logo, transparent=true, collapse_id='navbar-c
           span.icon-bar
           span.icon-bar
         .navbar-brand 
-          a href=@application_route
+          a href='/'
             img.pull-left.navbar-brand-logo src=logo height=30
             strong opulent
             a.navbar-homepage-link href="http://pixevil.com" by pixevil
@@ -33,7 +33,7 @@ def navbar(items, theme='default', logo, transparent=true, collapse_id='navbar-c
             case item[:type]
               when 'megamenu'
                 li.dropdown.megamenu-fw
-                  a.dropdown-toggle class=((key == @current_page) ? 'active' : nil) href=item[:href] data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                  a.dropdown-toggle class=((key == active) ? 'active' : nil) href=item[:href] data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                     = item[:text]
                     span.caret'
                   ul.dropdown-menu.(menu_theme)
@@ -46,18 +46,18 @@ def navbar(items, theme='default', logo, transparent=true, collapse_id='navbar-c
                       
               when 'dropdown'
                 li.dropdown
-                  a.dropdown-toggle class=((key == @current_page) ? 'active' : nil) href=item[:href] data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                  a.dropdown-toggle class=((key == active) ? 'active' : nil) href=item[:href] data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                     = item[:text]
                     span.caret'
                   ul.dropdown-menu.(menu_theme)
                     each item[:items] do |drop_key, drop_item|
-                      li > a href=drop_item[:href] class=((drop_key == @current_page) ? 'active' : nil)  =~ drop_item[:text]
+                      li > a href=drop_item[:href] class=((drop_key == active) ? 'active' : nil)  =~ drop_item[:text]
 
               when 'button'
                 /! Nav Item #{item[1]}
-                li.has-btn > a href=item[:href] class=((key == @current_page) ? 'active' : nil) > .btn.btn-primary =~ item[:text]
+                li.has-btn > a href=item[:href] class=((key == active) ? 'active' : nil) > .btn.btn-primary =~ item[:text]
 
               else
                 /! Nav Item #{item[1]}
-                li > a href=item[:href] class=((key == @current_page) ? 'active' : nil)  =~ item[:text]
+                li > a href=item[:href] class=((key == active) ? 'active' : nil)  =~ item[:text]
         
