@@ -4,7 +4,8 @@
   "description": "A front end boilerplate created by Alex Grozav. Integrating all the plugins needed to create a final application.",
   "main": "index.js",
   "dependencies": {
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "gulp-webserver": "^0.9.1"
   },
   "devDependencies": {
     "browser-sync": "^2.11.1",

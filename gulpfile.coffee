@@ -3,6 +3,7 @@ gulp = require('gulp')
 paths = require('./gulp/paths')()
 plugins = require('gulp-load-plugins')()
 runsequence = require('run-sequence')
+express = require('express')
 
 # LiveReload port for current application
 livereload_port = 35729
@@ -23,6 +24,12 @@ make_plugins = [
   'slidea'
 ]
 
+gulp.task 'express', =>
+  app = express()
+  app.use(require('connect-livereload')())
+  app.use(express.static(__dirname))
+  app.listen(8000)
+  return
 
 # JS
 gulp.task('coffee', require('./gulp/coffee')(gulp, plugins, paths));
@@ -65,5 +72,6 @@ gulp.task('watch', require('./gulp/watch')(gulp, plugins, paths, livereload_port
 
 # Default task which is run using the 'gulp' command
 gulp.task 'default', [
+  'express'
   'watch'
 ]
