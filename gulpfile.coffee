@@ -10,8 +10,8 @@ livereload_port = 35729
 
 # Collect plugins
 collect_plugins = [
-  'animus'
-  'slidea'
+  # 'animus'
+  # 'slidea'
   # 'revelate'
   # 'smoothscroll'
   # 'visuallax'
@@ -21,7 +21,7 @@ collect_plugins = [
 # Plugin concatentation settings
 #
 make_plugins = [
-  'slidea'
+  # 'slidea'
 ]
 
 static_site = true

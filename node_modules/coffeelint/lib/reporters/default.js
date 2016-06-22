@@ -69,7 +69,7 @@
       }
       for (i = 0, len = errors.length; i < len; i++) {
         e = errors[i];
-        if (this.quiet && e.level !== 'error') {
+        if (!(!this.quiet || e.level === 'error')) {
           continue;
         }
         o = e.level === 'error' ? this.err : this.warn;

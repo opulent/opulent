@@ -9,6 +9,7 @@
       if (options == null) {
         options = {};
       }
+      this.quiet = options.quiet;
     }
 
     CheckstyleReporter.prototype.print = function(message) {
@@ -28,6 +29,9 @@
           this.print("<file name=\"" + path + "\">");
           for (i = 0, len = errors.length; i < len; i++) {
             e = errors[i];
+            if (!(!this.quiet || e.level === 'error')) {
+              continue;
+            }
             level = e.level;
             if (level === 'warn') {
               level = 'warning';

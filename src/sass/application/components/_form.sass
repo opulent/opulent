@@ -1,0 +1,38 @@
+.form
+  .form-group
+    position: relative
+    &.has-error
+      input, textarea
+        border-color: $red
+
+  input, textarea
+    padding: 1rem
+    font-size: 1rem
+    border-radius: 3px
+    color: $black
+    transition: border-color 0.3s ease
+    &:focus
+      border-color: $gray
+  label
+    position: absolute
+    left: 0.5rem
+    top: 1rem
+    color: $gray
+    cursor: text
+    transition: all 0.3s ease
+    padding: 0 0.5rem
+    &.active
+      background: $white
+      color: $gray
+      top: -0.7rem
+      left: 0rem
+      transform: scale(0.75)
+
+.send-button
+  div:nth-child(2)
+    display: none
+  &.sending
+    div:nth-child(1)
+      display: none
+    div:nth-child(2)
+      display: block

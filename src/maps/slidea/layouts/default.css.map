@@ -1,0 +1,1 @@
+{"version":3,"sources":["default.css"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,aAAa;CACd","file":"slidea/layouts/default.css","sourcesContent":[".slidea.slidea-default-layout {\n  width: 100%;\n  height: auto;\n}\n"],"sourceRoot":"/source/"}

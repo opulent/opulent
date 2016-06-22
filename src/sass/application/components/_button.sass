@@ -1,0 +1,26 @@
+@function dynamic-text-color($color)
+  @if (lightness($color) > 70)
+    @return #000000
+  @else
+    @return #ffffff
+
+.btn
+  transition: background 0.3s ease
+  font-weight: 600
+  &:focus
+    outline: none !important
+  &::-moz-focus-inner
+    border: 0
+
+.btn-wide
+  padding: 1rem 2rem
+
+// Generate text helpers
+@each $name, $color in $colors
+  .btn-#{$name}
+    $btn-color: dynamic-text-color($color)
+    background: $color
+    color: $btn-color
+    &:hover, &:focus, &:active
+      background: darken($color, 5%)
+      color: $btn-color

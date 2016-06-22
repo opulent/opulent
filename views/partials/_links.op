@@ -1,0 +1,14 @@
+meta charset="UTF-8"
+
+/!^ Page Title
+/! The page title appears as the browser tab label, used for bookmarks
+title = @page_title || "Pixevil"
+
+/!^ Page Meta
+/! The page meta is used by search engines to provide useful information about the site
+meta&description content = description
+meta&keywords content = keywords
+meta&author content = author
+
+/!^ Viewport
+meta&viewport content = viewport   

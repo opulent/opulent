@@ -23,7 +23,7 @@ var str = Qs.stringify(obj);  // 'a=c'
 Qs.parse(string, [options]);
 ```
 
-**qs** allows you to create nested objects within your query strings, by surrounding the name of sub-keys with square brackets `[]`.
+**qs** allows you to create nested objects within your query strings, by surrounding the name of sub-keys with square brackets `[]`, or prefixing the sub-key with a dot `.`.
 For example, the string `'foo[bar]=baz'` converts to:
 
 ```javascript
@@ -118,11 +118,11 @@ Qs.parse('a=b;c=d,e=f', { delimiter: /[;,]/ });
 // { a: 'b', c: 'd', e: 'f' }
 ```
 
-Option `allowDots` can be used to enable dot notation:
+Option `allowDots` can be used to disable dot notation:
 
 ```javascript
-Qs.parse('a.b=c', { allowDots: true });
-// { a: { b: 'c' } }
+Qs.parse('a.b=c', { allowDots: false });
+// { 'a.b': 'c' } }
 ```
 
 ### Parsing Arrays
@@ -314,11 +314,4 @@ To parse values without `=` back to `null` use the `strictNullHandling` flag:
 Qs.parse('a&b=', { strictNullHandling: true });
 // { a: null, b: '' }
 
-```
-
-To completely skip rendering keys with `null` values, use the `skipNulls` flag:
-
-```javascript
-qs.stringify({ a: 'b', c: null}, { skipNulls: true })
-// 'a=b'
 ```

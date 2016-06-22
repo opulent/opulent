@@ -1,0 +1,8 @@
+// Generate text helpers
+@each $name, $color in $colors
+  .#{$name}
+    transition: background 0.3s ease
+    background: $color
+
+  .hover-#{$name}:hover
+    background: $color

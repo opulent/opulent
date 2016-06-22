@@ -1,0 +1,181 @@
+#content
+  width: 100%
+  display: block
+
+#intro-section
+  @include media-breakpoint-down(sm)
+    padding-bottom: 17rem
+  #browser-images
+    width: 48%
+    height: 20rem
+    position: absolute
+    display: block
+    bottom: 0
+    right: 0
+    background-image: url("../../img/browsers-light.jpg")
+    background-repeat: no-repeat
+    background-position: top left
+    background-size: (1264px*3/4) (691px*3/4)
+    @include media-breakpoint-down(sm)
+      height: 15rem
+      width: 100%
+      background-position: top center
+      background-size: (1264px*1/2) (691px*1/2)
+
+    @include media-breakpoint-down(xs)
+      background-size: (1264px*3/7) (691px*3/7)
+
+#beginner-friendly-section
+  padding-top: 0
+  padding-bottom: 0
+  text-align: center
+  h3, h4
+    font-size: 2rem
+    font-weight: 100
+    font-style: italic
+    em
+      font-family: 'Dancing Script'
+      font-size: 4rem
+      line-height: 2rem
+
+  p
+    color: $darksilver
+    font-size: 1.5rem
+    font-weight: 100
+    margin-top: 4rem
+
+#documentation-book
+  width: 100%
+  height: auto
+  display: block
+  position: relative
+
+#testimonials-section
+  padding-top: 0rem
+
+  .section-title
+    text-align: center
+    margin-bottom: 4rem
+
+  .slidea-pagination
+    margin-bottom: 0
+
+  #testimonial-quote-left,
+  #testimonial-quote-right
+    font-size: 3rem
+    color: $silver
+
+  #testimonial-quote-left
+    float: left
+  #testimonial-quote-right
+    float: right
+
+  #handshake
+    position: absolute
+    top: 0
+    right: 0
+    width: 35%
+    z-index: 0
+
+  @include media-breakpoint-down(xs)
+    padding-top: 14rem
+    #handshake
+      width: 70%
+
+  .row
+    z-index: 1
+
+
+
+
+/* Pro Pack
+
+#pro-package-section
+  text-align: right
+  background-image: url('../../img/footer.jpg')
+  background-position: top left
+  background-size: 100%
+  background-repeat: no-repeat
+  z-index: 1
+
+  p
+    font-weight: 100
+
+  #pro-package-bag-top
+    position: absolute
+    width: percentage(30 * 100 / 10000)
+    height: auto
+    left: 0
+    top: 1px
+    transform: translateY(-100%)
+    display: block
+    z-index: 1
+
+  #pro-package-text
+    font-size: 2.5rem
+    line-height: 2.2rem
+    font-weight: 100
+    margin-bottom: 2rem
+    .font-dancing-script
+      font-style: normal
+      font-size: 3rem
+
+  @include media-breakpoint-down(lg)
+    padding-top: 14rem
+    text-align: center
+
+    p
+      br
+        display: none
+
+  @include media-breakpoint-down(md)
+    padding-top: 12rem
+
+  @include media-breakpoint-down(sm)
+    padding-top: 10rem
+    br
+      display: none
+
+#contact-section
+  .container-fluid
+    z-index: 100
+    position: relative
+  #contact-image
+    position: absolute
+    right: 0
+    top: 0
+    transform: translateY(21.08%)
+    z-index: 99
+    height: 100%
+    width: auto
+
+#contact-form
+  padding-top: 2rem
+  @include media-breakpoint-down(sm)
+    padding-top: 4rem
+
+
+#browser
+  background: transparent!important
+  margin-top: 4rem
+  .slidea-loader-wrapper
+    background: transparent!important
+  .slidea-control
+    opacity: 0.5
+  .slidea-content-container
+    padding: 1.3rem
+
+#header
+  background: $primary
+  background: linear-gradient(to bottom right, $primary 0%, $olive 100%)
+
+
+#landing-logo
+  margin: 0px auto 40px
+
+#benchmark-tooltip
+  transition: all 0.5s ease
+  &:hover
+    opacity: 0.6
+.tooltip-inner
+  max-width: 400px

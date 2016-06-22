@@ -1,0 +1,91 @@
+$base-margin: 1rem
+$base-padding: $base-margin
+
+@for $i from 1 through 10
+  .margin-#{$i}x
+    margin: $base-margin * $i
+
+  .margin-vertical-#{$i}x
+    margin-top: $base-margin * $i
+    margin-bottom: $base-margin * $i
+  .margin-top-#{$i}x
+    margin-top: $base-margin * $i
+  .margin-bottom-#{$i}x
+    margin-bottom: $base-margin * $i
+
+  .margin-horizontal-#{$i}x
+    margin-left: $base-margin * $i
+    margin-right: $base-margin * $i
+  .margin-left-#{$i}x
+    margin-left: $base-margin * $i
+  .margin-right-#{$i}x
+    margin-right: $base-margin * $i
+
+  .padding-#{$i}x
+    padding: $base-padding * $i
+
+  .padding-vertical-#{$i}x
+    padding-top: $base-padding * $i
+    padding-bottom: $base-padding * $i
+  .padding-top-#{$i}x
+    padding-top: $base-padding * $i
+  .padding-bottom-#{$i}x
+    padding-bottom: $base-padding * $i
+
+  .padding-horizontal-#{$i}x
+    padding-left: $base-padding * $i
+    padding-right: $base-padding * $i
+  .padding-left-#{$i}x
+    padding-left: $base-padding * $i
+  .padding-right-#{$i}x
+    padding-right: $base-padding * $i
+
+.margin-reset
+  margin: 0 !important
+
+.margin-left-reset
+  margin-left: 0 !important
+.margin-right-reset
+  margin-right: 0 !important
+
+.margin-top-reset
+  margin-top: 0 !important
+.margin-bottom-reset
+  margin-bottom: 0 !important
+
+.padding-reset
+  padding: 0 !important
+
+
+.padding-left-reset
+  padding-left: 0 !important
+.padding-right-reset
+  padding-right: 0 !important
+
+.padding-top-reset
+  padding-top: 0 !important
+.padding-bottom-reset
+  padding-bottom: 0 !important
+
+// Utilities
+.full-width
+  width: 100% !important
+  box-sizing: border-box
+
+img.full-width
+  height: auto
+
+.max-full-width
+  max-width: 100% !important
+  box-sizing: border-box
+
+.full-height
+  height: 100% !important
+  box-sizing: border-box
+
+img.full-height
+  width: auto
+
+.max-full-height
+  max-height: 100% !important
+  box-sizing: border-box

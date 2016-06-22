@@ -1,0 +1,88 @@
+/ RockSlider
+/ A smarter slider plugin by Pixevil, where web design meets motion design
+
+/ A simple definition wrapper to create a RockSlider loader element
+/
+def slidea-loader
+  /! RockSlider Loader
+  .slidea-loader-wrapper
+    .slidea-loader 
+        .slidea-loader-inner
+          .slidea-loader-tile
+          .slidea-loader-tile
+          .slidea-loader-tile
+          .slidea-loader-tile
+          .slidea-loader-tile
+    / .slidea-loader-text
+    /   h1.slidea-loader-title.font-normal =~ title
+    /   h4.slidea-loader-subtitle.font-thin =~ subtitle
+
+
+/ Create a slidea background element 
+/
+/ @param src [String] Path to the RockSlider background image
+/
+def slidea-background(src, alt="Pixevil - Premium Templates and Plugins")
+  - src = "/img/#{src}" unless src =~ /\A(https?\:)?\/\//
+  img+attributes class="slidea-background" data-slidea-src=src alt=alt
+
+
+/ Create a slidea layer element 
+/
+/ @param src [String] Path to the RockSlider background image
+/
+def slidea-layer(src, alt="Pixevil - Premium Templates and Plugins", width, height)
+  - src = "/img/#{src}" unless src =~ /\A(https?\:)?\/\//
+  img+attributes data-slidea-width=width data-slidea-height=height class="slidea-layer" src=src alt=alt
+
+
+/ Create a slidea background element 
+/
+/ @param src [String] Path to the RockSlider background image
+/
+def slidea-html-layer
+  .slidea-layer+attributes
+    yield
+
+/ Create a slide object with shorthand attribute creation
+/
+/ @param delay [Fixnum] Slide total display time
+/ @param thumbnail [String] Path to the current slide thumbnail
+/ @param animate [Hash] Animation data
+/
+def slidea-slide(delay, thumbnail, animate)
+  /! Slidea Slide
+  .slidea-slide+attributes
+    yield 
+    
+/ Create a top positioned slide content container 
+/
+def slidea-content-top 
+  /! Slidea Content Top
+  .slidea-content.slidea-content-top+attributes
+    .slidea-content-container
+      yield
+
+/ Create a centered slide content container 
+/
+def slidea-content-center 
+  /! Slidea Content Center
+  .slidea-content.slidea-content-center+attributes
+    .slidea-content-container
+      yield
+
+/ Create a bottom positioned slide content container 
+/
+def slidea-content-bottom 
+  /! Slidea Content Bottom
+  .slidea-content.slidea-content-bottom+attributes
+    .slidea-content-container
+      yield
+
+/ Create the main slidea slider wrapper object
+/
+def slidea(data)
+  /! Slidea - A Smarter Slider Plugin
+  .slidea+attributes 
+    slidea-loader
+    yield

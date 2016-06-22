@@ -7,6 +7,7 @@
       if (options == null) {
         options = {};
       }
+      this.quiet = options.quiet;
     }
 
     JSLintReporter.prototype.print = function(message) {
@@ -23,7 +24,9 @@
           this.print("<file name=\"" + path + "\">");
           for (i = 0, len = errors.length; i < len; i++) {
             e = errors[i];
-            this.print("<issue line=\"" + e.lineNumber + "\"\n        lineEnd=\"" + ((ref1 = e.lineNumberEnd) != null ? ref1 : e.lineNumber) + "\"\n        reason=\"[" + (this.escape(e.level)) + "] " + (this.escape(e.message)) + "\"\n        evidence=\"" + (this.escape(e.context)) + "\"/>");
+            if (!this.quiet || e.level === 'error') {
+              this.print("<issue line=\"" + e.lineNumber + "\"\n        lineEnd=\"" + ((ref1 = e.lineNumberEnd) != null ? ref1 : e.lineNumber) + "\"\n        reason=\"[" + (this.escape(e.level)) + "] " + (this.escape(e.message)) + "\"\n        evidence=\"" + (this.escape(e.context)) + "\"/>");
+            }
           }
           this.print('</file>');
         }

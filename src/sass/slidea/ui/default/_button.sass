@@ -1,0 +1,52 @@
+@function dynamic-text-color($color)
+  @if (lightness($color) > 70)
+    @return #000000
+  @else
+    @return #ffffff
+
+.slidea-btn
+  transition: background 0.3s ease
+  font-weight: 600
+  padding: 1rem 2rem
+  border-radius: 4px
+  cursor: pointer
+  display: inline-block
+  margin-top: 1rem
+  &.slidea-btn-bordered
+    transition: background 0.7s ease, color 0.7s ease
+    border: 1px solid
+  &:focus
+    outline: none !important
+  &::-moz-focus-inner
+    border: 0
+  &:hover, &:focus
+    text-decoration: none
+
+
+.slidea-btn-wide
+  padding: 1rem 2rem
+
+// Generate text helpers
+@each $name, $color in $colors
+  .slidea-btn.slidea-btn-#{$name}
+    $btn-color: dynamic-text-color($color)
+    background: $color
+    color: $btn-color
+    &:hover, &:focus, &:active
+      background: darken($color, 5%)
+      color: $btn-color
+    &.slidea-btn-bordered
+      background: transparent
+      border-color: $color
+      color: $color
+      &:hover, &:focus, &:active
+        background: $color !important
+        color: $btn-color !important
+
+
+.slidea-btn-black-transparent
+  background: rgba(0,0,0,0.45)
+  color: #fff
+  &:hover, &:focus, &:active
+    color: #fff
+    background: rgba(0,0,0,0.55)

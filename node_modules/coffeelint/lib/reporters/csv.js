@@ -7,6 +7,7 @@
       if (options == null) {
         options = {};
       }
+      this.quiet = options.quiet;
     }
 
     CSVReporter.prototype.print = function(message) {
@@ -26,6 +27,9 @@
           results1 = [];
           for (i = 0, len = errors.length; i < len; i++) {
             e = errors[i];
+            if (!(!this.quiet || e.level === 'error')) {
+              continue;
+            }
             if (e.context) {
               e.message += " " + e.context + ".";
             }

@@ -26,1067 +26,1012 @@ oooooooooooooooooooooooooooooooooooooooooooooooooo
     /* Support: <=IE8: Callouts will have no effect, and transitions will simply fade in/out. IE9/Android 2.3: Most effects are fully supported, the rest fade in/out. All other browsers: full support. */
     var animus_presets, preset;
     animus_presets = {
-      'bounce': {
-        defaultDuration: 550,
-        calls: [
-          [
-            {
-              translateY: -30
-            }, 0.25
-          ], [
-            {
-              translateY: 0
-            }, 0.125
-          ], [
-            {
-              translateY: -15
-            }, 0.125
-          ], [
-            {
-              translateY: 0
-            }, 0.25
-          ]
+      'bounce': [
+        [
+          {
+            opacity: 1,
+            y: -60
+          }, 0.25
+        ], [
+          {
+            y: 0
+          }, 0.125
+        ], [
+          {
+            y: -30
+          }, 0.125
+        ], [
+          {
+            y: 0
+          }, 0.25
         ]
-      },
-      'shake': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              translateX: -11
-            }, 0.125
-          ], [
-            {
-              translateX: 11
-            }, 0.125
-          ], [
-            {
-              translateX: -11
-            }, 0.125
-          ], [
-            {
-              translateX: 11
-            }, 0.125
-          ], [
-            {
-              translateX: -11
-            }, 0.125
-          ], [
-            {
-              translateX: 11
-            }, 0.125
-          ], [
-            {
-              translateX: -11
-            }, 0.125
-          ], [
-            {
-              translateX: 0
-            }, 0.125
-          ]
+      ],
+      'shake': [
+        [
+          {
+            opacity: 1,
+            x: -11
+          }, 0.125
+        ], [
+          {
+            x: 11
+          }, 0.125
+        ], [
+          {
+            x: -11
+          }, 0.125
+        ], [
+          {
+            x: 11
+          }, 0.125
+        ], [
+          {
+            x: -11
+          }, 0.125
+        ], [
+          {
+            x: 11
+          }, 0.125
+        ], [
+          {
+            x: -11
+          }, 0.125
+        ], [
+          {
+            x: 0
+          }, 0.125
         ]
-      },
-      'flash': {
-        defaultDuration: 1100,
-        calls: [
-          [
-            {
-              opacity: [0, 'easeInOutQuad', 1]
-            }, 0.25
-          ], [
-            {
-              opacity: [1, 'easeInOutQuad']
-            }, 0.25
-          ], [
-            {
-              opacity: [0, 'easeInOutQuad']
-            }, 0.25
-          ], [
-            {
-              opacity: [1, 'easeInOutQuad']
-            }, 0.25
-          ]
+      ],
+      'flash': [
+        [
+          {
+            opacity: 1,
+            easing: 'easeInOutQuad'
+          }, 0.25
+        ], [
+          {
+            opacity: 0,
+            easing: 'easeInOutQuad'
+          }, 0.25
+        ], [
+          {
+            opacity: 1,
+            easing: 'easeInOutQuad'
+          }, 0.25
+        ], [
+          {
+            opacity: 0,
+            easing: 'easeInOutQuad'
+          }, 0.25
+        ], [
+          {
+            opacity: 1,
+            easing: 'easeInOutQuad'
+          }, 0.25
         ]
-      },
-      'pulse': {
-        defaultDuration: 825,
-        calls: [
-          [
-            {
-              scaleX: 1.1,
-              scaleY: 1.1
-            }, 0.50, {
-              easing: 'easeInExpo'
-            }
-          ], [
-            {
-              scaleX: 1,
-              scaleY: 1
-            }, 0.50
-          ]
+      ],
+      'pulse': [
+        [
+          {
+            opacity: 1,
+            scaleX: 1.1,
+            scaleY: 1.1,
+            easing: 'easeInExpo'
+          }, 0.50
+        ], [
+          {
+            scaleX: 1,
+            scaleY: 1
+          }, 0.50
         ]
-      },
-      'swing': {
-        defaultDuration: 950,
-        calls: [
-          [
-            {
-              rotateZ: 15
-            }, 0.20
-          ], [
-            {
-              rotateZ: -10
-            }, 0.20
-          ], [
-            {
-              rotateZ: 5
-            }, 0.20
-          ], [
-            {
-              rotateZ: -5
-            }, 0.20
-          ], [
-            {
-              rotateZ: 0
-            }, 0.20
-          ]
+      ],
+      'swing': [
+        [
+          {
+            opacity: 1,
+            rotationZ: 15
+          }, 0.20
+        ], [
+          {
+            rotationZ: -10
+          }, 0.20
+        ], [
+          {
+            rotationZ: 5
+          }, 0.20
+        ], [
+          {
+            rotationZ: -5
+          }, 0.20
+        ], [
+          {
+            rotationZ: 0
+          }, 0.20
         ]
-      },
-      'tada': {
-        defaultDuration: 1000,
-        calls: [
-          [
-            {
-              scaleX: 0.9,
-              scaleY: 0.9,
-              rotateZ: -3
-            }, 0.10
-          ], [
-            {
-              scaleX: 1.1,
-              scaleY: 1.1,
-              rotateZ: 3
-            }, 0.10
-          ], [
-            {
-              scaleX: 1.1,
-              scaleY: 1.1,
-              rotateZ: -3
-            }, 0.10
-          ], ['reverse', 0.125], ['reverse', 0.125], ['reverse', 0.125], ['reverse', 0.125], ['reverse', 0.125], [
-            {
-              scaleX: 1,
-              scaleY: 1,
-              rotateZ: 0
-            }, 0.20
-          ]
+      ],
+      'tada': [
+        [
+          {
+            opacity: 1,
+            scaleX: 0.9,
+            scaleY: 0.9,
+            rotationZ: -3
+          }, 0.10
+        ], [
+          {
+            scaleX: 1.1,
+            scaleY: 1.1,
+            rotationZ: 3
+          }, 0.10
+        ], [
+          {
+            scaleX: 1.1,
+            scaleY: 1.1,
+            rotationZ: -3
+          }, 0.10
+        ], [
+          {
+            scaleX: 1.1,
+            scaleY: 1.1,
+            rotationZ: 3
+          }, 0.10
+        ], [
+          {
+            scaleX: 1.1,
+            scaleY: 1.1,
+            rotationZ: -3
+          }, 0.10
+        ], [
+          {
+            scaleX: 1.1,
+            scaleY: 1.1,
+            rotationZ: 3
+          }, 0.10
+        ], [
+          {
+            scaleX: 1.1,
+            scaleY: 1.1,
+            rotationZ: -3
+          }, 0.10
+        ], [
+          {
+            scaleX: 1,
+            scaleY: 1,
+            rotationZ: 0
+          }, 0.20
         ]
-      },
-      'fadeIn': {
-        defaultDuration: 500,
-        calls: [
-          [
-            {
-              opacity: [1, 0]
-            }
-          ]
+      ],
+      'fadeIn': [
+        [
+          {
+            opacity: 1
+          }, 1
         ]
-      },
-      'fadeOut': {
-        defaultDuration: 500,
-        calls: [
-          [
-            {
-              opacity: [0, 1]
-            }
-          ]
+      ],
+      'fadeOut': [
+        [
+          {
+            opacity: 0
+          }, 1
         ]
-      },
-      'flipXIn': {
-        defaultDuration: 700,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformPerspective: [800, 800],
-              rotateY: [0, -55]
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0
-        }
-      },
-      'flipXOut': {
-        defaultDuration: 700,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformPerspective: [800, 800],
-              rotateY: 55
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          rotateY: 0
-        }
-      },
-      'flipYIn': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformPerspective: [800, 800],
-              rotateX: [0, -45]
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0
-        }
-      },
-      'flipYOut': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformPerspective: [800, 800],
-              rotateX: 25
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          rotateX: 0
-        }
-      },
-      'flipBounceXIn': {
-        defaultDuration: 900,
-        calls: [
-          [
-            {
-              opacity: [0.725, 0],
-              transformPerspective: [400, 400],
-              rotateY: [-10, 90]
-            }, 0.50
-          ], [
-            {
-              opacity: 0.80,
-              rotateY: 10
-            }, 0.25
-          ], [
-            {
-              opacity: 1,
-              rotateY: 0
-            }, 0.25
-          ]
-        ],
-        reset: {
-          transformPerspective: 0
-        }
-      },
-      'flipBounceXOut': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [0.9, 1],
-              transformPerspective: [400, 400],
-              rotateY: -10
-            }, 0.50
-          ], [
-            {
-              opacity: 0,
-              rotateY: 90
-            }, 0.50
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          rotateY: 0
-        }
-      },
-      'flipBounceYIn': {
-        defaultDuration: 850,
-        calls: [
-          [
-            {
-              opacity: [0.725, 0],
-              transformPerspective: [400, 400],
-              rotateX: [-10, 90]
-            }, 0.50
-          ], [
-            {
-              opacity: 0.80,
-              rotateX: 10
-            }, 0.25
-          ], [
-            {
-              opacity: 1,
-              rotateX: 0
-            }, 0.25
-          ]
-        ],
-        reset: {
-          transformPerspective: 0
-        }
-      },
-      'flipBounceYOut': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [0.9, 1],
-              transformPerspective: [400, 400],
-              rotateX: -15
-            }, 0.50
-          ], [
-            {
-              opacity: 0,
-              rotateX: 90
-            }, 0.50
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          rotateX: 0
-        }
-      },
-      'swoopIn': {
-        defaultDuration: 850,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformOriginX: ['100%', '50%'],
-              transformOriginY: ['100%', '100%'],
-              scaleX: [1, 0],
-              scaleY: [1, 0],
-              translateX: [0, -700],
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          transformOriginX: '50%',
-          transformOriginY: '50%'
-        }
-      },
-      'swoopOut': {
-        defaultDuration: 850,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformOriginX: ['50%', '100%'],
-              transformOriginY: ['100%', '100%'],
-              scaleX: 0,
-              scaleY: 0,
-              translateX: -700,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          transformOriginX: '50%',
-          transformOriginY: '50%',
-          scaleX: 1,
-          scaleY: 1,
-          translateX: 0
-        }
-      },
-      'whirlIn': {
-        defaultDuration: 850,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformOriginX: ['50%', '50%'],
-              transformOriginY: ['50%', '50%'],
-              scaleX: [1, 0],
-              scaleY: [1, 0],
-              rotateY: [0, 160]
-            }, 1, {
-              easing: 'easeInOutSine'
-            }
-          ]
+      ],
+      'flipXIn': [
+        [
+          {
+            opacity: 0,
+            transformPerspective: 800,
+            rotationY: -55
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            transformPerspective: 800,
+            rotationY: 0
+          }, 1
         ]
-      },
-      'whirlOut': {
-        defaultDuration: 750,
-        calls: [
-          [
-            {
-              opacity: [0, 'easeInOutQuint', 1],
-              transformOriginX: ['50%', '50%'],
-              transformOriginY: ['50%', '50%'],
-              scaleX: 0,
-              scaleY: 0,
-              rotateY: 160
-            }, 1, {
-              easing: 'swing'
-            }
-          ]
-        ],
-        reset: {
-          scaleX: 1,
-          scaleY: 1,
-          rotateY: 0
-        }
-      },
-      'shrinkIn': {
-        defaultDuration: 750,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformOriginX: ['50%', '50%'],
-              transformOriginY: ['50%', '50%'],
-              scaleX: [1, 1.5],
-              scaleY: [1, 1.5],
-              translateZ: 0
-            }
-          ]
+      ],
+      'flipXOut': [
+        [
+          {
+            transformPerspective: 800,
+            rotationY: 55,
+            opacity: 0
+          }, 1
         ]
-      },
-      'shrinkOut': {
-        defaultDuration: 600,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformOriginX: ['50%', '50%'],
-              transformOriginY: ['50%', '50%'],
-              scaleX: 1.3,
-              scaleY: 1.3,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          scaleX: 1,
-          scaleY: 1
-        }
-      },
-      'expandIn': {
-        defaultDuration: 700,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformOriginX: ['50%', '50%'],
-              transformOriginY: ['50%', '50%'],
-              scaleX: [1, 0.625],
-              scaleY: [1, 0.625],
-              translateZ: 0
-            }
-          ]
+      ],
+      'flipYIn': [
+        [
+          {
+            opacity: 0,
+            transformPerspective: 800,
+            rotationX: -55
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            transformPerspective: 800,
+            rotationX: 0
+          }, 1
         ]
-      },
-      'expandOut': {
-        defaultDuration: 700,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformOriginX: ['50%', '50%'],
-              transformOriginY: ['50%', '50%'],
-              scaleX: 0.5,
-              scaleY: 0.5,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          scaleX: 1,
-          scaleY: 1
-        }
-      },
-      'bounceIn': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              scaleX: [1.05, 0.3],
-              scaleY: [1.05, 0.3]
-            }, 0.40
-          ], [
-            {
-              scaleX: 0.9,
-              scaleY: 0.9,
-              translateZ: 0
-            }, 0.20
-          ], [
-            {
-              scaleX: 1,
-              scaleY: 1
-            }, 0.50
-          ]
+      ],
+      'flipYOut': [
+        [
+          {
+            transformPerspective: 800,
+            rotationX: 55,
+            opacity: 0
+          }, 1
         ]
-      },
-      'bounceOut': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              scaleX: 0.95,
-              scaleY: 0.95
-            }, 0.35
-          ], [
-            {
-              scaleX: 1.1,
-              scaleY: 1.1,
-              translateZ: 0
-            }, 0.35
-          ], [
-            {
-              opacity: [0, 1],
-              scaleX: 0.3,
-              scaleY: 0.3
-            }, 0.30
-          ]
-        ],
-        reset: {
-          scaleX: 1,
-          scaleY: 1
-        }
-      },
-      'bounceUpIn': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateY: [-30, 1000]
-            }, 0.60, {
-              easing: 'easeOutCirc'
-            }
-          ], [
-            {
-              translateY: 10
-            }, 0.20
-          ], [
-            {
-              translateY: 0
-            }, 0.20
-          ]
+      ],
+      'flipBounceXIn': [
+        [
+          {
+            opacity: 0,
+            transformPerspective: 400,
+            rotationY: 90
+          }, 0
+        ], [
+          {
+            opacity: 0.725,
+            rotationY: -10
+          }, 0.50
+        ], [
+          {
+            opacity: 0.80,
+            rotationY: 10
+          }, 0.25
+        ], [
+          {
+            opacity: 1,
+            rotationY: 0
+          }, 0.25
         ]
-      },
-      'bounceUpOut': {
-        defaultDuration: 1000,
-        calls: [
-          [
-            {
-              translateY: 20
-            }, 0.20
-          ], [
-            {
-              opacity: [0, 'easeInCirc', 1],
-              translateY: -1000
-            }, 0.80
-          ]
-        ],
-        reset: {
-          translateY: 0
-        }
-      },
-      'bounceDownIn': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateY: [30, -1000]
-            }, 0.60, {
-              easing: 'easeOutCirc'
-            }
-          ], [
-            {
-              translateY: -10
-            }, 0.20
-          ], [
-            {
-              translateY: 0
-            }, 0.20
-          ]
+      ],
+      'flipBounceXOut': [
+        [
+          {
+            opacity: 1,
+            transformPerspective: 400,
+            rotationY: -10
+          }, 0.25
+        ], [
+          {
+            opacity: 1,
+            transformPerspective: 400,
+            rotationY: 10
+          }, 0.25
+        ], [
+          {
+            opacity: 0.9,
+            rotationY: -20
+          }, 0.50
+        ], [
+          {
+            opacity: 0,
+            rotationY: 90
+          }, 0.50
         ]
-      },
-      'bounceDownOut': {
-        defaultDuration: 1000,
-        calls: [
-          [
-            {
-              translateY: -20
-            }, 0.20
-          ], [
-            {
-              opacity: [0, 'easeInCirc', 1],
-              translateY: 1000
-            }, 0.80
-          ]
-        ],
-        reset: {
-          translateY: 0
-        }
-      },
-      'bounceLeftIn': {
-        defaultDuration: 750,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateX: [30, -1250]
-            }, 0.60, {
-              easing: 'easeOutCirc'
-            }
-          ], [
-            {
-              translateX: -10
-            }, 0.20
-          ], [
-            {
-              translateX: 0
-            }, 0.20
-          ]
+      ],
+      'flipBounceYIn': [
+        [
+          {
+            opacity: 0,
+            transformPerspective: 400,
+            rotationX: 90
+          }, 0
+        ], [
+          {
+            opacity: 0.725,
+            rotationX: -10
+          }, 0.50
+        ], [
+          {
+            opacity: 0.80,
+            rotationX: 10
+          }, 0.25
+        ], [
+          {
+            opacity: 1,
+            rotationX: 0
+          }, 0.25
         ]
-      },
-      'bounceLeftOut': {
-        defaultDuration: 750,
-        calls: [
-          [
-            {
-              translateX: 30
-            }, 0.20
-          ], [
-            {
-              opacity: [0, 'easeInCirc', 1],
-              translateX: -1250
-            }, 0.80
-          ]
-        ],
-        reset: {
-          translateX: 0
-        }
-      },
-      'bounceRightIn': {
-        defaultDuration: 750,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateX: [-30, 1250]
-            }, 0.60, {
-              easing: 'easeOutCirc'
-            }
-          ], [
-            {
-              translateX: 10
-            }, 0.20
-          ], [
-            {
-              translateX: 0
-            }, 0.20
-          ]
+      ],
+      'flipBounceYOut': [
+        [
+          {
+            opacity: 1,
+            transformPerspective: 400,
+            rotationX: -10
+          }, 0.25
+        ], [
+          {
+            opacity: 1,
+            transformPerspective: 400,
+            rotationX: 10
+          }, 0.25
+        ], [
+          {
+            opacity: 0.9,
+            rotationX: -20
+          }, 0.50
+        ], [
+          {
+            opacity: 0,
+            rotationX: 90
+          }, 0.50
         ]
-      },
-      'bounceRightOut': {
-        defaultDuration: 750,
-        calls: [
-          [
-            {
-              translateX: -30
-            }, 0.20
-          ], [
-            {
-              opacity: [0, 'easeInCirc', 1],
-              translateX: 1250
-            }, 0.80
-          ]
-        ],
-        reset: {
-          translateX: 0
-        }
-      },
-      'slideUpIn': {
-        defaultDuration: 900,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateY: [0, 20],
-              translateZ: 0
-            }
-          ]
+      ],
+      'swoopIn': [
+        [
+          {
+            opacity: 0,
+            scaleX: 0,
+            scaleY: 0,
+            x: -700,
+            z: 0,
+            transformOriginX: '50%',
+            transformOriginY: '50%'
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            scaleX: 1,
+            scaleY: 1,
+            x: 0,
+            z: 0
+          }, 1
         ]
-      },
-      'slideUpOut': {
-        defaultDuration: 900,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              translateY: -20,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          translateY: 0
-        }
-      },
-      'slideDownIn': {
-        defaultDuration: 900,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateY: [0, -20],
-              translateZ: 0
-            }
-          ]
+      ],
+      'swoopOut': [
+        [
+          {
+            opacity: 0,
+            scaleX: 0,
+            scaleY: 0,
+            x: 700,
+            z: 0
+          }, 1
         ]
-      },
-      'slideDownOut': {
-        defaultDuration: 900,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              translateY: 20,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          translateY: 0
-        }
-      },
-      'slideLeftIn': {
-        defaultDuration: 1000,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateX: [0, -20],
-              translateZ: 0
-            }
-          ]
+      ],
+      'whirlIn': [
+        [
+          {
+            opacity: 0,
+            transformOriginX: '50%',
+            transformOriginY: '50%',
+            scaleX: 0,
+            scaleY: 0,
+            rotationY: 169,
+            easing: 'easeInOutSine'
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            scaleX: 1,
+            scaleY: 1,
+            rotationY: 0,
+            easing: 'easeInOutSine'
+          }, 1
         ]
-      },
-      'slideLeftOut': {
-        defaultDuration: 1050,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              translateX: -20,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          translateX: 0
-        }
-      },
-      'slideRightIn': {
-        defaultDuration: 1000,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateX: [0, 20],
-              translateZ: 0
-            }
-          ]
+      ],
+      'whirlOut': [
+        [
+          {
+            opacity: 0,
+            transformOriginX: '50%',
+            transformOriginY: '50%',
+            scaleX: 0,
+            scaleY: 0,
+            rotationY: 169,
+            easing: 'easeInOutSine'
+          }, 1
         ]
-      },
-      'slideRightOut': {
-        defaultDuration: 1050,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              translateX: 20,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          translateX: 0
-        }
-      },
-      'slideUpBigIn': {
-        defaultDuration: 850,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateY: [0, 75],
-              translateZ: 0
-            }
-          ]
+      ],
+      'shrinkIn': [
+        [
+          {
+            opacity: 0,
+            transformOriginX: '50%',
+            transformOriginY: '50%',
+            scaleX: 1.5,
+            scaleY: 1.5,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            scaleX: 1,
+            scaleY: 1,
+            z: 0
+          }, 1
         ]
-      },
-      'slideUpBigOut': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              translateY: -75,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          translateY: 0
-        }
-      },
-      'slideDownBigIn': {
-        defaultDuration: 850,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateY: [0, -75],
-              translateZ: 0
-            }
-          ]
+      ],
+      'shrinkOut': [
+        [
+          {
+            opacity: 0,
+            scaleX: 0,
+            scaleY: 0,
+            z: 0
+          }, 1
         ]
-      },
-      'slideDownBigOut': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              translateY: 75,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          translateY: 0
-        }
-      },
-      'slideLeftBigIn': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateX: [0, -75],
-              translateZ: 0
-            }
-          ]
+      ],
+      'expandIn': [
+        [
+          {
+            opacity: 0,
+            transformOriginX: '50%',
+            transformOriginY: '50%',
+            scaleX: 0,
+            scaleY: 0,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            scaleX: 1,
+            scaleY: 1,
+            z: 0
+          }, 1
         ]
-      },
-      'slideLeftBigOut': {
-        defaultDuration: 750,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              translateX: -75,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          translateX: 0
-        }
-      },
-      'slideRightBigIn': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              translateX: [0, 75],
-              translateZ: 0
-            }
-          ]
+      ],
+      'expandOut': [
+        [
+          {
+            opacity: 0,
+            scaleX: 1.5,
+            scaleY: 1.5,
+            z: 0
+          }, 1
         ]
-      },
-      'slideRightBigOut': {
-        defaultDuration: 750,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              translateX: 75,
-              translateZ: 0
-            }
-          ]
-        ],
-        reset: {
-          translateX: 0
-        }
-      },
-      'perspectiveUpIn': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformPerspective: [800, 800],
-              transformOriginX: [0, 0],
-              transformOriginY: ['100%', '100%'],
-              rotateX: [0, -180]
-            }
-          ]
+      ],
+      'bounceIn': [
+        [
+          {
+            opacity: 0,
+            scaleX: 0.3,
+            scaleY: 0.3
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            scaleX: 1.05,
+            scaleY: 1.05
+          }, 0.25
+        ], [
+          {
+            scaleX: 0.9,
+            scaleY: 0.9,
+            z: 0
+          }, 0.25
+        ], [
+          {
+            scaleX: 1,
+            scaleY: 1
+          }, 0.50
         ]
-      },
-      'perspectiveUpOut': {
-        defaultDuration: 850,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformPerspective: [800, 800],
-              transformOriginX: [0, 0],
-              transformOriginY: ['100%', '100%'],
-              rotateX: -180
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          transformOriginX: '50%',
-          transformOriginY: '50%',
-          rotateX: 0
-        }
-      },
-      'perspectiveDownIn': {
-        defaultDuration: 800,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformPerspective: [800, 800],
-              transformOriginX: [0, 0],
-              transformOriginY: [0, 0],
-              rotateX: [0, 180]
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          transformOriginX: '50%',
-          transformOriginY: '50%'
-        }
-      },
-      'perspectiveDownOut': {
-        defaultDuration: 850,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformPerspective: [800, 800],
-              transformOriginX: [0, 0],
-              transformOriginY: [0, 0],
-              rotateX: 180
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          transformOriginX: '50%',
-          transformOriginY: '50%',
-          rotateX: 0
-        }
-      },
-      'perspectiveLeftIn': {
-        defaultDuration: 950,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformPerspective: [2000, 2000],
-              transformOriginX: [0, 0],
-              transformOriginY: [0, 0],
-              rotateY: [0, -180]
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          transformOriginX: '50%',
-          transformOriginY: '50%'
-        }
-      },
-      'perspectiveLeftOut': {
-        defaultDuration: 950,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformPerspective: [2000, 2000],
-              transformOriginX: [0, 0],
-              transformOriginY: [0, 0],
-              rotateY: -180
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          transformOriginX: '50%',
-          transformOriginY: '50%',
-          rotateY: 0
-        }
-      },
-      'perspectiveRightIn': {
-        defaultDuration: 950,
-        calls: [
-          [
-            {
-              opacity: [1, 0],
-              transformPerspective: [2000, 2000],
-              transformOriginX: ['100%', '100%'],
-              transformOriginY: [0, 0],
-              rotateY: [0, 180]
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          transformOriginX: '50%',
-          transformOriginY: '50%'
-        }
-      },
-      'perspectiveRightOut': {
-        defaultDuration: 950,
-        calls: [
-          [
-            {
-              opacity: [0, 1],
-              transformPerspective: [2000, 2000],
-              transformOriginX: ['100%', '100%'],
-              transformOriginY: [0, 0],
-              rotateY: 180
-            }
-          ]
-        ],
-        reset: {
-          transformPerspective: 0,
-          transformOriginX: '50%',
-          transformOriginY: '50%',
-          rotateY: 0
-        }
-      }
+      ],
+      'bounceOut': [
+        [
+          {
+            opacity: 1,
+            scaleX: 0.95,
+            scaleY: 0.95
+          }, 0.35
+        ], [
+          {
+            scaleX: 1.1,
+            scaleY: 1.1,
+            z: 0
+          }, 0.35
+        ], [
+          {
+            opacity: 0,
+            scaleX: 0.3,
+            scaleY: 0.3
+          }, 0.30
+        ]
+      ],
+      'bounceUpIn': [
+        [
+          {
+            opacity: 0,
+            y: 1000
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            easing: 'easeOutCirc',
+            y: -30
+          }, 0.60
+        ], [
+          {
+            y: 10
+          }, 0.20
+        ], [
+          {
+            y: 0
+          }, 0.20
+        ]
+      ],
+      'bounceUpOut': [
+        [
+          {
+            opacity: 1,
+            y: 20,
+            easing: 'easeInCirc'
+          }, 0.20
+        ], [
+          {
+            opacity: 0,
+            y: -1000
+          }, 0.80
+        ]
+      ],
+      'bounceDownIn': [
+        [
+          {
+            opacity: 0,
+            y: -1000
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            y: 30,
+            easing: 'easeOutCirc'
+          }, 0.60
+        ], [
+          {
+            y: -10
+          }, 0.20
+        ], [
+          {
+            y: 0
+          }, 0.20
+        ]
+      ],
+      'bounceDownOut': [
+        [
+          {
+            opacity: 1,
+            y: -20
+          }, 0.20
+        ], [
+          {
+            easing: 'easeInCirc',
+            opacity: 0,
+            y: 1000
+          }, 0.80
+        ]
+      ],
+      'bounceLeftIn': [
+        [
+          {
+            opacity: 0,
+            x: -1250
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            x: 30,
+            easing: 'easeOutCirc'
+          }, 0.60
+        ], [
+          {
+            x: -10
+          }, 0.20
+        ], [
+          {
+            x: 0
+          }, 0.20
+        ]
+      ],
+      'bounceLeftOut': [
+        [
+          {
+            opacity: 1,
+            x: 30
+          }, 0.20
+        ], [
+          {
+            opacity: 0,
+            easing: 'easeOutCirc',
+            x: -1250
+          }, 0.80
+        ]
+      ],
+      'bounceRightIn': [
+        [
+          {
+            opacity: 0,
+            x: 1250
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            x: -30,
+            easing: 'easeOutCirc'
+          }, 0.60
+        ], [
+          {
+            x: 10
+          }, 0.20
+        ], [
+          {
+            x: 0
+          }, 0.20
+        ]
+      ],
+      'bounceRightOut': [
+        [
+          {
+            opacity: 1,
+            x: -30
+          }, 0.20
+        ], [
+          {
+            opacity: 0,
+            x: 1250,
+            easing: 'easeOutCirc'
+          }, 0.80
+        ]
+      ],
+      'slideUpIn': [
+        [
+          {
+            opacity: 0,
+            y: 20,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            y: 0,
+            z: 0
+          }, 1
+        ]
+      ],
+      'slideUpOut': [
+        [
+          {
+            opacity: 1
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            y: -20,
+            z: 0
+          }, 0.8
+        ]
+      ],
+      'slideDownIn': [
+        [
+          {
+            opacity: 0,
+            y: -20,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            y: 0,
+            z: 0
+          }, 1
+        ]
+      ],
+      'slideDownOut': [
+        [
+          {
+            opacity: 1
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            y: 20,
+            z: 0
+          }, 0.8
+        ]
+      ],
+      'slideLeftIn': [
+        [
+          {
+            opacity: 1,
+            x: -20,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            x: 0,
+            z: 0
+          }, 1
+        ]
+      ],
+      'slideLeftOut': [
+        [
+          {
+            opacity: 1
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            x: -20,
+            z: 0
+          }, 0.8
+        ]
+      ],
+      'slideRightIn': [
+        [
+          {
+            opacity: 0,
+            x: 20,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            x: 0,
+            z: 0
+          }, 1
+        ]
+      ],
+      'slideRightOut': [
+        [
+          {
+            opacity: 1
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            x: 20,
+            z: 0
+          }, 0.8
+        ]
+      ],
+      'slideUpBigIn': [
+        [
+          {
+            opacity: 0,
+            y: 75,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            y: 0,
+            z: 0
+          }, 1
+        ]
+      ],
+      'slideUpBigOut': [
+        [
+          {
+            opacity: 1
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            y: -75,
+            z: 0
+          }, 0.8
+        ]
+      ],
+      'slideDownBigIn': [
+        [
+          {
+            opacity: 0,
+            y: -75,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            y: 0,
+            z: 0
+          }, 1
+        ]
+      ],
+      'slideDownBigOut': [
+        [
+          {
+            opacity: 1
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            y: 75,
+            z: 0
+          }, 0.8
+        ]
+      ],
+      'slideLeftBigIn': [
+        [
+          {
+            opacity: 0,
+            x: -75,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            x: 0,
+            z: 0
+          }, 1
+        ]
+      ],
+      'slideLeftBigOut': [
+        [
+          {
+            opacity: 1
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            x: -75,
+            z: 0
+          }, 0.8
+        ]
+      ],
+      'slideRightBigIn': [
+        [
+          {
+            opacity: 0,
+            x: 75,
+            z: 0
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            x: 0,
+            z: 0
+          }, 1
+        ]
+      ],
+      'slideRightBigOut': [
+        [
+          {
+            opacity: 1
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            x: 75,
+            z: 0
+          }, 0.8
+        ]
+      ],
+      'perspectiveUpIn': [
+        [
+          {
+            opacity: 0,
+            transformPerspective: 800,
+            transformOriginX: '0%',
+            transformOriginY: '100%',
+            rotationX: -180
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            rotationX: 0
+          }, 1
+        ]
+      ],
+      'perspectiveUpOut': [
+        [
+          {
+            opacity: 1,
+            transformPerspective: 800,
+            transformOriginX: '0%',
+            transformOriginY: '100%'
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            rotationX: -180
+          }, 0.8
+        ]
+      ],
+      'perspectiveDownIn': [
+        [
+          {
+            opacity: 0,
+            transformPerspective: 800,
+            transformOriginX: 0,
+            transformOriginY: 0,
+            rotationX: 180
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            rotationX: 0
+          }, 1
+        ]
+      ],
+      'perspectiveDownOut': [
+        [
+          {
+            opacity: 1,
+            transformPerspective: 800,
+            transformOriginX: 0,
+            transformOriginY: 0
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            rotationX: 180
+          }, 0.8
+        ]
+      ],
+      'perspectiveLeftIn': [
+        [
+          {
+            opacity: 0,
+            transformPerspective: 2000,
+            transformOriginX: 0,
+            transformOriginY: 0,
+            rotationY: -180
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            rotationY: 0
+          }, 1
+        ]
+      ],
+      'perspectiveLeftOut': [
+        [
+          {
+            opacity: 1,
+            transformPerspective: 2000,
+            transformOriginX: 0,
+            transformOriginY: 0
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            rotationY: -180
+          }, 0.8
+        ]
+      ],
+      'perspectiveRightIn': [
+        [
+          {
+            opacity: 0,
+            transformPerspective: 2000,
+            transformOriginX: '100%',
+            transformOriginY: 0,
+            rotationY: 180
+          }, 0
+        ], [
+          {
+            opacity: 1,
+            rotationY: 0
+          }, 1
+        ]
+      ],
+      'perspectiveRightOut': [
+        [
+          {
+            opacity: 1,
+            transformPerspective: 2000,
+            transformOriginX: '100%',
+            transformOriginY: 0
+          }, 0.2
+        ], [
+          {
+            opacity: 0,
+            rotationY: 180
+          }, 1
+        ]
+      ]
     };
 
     /* Register the packaged velocity effects. */
     for (preset in animus_presets) {
-      $.Velocity.RegisterEffect(preset, animus_presets[preset]);
+      $.animus.register_preset(preset, animus_presets[preset]);
     }
   })(jQuery, window, document);
 
 }).call(this);
 
-//# sourceMappingURL=../../src/maps/animus/presets/default.js.map
+//# sourceMappingURL=../../../maps/animus/presets/default.js.map

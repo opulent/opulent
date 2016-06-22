@@ -10,16 +10,23 @@
   display: block;
   // Our parent element can be arbitrary since tooltips are by default inserted as a sibling of their target element.
   // So reset our font and text properties to avoid inheriting weird values.
-  @include reset-text;
-  font-size: $font-size-small;
+  font-size: 1rem;
 
-  @include opacity(0);
+  opacity: 0;
 
-  &.in     { @include opacity($tooltip-opacity); }
+  &.in     { opacity: $tooltip-opacity; }
   &.top    { margin-top:  -3px; padding: $tooltip-arrow-width 0; }
   &.right  { margin-left:  3px; padding: 0 $tooltip-arrow-width; }
   &.bottom { margin-top:   3px; padding: $tooltip-arrow-width 0; }
   &.left   { margin-left: -3px; padding: 0 $tooltip-arrow-width; }
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 1s linear; 
+  &.in {
+    opacity: 1;
+  }
 }
 
 // Wrapper for the tooltip content
@@ -29,7 +36,7 @@
   color: $tooltip-color;
   text-align: center;
   background-color: $tooltip-bg;
-  border-radius: $border-radius-base;
+  border-radius: 4px;
 }
 
 // Arrows

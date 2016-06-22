@@ -1,0 +1,7 @@
+def service(icon, title)
+  .service+attributes
+    h4.service-title  
+      pe.service-icon icon=icon
+      = title
+    p.service-description 
+      yield

@@ -1,0 +1,60 @@
+.service
+  padding: 2.5rem
+  display: inline-block
+  height: 180px
+  width: percentage(1/3)
+  @include media-breakpoint-down(lg)
+    height: 220px
+  @include media-breakpoint-down(md)
+    height: 230px
+    width: 50%
+  @include media-breakpoint-down(sm)
+    height: 170px
+    width: 100%
+  vertical-align: top
+  margin: 0
+  transition: background 0.5s ease
+
+  .service-icon
+    font-size: 1.7rem
+    margin-bottom: 1rem
+    transition: color 0.5s ease
+
+  .service-title
+    font-weight: 100
+    font-size: 2rem
+    transition: color 0.5s ease
+
+
+  &:nth-child(n+1)
+    border-right: 1px solid
+    border-top: 1px solid
+
+  &.service-light
+    background: $white
+    border-color: $darksilver
+    .service-title, .service-icon
+      color: $concrete
+    .service-description
+      color: $gray
+    &:hover
+      background: darken($white, 2%)
+      .service-title, .service-icon
+        color: $primary
+
+  &.service-primary
+    background: $primary
+    border-color: $primary
+    .service-title
+      color: $white
+    .service-description
+      color: lighten($primary, 20%)
+    &:hover
+      background: darken($primary, 5%)
+
+.service-heading
+  .service-description
+    margin-top: 1.5rem
+    @include media-breakpoint-down(sm)
+      margin-top: 1rem
+    font-size: 0.8rem

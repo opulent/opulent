@@ -1,0 +1,4 @@
+def fa(icon)
+  - icon = "fa-#{icon}"
+  i.fa.(icon)'"+attributes
+    yield 

@@ -1,31 +1,31 @@
-
 // Global Helpers
 //
-@import ../helpers/variables
-@import ../helpers/mixins
-@import ../helpers/colors
+@import ../config/colors
+@import ../config/mixins
 @import ../bootstrap/bootstrap/variables
+@import ../config/variables
 
 $sidebar-width: 200px
 
 body
   position: relative
+  background: white
+
+section
+  padding-top: 0
+
+.margin-top-reset
+  margin-top: none!important
 
 #documentation
+  display: block
+  position: relative
+  overflow-x: hidden
   #content
-    width: 100%
+    width: inherit
     display: block
     position: relative
-    padding-left: $sidebar-width - 16px
-
-    .content-spacer
-      padding-right: 40px
-      padding-left: 40px
-
-    h4
-      margin-bottom: 20px
-    p
-      margin-bottom: 30px
+    padding-left: $sidebar-width
 
   #sidebar
     border-right: 1px solid $darksilver
@@ -44,12 +44,14 @@ ul.table-of-contents
   margin: 20px 0 0 20px
   font-size: 14px
 
-
-  li
-    &.active a
-      color: $concrete
-      border-left: 2px solid $primary
-    a
+  > li
+    &.active
+      ul
+        display: block
+      > a
+        color: $concrete
+        border-left: 2px solid $primary
+    > a
       color: $gray
       border-left: 2px solid transparent
       transition: all 0.5s ease
@@ -58,10 +60,45 @@ ul.table-of-contents
         color: $concrete
         border-left: 2px solid $primary
 
+    ul
+      display: none
+      padding: 0
+      li
+        margin-top: 2px
+        a
+          color: $gray
+          padding: 0 0 0 30px
+          border-left: 1px solid $silver
+        &.active a
+          border-left-color: $primary
+          color: $concrete
+      list-style: none
+
     margin-bottom: 5px
     &.table-heading
       padding-left: 0px
       margin: 0 0 10px
 
-  h6
-    font-size: 16px
+
+#footer-copyright
+  z-index: 2
+  position: relative
+
+#social-section
+  z-index: 1
+
+.documentation-heading
+  margin-bottom: 2rem
+
+.documentation-description
+  font-size: 1.2rem
+  color: lighten($gray-dark, 20%)
+
+.documentation-title
+  font-size: 4.5rem
+  font-weight: 300
+
+.documentation-subtitle
+  font-size: 2rem
+  font-weight: 300
+  margin: 3rem 0 1rem

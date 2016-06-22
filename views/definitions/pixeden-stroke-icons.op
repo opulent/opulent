@@ -1,0 +1,4 @@
+def pe(icon)
+  - icon = "pe-#{icon}"
+  i.pe.(icon)'"+attributes
+    yield 

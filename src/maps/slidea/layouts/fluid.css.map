@@ -1,0 +1,1 @@
+{"version":3,"sources":["fluid.css"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,aAAa;EACb,eAAe;CAChB","file":"slidea/layouts/fluid.css","sourcesContent":[".slidea.slidea-fluid-layout {\n  width: 100%;\n  height: 100%;\n  display: block;\n}\n"],"sourceRoot":"/source/"}

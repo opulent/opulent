@@ -15,7 +15,7 @@
 
 .fa {
   display: inline-block;
-  font: normal normal normal 14px / 1 FontAwesome;
+  font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2641,4 +2641,4 @@
   content: "";
 }
 
-/*# sourceMappingURL=../src/maps/font-awesome-icons/font-awesome-icons.css.map */
+/*# sourceMappingURL=../../maps/font-awesome-icons/font-awesome-icons.css.map */

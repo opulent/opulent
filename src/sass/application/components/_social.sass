@@ -1,0 +1,66 @@
+$social-transition-speed: 1.2s
+
+#social-section
+  padding: 7rem 3rem
+  display: block
+  position: relative
+  text-align: center
+  transition: background $social-transition-speed ease
+  @include media-breakpoint-down(sm)
+    padding: 3.5rem 1.5rem
+
+  .social-title
+    font-size: 1.75rem
+    font-weight: 100
+    transition: color $social-transition-speed ease
+
+  .social-icons
+    font-size: 3rem
+    margin-top: 2rem
+    i
+      transition: color $social-transition-speed ease
+      color: $gray
+    .icon-envato
+      position: relative
+      .fa-leaf
+        position: absolute
+        left: -1px
+        top: 5px
+        color: $body-bg
+      .fa-leaf
+        font-size: 2.2rem
+
+  li
+    margin-left: 0.75rem
+
+  &.social-colored
+    .social-title
+      color: $white
+    a
+      i
+        color: rgba($white, 0.5)
+      &:hover i
+        color: $white
+
+
+.social-facebook
+  background: #3b5998
+  .fa-leaf
+    color: #3b5998 !important
+.social-twitter
+  background: #55acee
+  .fa-leaf
+    color: #55acee !important
+.social-google-plus
+  background: #dd4b39
+  .fa-leaf
+    color: #dd4b39 !important
+.social-github
+  background: #333333
+  .fa-leaf
+    color: #333333 !important
+
+.social-envato
+  background: #82b541
+  .fa-leaf
+    color: #82b541 !important

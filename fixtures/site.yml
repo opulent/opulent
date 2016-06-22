@@ -1,9 +1,9 @@
 :navbar:
   :index:
-    :href: /opulent
+    :href: /
     :text: Home
   :documentation:
-    :href: /opulent/documentation
+    :href: /documentation
     :text: Documentation
   :contact:
     :type: button

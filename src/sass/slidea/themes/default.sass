@@ -1,0 +1,424 @@
+//Slidea Theme
+@import ../helpers/mixins.sass
+@import ../helpers/colors
+@import ../helpers/utilities
+
+// Backgrounds
+$background-default: $silver
+$background-inverse: darken($concrete, 10%)
+
+// Loader
+$starting-height: 600px
+$loader-size: 80px
+$loader-text: true
+$loader-radius: 4px
+$loader-tile1: #3E2D54
+$loader-tile2: #40587B
+$loader-tile3: #4D90A3
+$loader-tile4: #7CB694
+$loader-tile5: #DCD280
+
+// Progress Bar
+$progress-bar-height: 5px
+$progress-background: rgba(255, 255, 255, 0.25)
+$progress-bar-background: rgba(255, 255, 255, 0.5)
+$progress-dark-background: rgba(0, 0, 0, 0.25)
+$progress-bar-dark-background: rgba(0, 0, 0, 0.5)
+
+// Controls
+$control-height: 108px
+$control-width: 54px
+$control-background: #fff
+$control-background-hover: #fff
+$control-font-size: 18px
+$control-font-color: #181619
+$control-font-color-hover: #181619
+$control-dark-background: #181619
+$control-dark-background-hover: #181619
+$control-dark-font-color: #fff
+$control-dark-font-color-hover: #fff
+$control-slider-opacity: 0
+$control-slider-hover-opacity: 1
+$control-opacity: 0.33
+$control-opacity-hover: 1
+$control-transition-speed: 0.5s
+
+// Pagination
+$pagination-outside-margin: 50px auto
+$pagination-slider-opacity: 0
+$pagination-slider-hover-opacity: 1
+$pagination-bullet-width: 10px
+$pagination-bullet-height: 10px
+$pagination-bullet-radius: 100%
+$pagination-bullet-margin: 10px
+$pagination-light-bullet-background: rgba(255, 255, 255, 0.5)
+$pagination-light-bullet-active-background: rgba(255, 255, 255, 1)
+$pagination-light-bullet-active-scale: 1.5
+$pagination-dark-bullet-background: rgba(0, 0, 0, 0.25)
+$pagination-dark-bullet-active-background: rgba(0, 0, 0, 0.65)
+$pagination-dark-bullet-active-scale: 1.5
+
+// Thumbnails
+$thumbnails-background: #000
+$thumbnails-opacity: 0.5
+$thumbnails-opacity-hover: 1
+$thumbnails-scale: 0.85
+$thumbnails-scale-active: 1
+$thumbnails-transition-speed: 0.3s
+$thumbnails-vertical-width: 200px
+
+//Scroller
+$scroller-color: #fff
+$scroller-border-width: 2px
+$scroller-border-radius: 13px
+$scroller-height: 50px
+$scroller-width: 26px
+$scroller-background: transparent
+$scroller-bullet-size: 8px
+$scroller-margin: 25px
+
+.slidea
+  background: $background-inverse
+  &.slidea-inverse
+    background: $background-inverse
+    .slidea-loader-wrapper
+      background: $background-inverse
+      .slidea-loader-inner
+        border: 1px solid darken($background-inverse, 15%)!important
+        box-shadow: 0 0 25px 0 rgba(0,0,0,0.75)
+        .slidea-loader-text
+          .slidea-loader-title
+            color: $silver
+          .slidea-loader-subtitle
+            color: darken($silver, 20%)
+
+  .slidea-wrapper
+    height: $starting-height
+    @media screen and (max-width: 767px)
+      height: $starting-height * 1/2
+    @media screen and (max-width: 979px)
+      height: $starting-height * 3/5
+    @media screen and (max-width: 1200px)
+      height: $starting-height * 3/4
+
+
+  .slidea-loader-wrapper
+    background: $background-default
+    .slidea-loader-text
+      .slidea-loader-title
+        color: $black
+      .slidea-loader-subtitle
+        color: $concrete
+
+    .slidea-loader
+      @if $loader-text == true
+        margin-top: - $loader-size
+      @else
+        margin-top: - $loader-size / 2
+      margin-left: - $loader-size / 2
+      width: $loader-size
+      height: $loader-size
+      .slidea-loader-inner
+        border: 1px solid #ffffff
+        border-radius: $loader-radius
+        overflow: hidden
+        .slidea-loader-tile
+          height: $loader-size
+          &:nth-child(1)
+            +animation(loader-tile1 1.5s linear infinite)
+            background: $loader-tile1
+          &:nth-child(2)
+            +animation(loader-tile2 1.5s linear infinite)
+            background: $loader-tile2
+          &:nth-child(3)
+            +animation(loader-tile3 1.5s linear infinite)
+            background: $loader-tile3
+          &:nth-child(4)
+            +animation(loader-tile4 1.5s linear infinite)
+            background: $loader-tile4
+          &:nth-child(5)
+            +animation(loader-tile5 1.5s linear infinite)
+            background: $loader-tile5
+
+  .slidea-progress
+    height: $progress-bar-height
+    .slidea-progress-bar
+      height: $progress-bar-height
+
+    &.slidea-progress-light
+      background: $progress-background
+      .slidea-progress-bar
+        background: $progress-bar-background
+
+    &.slidea-progress-dark
+      background: $progress-dark-background
+      .slidea-progress-bar
+        background: $progress-bar-dark-background
+
+  &:hover .slidea-control
+    +opacity($control-slider-hover-opacity)
+
+
+  .slidea-control
+    +opacity($control-slider-opacity)
+    +transition(all $control-transition-speed ease-out)
+    margin-top: -$control-height/2
+    width: $control-width
+    height: $control-height
+
+    .slidea-control-inner
+      .slidea-control-text
+        +opacity($control-opacity)
+        font-size: $control-font-size
+        line-height: $control-height
+        width: $control-width
+        height: $control-height
+
+    &:hover
+      .slidea-control-inner
+        .slidea-control-text
+          +opacity($control-opacity-hover)
+
+    &.slidea-prev:hover
+      .slidea-control-inner
+        .slidea-control-thumbnail
+          +transform(translate3d($control-width, 0, 0))
+
+  .slidea-control.slidea-controls-light
+    .slidea-control-inner
+      .slidea-control-text
+        background: $control-background
+        color: $control-font-color
+
+  .slidea-control.slidea-controls-light:hover
+    .slidea-control-inner
+      .slidea-control-text
+        background: $control-background-hover
+        color: $control-font-color-hover
+
+
+  .slidea-control.slidea-controls-dark
+    .slidea-control-inner
+      .slidea-control-text
+        background: $control-dark-background
+        color: $control-dark-font-color
+
+  .slidea-control.slidea-controls-dark:hover
+    .slidea-control-inner
+      .slidea-control-text
+        background: $control-dark-background-hover
+        color: $control-dark-font-color-hover
+
+  .slidea-control.slidea-controls-alternate
+    .slidea-control-inner
+      .slidea-control-text
+        background: $control-dark-background-hover
+        color: $control-dark-font-color-hover
+
+  .slidea-control.slidea-controls-alternate:hover
+    .slidea-control-inner
+      .slidea-control-text
+        background: $control-background-hover
+        color: $control-font-color-hover
+
+
+  .slidea-scroller-wrapper
+    position: absolute
+    bottom: $scroller-margin
+
+    &.slidea-scroller
+      &-left
+        left: $scroller-margin
+
+      &-center
+        left: 50%
+        margin-left: -$scroller-width / 2
+
+      &-right
+        right: $scroller-margin
+
+    cursor: pointer
+    z-index: 4
+
+  .slidea-scroller-1
+    +transition(all 0.5s ease)
+    display: block
+    width: $scroller-width
+    height: $scroller-height
+
+    &:hover
+      +transform(scale(1.5) translate3d(0, -5px, 0))
+
+
+    &::after
+      +transform(rotate(-45deg))
+      content: ""
+      display: block
+      margin-top: $scroller-height / 2
+      margin-left: $scroller-width / 2 - $scroller-bullet-size
+      border-bottom: $scroller-border-width solid $scroller-color
+      border-left: $scroller-border-width solid $scroller-color
+      width: $scroller-width / 2 + $scroller-border-width
+      height: $scroller-width / 2 + $scroller-border-width
+
+    &::before
+      +animation(slideascroller1 1.5s linear infinite)
+      content: ""
+      display: block
+      background: $scroller-color
+      margin-top: 5px
+      margin-left: $scroller-width / 2 - $scroller-bullet-size / 2
+      border-radius: 100%
+      width: $scroller-bullet-size
+      height: $scroller-bullet-size
+
+  .slidea-scroller-2
+    display: block
+    background: $scroller-background
+    border-width: $scroller-border-width
+    border-color: $scroller-color
+    border-style: solid
+    border-radius: $scroller-border-radius
+    width: $scroller-width
+    height: $scroller-height
+
+    &::before
+      +animation(slideascroller2 1.5s linear infinite)
+      content: ""
+      display: block
+      position: absolute
+      background: $scroller-color
+      margin-top: 5px
+      margin-left: $scroller-width / 2 - $scroller-border-width - $scroller-bullet-size / 2
+      border-radius: 100%
+      width: $scroller-bullet-size
+      height: $scroller-bullet-size
+
++keyframes(slideascroller1)
+  0%
+    +opacity(0)
+    +transform(scale(0) translate3d(0, 0, 0))
+
+  75%
+    +opacity(1)
+
+  100%
+    +opacity(0)
+    +transform(scale(1) translate3d(0, $scroller-height - $scroller-bullet-size - $scroller-border-width - 10px, 0))
+
++keyframes(slideascroller2)
+  0%
+    +opacity(0)
+    +transform(scale(0) translate3d(0, 0, 0))
+
+  75%
+    +opacity(1)
+
+  100%
+    +opacity(0)
+    +transform(scale(1) translate3d(0, $scroller-height - $scroller-bullet-size - $scroller-border-width - 10px, 0))
+
+
+
++keyframes(loader-tile1)
+  0%
+    background: #3E2C53
+  33.3333%
+    background: #AC2B61
+  66.6666%
+    background: #F3E3B4
+
++keyframes(loader-tile2)
+  0%
+    background: #3F577A
+  33.3333%
+    background: #E33D5F
+  66.6666%
+    background: #BADCC8
+
++keyframes(loader-tile3)
+  0%
+    background: #4C8FA2
+  33.3333%
+    background: #EF7C5E
+  66.6666%
+    background: #7FC7BF
+
++keyframes(loader-tile4)
+  0%
+    background: #7BB594
+  33.3333%
+    background: #F9C65F
+  66.6666%
+    background: #EE7B73
+
++keyframes(loader-tile5)
+  0%
+    background: #DBD17F
+  33.3333%
+    background: #F5EF9E
+  66.6666%
+    background: #D4385F
+
+.slidea:hover
+  .slidea-pagination.slidea-pagination-inside
+    +opacity($pagination-slider-hover-opacity)
+
+.slidea-pagination
+  +transition(all $control-transition-speed ease-out)
+
+  &.slidea-pagination-inside
+    +opacity($pagination-slider-opacity)
+    height: $pagination-bullet-height + $pagination-bullet-margin
+
+
+  &.slidea-pagination-outside
+    +opacity(1)
+    margin: $pagination-outside-margin
+
+
+  &.slidea-pagination-light
+    .slidea-pagination-bullet
+      background: $pagination-light-bullet-background
+      &.active
+        +scale($pagination-light-bullet-active-scale)
+        background: $pagination-light-bullet-active-background
+
+  &.slidea-pagination-dark
+    .slidea-pagination-bullet
+      background: $pagination-dark-bullet-background
+      &.active
+        +scale($pagination-dark-bullet-active-scale)
+        background: $pagination-dark-bullet-active-background
+
+  .slidea-pagination-bullet
+    +border-radius($pagination-bullet-radius)
+    margin: $pagination-bullet-margin
+    width: $pagination-bullet-width
+    height: $pagination-bullet-height
+
+
+
+.slidea-thumbnails
+  background: $thumbnails-background
+  &-inner
+    display: block
+    margin: 0
+    .slidea-thumbnail-wrapper
+
+      .slidea-thumbnail
+        // +scale($thumbnails-scale)
+        +opacity($thumbnails-opacity)
+        +transition(all $thumbnails-transition-speed ease-out)
+
+
+      &:hover
+        .slidea-thumbnail
+          +opacity($thumbnails-opacity-hover)
+
+
+
+      &.active
+        .slidea-thumbnail
+          +opacity($thumbnails-opacity-hover)
+          // +scale($thumbnails-scale-active)

@@ -1,0 +1,30 @@
+// Content
+.slidea-content-wrapper
+  display: block
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  position: absolute
+  z-index: $content-z-index
+  overflow: auto
+
+.slidea-content
+  position: absolute
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  display: table
+
+  &.slidea-content-center > .slidea-content-container
+    display: table-cell
+    vertical-align: middle
+
+  &.slidea-content-top > .slidea-content-container
+    display: table-cell
+    vertical-align: top
+
+  &.slidea-content-bottom > .slidea-content-container
+    display: table-cell
+    vertical-align: bottom

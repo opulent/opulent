@@ -25,17 +25,19 @@ def row
 
 / Create a boostrap column
 /
-def col(xs, sm, md, lg, offset = {})
+def col(xs, sm, md, lg, xlg, offset = {})
   - col_class = []
   - col_class << 'col-xs-' + xs.to_s if xs
   - col_class << 'col-sm-' + sm.to_s if sm
   - col_class << 'col-md-' + md.to_s if md
   - col_class << 'col-lg-' + lg.to_s if lg
+  - col_class << 'col-xlg-' + xlg.to_s if xlg
   
   - col_class << 'col-xs-offset-' + offset[:xs].to_s if offset[:xs]
   - col_class << 'col-sm-offset-' + offset[:sm].to_s if offset[:sm]
   - col_class << 'col-md-offset-' + offset[:md].to_s if offset[:md]
   - col_class << 'col-lg-offset-' + offset[:lg].to_s if offset[:lg]
+  - col_class << 'col-xlg-offset-' + offset[:xlg].to_s if offset[:xlg]
   
   div+attributes class=col_class
     yield

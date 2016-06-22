@@ -1,1 +1,0 @@
-{"version":3,"sources":["photography.css"],"names":[],"mappings":"AAAA,+DAA+D;AAC/D;EACE,qCAAqC;CACtC;;AAED;EACE,iBAAiB;CAClB","file":"application/photography.css","sourcesContent":["@import url(https://fonts.googleapis.com/css?family=Quicksand);\n.font-quicksand {\n  font-family: 'Quicksand', sans-serif;\n}\n\n.font-thin {\n  font-weight: 300;\n}\n"],"sourceRoot":"/source/"}

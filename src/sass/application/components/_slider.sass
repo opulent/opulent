@@ -1,0 +1,79 @@
+.slidea-slide
+  .slide-title
+    font-size: 3.5rem
+    font-weight: 100
+    strong
+      font-weight: normal
+    sup
+      font-size: 2rem
+
+  .slide-description
+    font-weight: 300
+    margin-top: 1rem
+    font-size: 1.2rem
+
+  &.slide-light
+    .slide-title
+      color: $white
+    .slide-description
+      color: $white
+    .slide-square
+      border-color: $white
+
+  &.slide-dark
+    .slide-title
+      color: $concrete
+    .slide-description
+      color: $concrete
+    .slide-square
+      border-color: $concrete
+
+.btn-slide
+  font-size: 1rem
+  font-weight: bold
+  float: right
+  margin-right: 100px
+  display: inline-block
+
+#slidea
+  .slidea-progress
+    height: 2px !important
+    .slidea-progress-bar
+      height: 2px !important
+      background: black !important
+
+  .slidea-slide
+    .slidea-canvas
+      transition: all 1.3s ease
+
+    &.background-enlarge
+      .slidea-canvas
+          transform: scale(1.2, 1.2)
+
+  .slidea-background-wrapper
+    > .slidea-background::before
+      width: 100%
+      height: 100%
+      display: block
+      position: absolute
+      left: 0
+      right: 0
+      z-index: 100
+      content: ""
+      background: rgba(0,0,0,0.65)
+
+  .slide-square
+    border-width: 1px
+    border-style: solid
+    width: 210px
+    height: 210px
+    display: block
+    position: absolute
+    right: 130px
+    top: -20px
+    z-index: 0
+    transition: all 0.7s ease
+
+#testimonials
+  .slidea-loader-wrapper
+    background: white

@@ -1,11 +1,7 @@
 def css(href)
-  - href = "assets/css/#{href}.min.css"
+  - href = "/assets/css/#{href}.min.css"
   link href=href rel="stylesheet" type="text/css"
 
 def js(src)
-  - src = "assets/js/#{src}.min.js"
+  - src = "/assets/js/#{src}.min.js"
   script src=src type="text/javascript"
-
-def image(src, alt="pixevil")
-  - src = "#{@application_route}/img/#{src}"
-  img+attributes src=src alt=alt 

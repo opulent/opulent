@@ -1,0 +1,49 @@
+section#social-section
+  container-fluid
+    row
+      col md=12
+        .social-title Designed and built for a better web in  
+          strong' Timisoara, Romania.
+        ul.social-icons.list-inline
+          li data-revelate="fade out, move y 20px" data-revelate-start="300" 
+            a.icon-facebook data-toggle="tooltip" title="Follow us on Facebook" data-color="facebook" href="https://www.facebook.com/pixevil" 
+              fa icon="facebook-square"
+          li data-revelate="fade out, move y 20px" data-revelate-start="600" 
+            a.icon-twitter data-toggle="tooltip" title="Follow us on Twitter" data-color="twitter" href="https://www.twitter.com/pixevilcreative" 
+              fa icon="twitter-square"
+          li data-revelate="fade out, move y 20px" data-revelate-start="900"
+            a.icon-google-plus data-toggle="tooltip" title="Follow us on Google+" data-color="google-plus" href="https://plus.google.com/b/110556426817990795484/110556426817990795484/posts" 
+              fa icon="google-plus-square"
+          li data-revelate="fade out, move y 20px" data-revelate-start="1200"
+            a.icon-github data-toggle="tooltip" title="Follow us on Github" data-color="github" href="https://github.com/pixevil" 
+              fa icon="github-square"
+          li data-revelate="fade out, move y 20px" data-revelate-start="1500"
+            a.icon-envato data-toggle="tooltip" title="Follow us on Envato" data-color="envato" href="https://themeforest.net/user/pixevil" 
+              fa icon="leaf"
+              fa icon="square"
+            
+/ section.section-dark#pro-package-section
+/   img#pro-package-bag-top src="/img/footer-bag-top.png"
+/   container-fluid
+/     row
+/       col xlg=4 offset={ xlg: 8 }
+/         h3#pro-package-text
+/           | Get every product we make,
+/           br
+/           | now and in the 
+/           span.text-primary.font-dancing-script' future
+/         p.section-description
+/           | With every purchase of the Pixevil Pro Package you receive support and 
+/           br
+/           | updates for all templates and plugins created by Pixevil.
+/         a.btn.btn-primary.btn-wide Coming Soon
+        
+footer.section-primary#footer-copyright 
+  container-fluid
+    row
+      col md=12
+        p.section-description
+          |~Copyright &copy; 2012-
+          = Date.today.strftime("%Y") 
+          a href="http://pixevil.com" 
+            | pixevil 

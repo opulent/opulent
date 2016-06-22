@@ -6,8 +6,8 @@ landing/index.op:
   :layout: landing/layout.op
 
 # Landing
-documentation/index.op: 
+documentation/index.op:
   :title: Opulent - Documentation
   :output: documentation/index.html
   :navbar: 'documentation'
-  :layout: landing/layout.op
+  :layout: documentation/layout.op

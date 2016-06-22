@@ -19,326 +19,213 @@ oooooooooooooooooooooooooooooooooooooooooooooooooo
 (($, window, document) ->
   'use strict'
 
-  $.animus = (defaults, finals) ->
+  $.animus = (override) ->
     # Animation Model
     model = {}
 
+    # Animation duration
+    model.duration = 600
+
     # Model Default State
     model.defaults =
-      duration: 600
-      easing: 'swing'
-      state:
-        opacity: 1
-        rotateX: '0deg'
-        rotateY: '0deg'
-        rotateZ: '0deg'
-        translateX: 0
-        translateY: 0
-        translateZ: 0
-        scale: 1
-        scaleX: 1
-        scaleY: 1
-        scaleZ: 1
-        skewX: '0%'
-        skewY: '0%'
-      timeline: null
+      opacity: 1
+      rotationX: 0
+      rotationY: 0
+      rotationZ: 0
+      x: 0
+      y: 0
+      z: 0
+      xPercent: 0
+      yPercent: 0
+      scale: 1
+      scaleX: 1
+      scaleY: 1
+      scaleZ: 1
+      skewX: 0
+      skewY: 0
+      easing: "Quad.easeOut"
 
-    # Model final State
-    model.finals = state:
-      opacity: 0
-      rotateX: '45deg'
-      rotateY: '45deg'
-      rotateZ: '45deg'
-      translateX: '-100%'
-      translateY: '-100%'
-      translateZ: '-100%'
-      scale: 2
-      scaleX: 2
-      scaleY: 2
-      scaleZ: 2
-      skewX: '100%'
-      skewY: '100%'
+
+    # List of allowed GSAP parameters
+    @parameters = [
+      'scale'
+      'scaleX'
+      'scaleY'
+      'scaleZ'
+      'x'
+      'y'
+      'z'
+      'skewX'
+      'skewY'
+      'rotation'
+      'rotationX'
+      'rotationY'
+      'rotationZ'
+      'perspective'
+      'xPercent'
+      'yPercent'
+      'shortRotation'
+      'shortRotationX'
+      'shortRotationY'
+      'shortRotationZ'
+      'transformOrigin'
+      'svgOrigin'
+      'transformPerspective'
+      'directionalRotation'
+      'parseTransform'
+      'force3D'
+      'skewType'
+      'smoothOrigin'
+      'boxShadow'
+      'borderRadius'
+      'backgroundPosition'
+      'backgroundSize'
+      'perspectiveOrigin'
+      'transformStyle'
+      'backfaceVisibility'
+      'userSelect'
+      'margin'
+      'padding'
+      'color'
+      'clip'
+      'textShadow'
+      'autoRound'
+      'strictUnits'
+      'border'
+      'borderWidth'
+      'float'
+      'cssFloat'
+      'styleFloat'
+      'perspectiveOrigin'
+      'transformStyle'
+      'backfaceVisibility'
+      'userSelect'
+      'opacity'
+      'alpha'
+      'autoAlpha'
+      'className'
+      'clearProps'
+    ]
 
     # Override default and final animus animation model
     #
     @init = ->
-      $.extend model.defaults, defaults
-      $.extend model.finals, finals
+      $.extend model, override
       return
 
-    # Process an animation string of the form "rotate 45, fade in" into
-    # a usable VelocityJS animation object
-    #
-    # @var     string      The animation string to be modified, of the form
-    #                      move x 300px, fade in, scale up
-    #
-    @get = (string) ->
-      animation = {}
+    ###
+    Process an animation string of the form "rotate 45, fade in" into
+    a usable VelocityJS animation object
 
+    @var     string      The animation string to be modified, of the form
+                         move x 300px, fade in, scale up
+    ###
+    @get = (input) ->
       # Animation Object
-      animation.state =
-        translateZ: 0
-      animation.duration = model.defaults.duration
-      animation.easing = model.defaults.easing
+      animation = {}
+      animation.state = { z: 0 }
+      animation.duration = model.duration / 1000
       animation.timeline = null
 
-      if string == '' or !string?
+      if input == '' or !input? or !input
         return animation
 
-      string = string.split ','
-      $.each string, (string)->
+      input = input.split /(\,\s*)/
+      $.each input, (index, string) =>
         i = 0
 
-        string = $.trim(this)
+        # Trim input string partial
+        string = $.trim(string)
+
+        # Replace round brackets
         if /\(.*\)/.test(string)
           string = string.replace(/\s*\(\s*/, ' ').replace(/\s*\)\s*/, ' ')
-        string = string.split(/\s+/)
+
+        # Split by space
+        string = string.split /\s+/
+
+        # Remove empty strings
         string = $.grep string, (n) ->
           n != ""
 
-        switch string[i]
-          # Animation Speed
-          #
-          # speed [800]
-          when 'duration', 'speed'
-            error 'argument', string[1] unless string[1]?
-            animation.duration = parseInt(string[1])
+        # Set current working parameter
+        parameter = string.shift()
 
-          # Animation Easing
-          #
-          # easing [easeInOut]
-          when 'easing'
-            error 'argument', string[1] unless string[1]?
+        # Set current working value
+        value = string.join ' '
 
-            if string[1][0] == '['
-              string[1] = string[1].slice(1)
-              string[string.length - 1] = string[string.length - 1].slice(0, -1)
-              animation.easing = string.slice(1).map (item) ->
-                parseFloat item
-            else
-              animation.easing = string[1]
+        # Check if we have a VelocityJS parameter
+        if ['duration', 'speed'].indexOf(parameter) != -1
+          animation.duration = parseFloat(value, 10) / 1000
+        else if ['ease', 'easing'].indexOf(parameter) != -1
+          animation.state.ease = value
+        else if parameter in @parameters
+          if value? and !/.+(\s+.+)+/.test(value)
+            if /px/.test value
+              value = parseFloat value.replace('px', ''), 10
+            else if /deg/.test value
+              value = parseFloat value.replace('deg', ''), 10
 
+            # Set as float if it isn't a percentage value
+            if /^[0-9](\.[0-9]+)?$/.test value
+              value = parseFloat value, 10
 
-          # Fade Animation
-          #
-          # fade [in, out] from 0 to 0.5
-          when 'opacity', 'fade'
-            parameter = 'opacity'
+          # @TODO Add final values
+          # else
+          #   value = model.finals[parameter]
+          animation.state[parameter] = value
 
-            switch string[1]
-              when 'in' then animation.state[parameter] = 1
-              when 'out' then animation.state[parameter] = 0
-              else animation.state[parameter] = string[1]
-
-          # Rotate Animation
-          #
-          # rotate [x,y,z] [left,right] from 180 to 0
-          when 'rotate'
-            parameter = 'rotateZ'
-
-            # Get direction
-            i = 1
-            switch string[i]
-              when 'x', 'y', 'z' then parameter = "rotate#{string[i].toUpperCase()}"
-              else --i
-
-            # Get parameters
-            if string[++i]?
-              animation.state[parameter] = string[i]
-            else
-              animation.state[parameter] = model.finals.state[parameter]
-
-          # Scale Animation
-          #
-          # scale [up,down] from 0 to 1
-          when 'scale'
-            parameter = 'scale'
-
-            # Get direction
-            i = 1
-            switch string[i]
-              when 'x', 'y', 'z' then parameter = "scale#{string[i].toUpperCase()}"
-              else --i
-
-            # Get parameters
-            if string[++i]?
-              switch string[i]
-                when 'up' then animation.state[parameter] = operation('*', 1, model.finals.state[parameter])
-                when 'down' then animation.state[parameter] = operation('/', 1, model.finals.state[parameter])
-                else animation.state[parameter] = string[i]
-            else
-              animation.state[parameter] = operation('*', 1, model.finals.state[parameter])
-
-          # Skew Animation
-          #
-          # skew x from 0 to 1
-          when 'skew'
-            parameter = 'skewX'
-
-            # Get direction
-            i = 1
-            switch string[i]
-              when 'x', 'y' then parameter = "rotate#{string[i].toUpperCase()}"
-              else --i
-
-            # Get parameters
-            if string[++i]?
-              animation.state[parameter] = string[i]
-            else
-              animation.state[parameter] = model.finals.state[parameter]
-
-
-          # Translate Animation
-          #
-          # translate [x,y,z] from 0 to 100
-          when 'move', 'slide', 'translate'
-            parameter = 'translateX'
-
-            # Get direction
-            i = 1
-            switch string[i]
-              when 'left', 'right', 'x' then parameter = 'translateX'
-              when 'up', 'down', 'y' then parameter = 'translateY'
-              when 'z' then parameter = 'translateZ'
-              else --i
-
-            # Get parameters
-            if string[++i]?
-               animation.state[parameter] = string[i]
-            else
-              switch string[i - 1]
-                when 'x', 'y', 'z' then animation.state[parameter] = model.finals.state[parameter]
-                when 'in', 'up', 'left' then animation.state[parameter] = model.finals.state[parameter]
-                when 'out', 'down', 'right' then animation.state[parameter] = operation('*', -1, model.finals.state[parameter])
-                else animation.state[parameter] = model.finals.state[parameter]
-
-          # Other Animation
-          #
-          # animate
-          else
-            parameter = string[0]
-
-            # Check if we have a VelocityJS parameter
-            if (parameter in $.Velocity.CSS.Lists.transforms3D) ||
-               (parameter in $.Velocity.CSS.Lists.transformsBase) ||
-               (parameter in $.Velocity.CSS.Lists.colors)
-              animation.state[parameter] = string[1]
-
-            # Check if we have a VelocityJS redirect
-            else if parameter of $.Velocity.Redirects
-              animation.state = parameter
-
-            # Don't know how to handle this string
-            else
-              error 'unknown', string[0]
+        # Check if we have a VelocityJS redirect
+        else if parameter of $.animus.presets
+          animation.state = parameter
 
         return
 
-      animation
+      return animation
 
-    # Set reset state by getting all the animation variables
-    # and setting them to the default values
-    #
-    # @param data [State] State which overwrites reset variables
-    # @param data [Object] Element states data in RockSlider
-    # @param deep [Boolean] Generate reset from an array of animations if true
-    #                       or from a single animation if false
-    #
-    @reset = (state, data, deep) ->
+
+    ###
+    Set reset state by getting all the animation variables
+    and setting them to the default values
+
+    @param data [State] State which overwrites reset variables
+    @param data [Object] Element states data in RockSlider
+    @param deep [Boolean] Generate reset from an array of animations if true
+                          or from a single animation if false
+    ###
+    @reset = (state, data) ->
+      ###
+      Check if we need to add the percentage sign to the default state value
+      ###
+      percentage = (value) ->
+        if /\%$/.test value
+          return '%'
+        else
+          return ''
+
       reset = {}
-      if deep == true
-        $.each data.animation, (anim)->
-          return if $.type(@state) is 'string'
-          $.each @state, (key) ->
-            if !(key of reset) and key of model.defaults.state
-              reset[key] = model.defaults.state[key]
-            return
+      $.each data, (anim)->
+        return if $.type(@state) is 'string'
+        $.each @state, (key, value) ->
+          if !(key of reset) and key of model.defaults
+            reset[key] = model.defaults[key] + percentage(value)
           return
-      else
-        $.each data, (key) ->
-          if !(key of reset) and key of model.defaults.state
-            reset[key] = model.defaults.state[key]
-          return
+        return
 
-
-      $.extend reset, state
-
-
-    # Set reset state by getting all the animation variables
-    # and setting them to the default values
-    #
-    # @param initial [State] Initial animation state
-    # @param final [State] Final animation state
-    #
-    @forcefeed = (final, initial) ->
-      result = {}
-
-      initial = if initial
-        $.extend {}, model.defaults.state, initial
-      else
-        model.defaults.state
-
-      for key of final
-        if final[key] isnt initial[key]
-          result[key] = [initial[key], final[key]]
-        else
-          result[key] = final[key]
-
-      return result
-
-    # Basic JSON calculator
-    #
-    calc =
-      '+': (a, b) ->
-        a + b
-      '-': (a, b) ->
-        a - b
-      '*': (a, b) ->
-        a * b
-      '/': (a, b) ->
-        a / b
-
-    # Helper function to add two variables a, b with a measurement unit suffix
-    #
-    operation = (op, x, y) ->
-      if !(typeof x == 'string' or x instanceof String)
-        x = x.toString()
-      if !(typeof y == 'string' or y instanceof String)
-        y = y.toString()
-
-      exp = /(-?[0-9]*)(px|%|deg)/i
-
-      matchx = x.match(exp)
-      matchy = y.match(exp)
-
-      x = if matchx != null then parseFloat(matchx[1]) else parseFloat(x)
-      y = if matchy != null then parseFloat(matchy[1]) else parseFloat(y)
-
-      if matchx != null and matchy != null
-        return calc[op](x, y) + matchx[2]
-
-      if matchx != null and matchy == null
-        return calc[op](x, y) + matchx[2]
-
-      if matchx == null and matchy != null
-        return calc[op](x, y) + matchy[2]
-
-      calc[op] x, y
-
-    error = (context, data) ->
-      switch context
-        when 'argument'
-          message = "Missing animation argument for \"#{data}\"."
-        else
-          message = "Unknown animation parameter \"#{data}\"."
-
-      console.error "[Animus] #{message}"
+      return $.extend {}, reset, state
 
     # Initialize Animus
-    #
     @init()
 
     return
-  return
 
+  # Keeps all Animus presets
+  $.animus.presets = {}
+
+  # Add a new Animus preset
+  $.animus.register_preset = (name, timeline) ->
+    $.animus.presets[name] = timeline
+    return
+
+  return
 ) jQuery, window, document

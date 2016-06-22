@@ -20,4 +20,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=../src/maps/application/documentation.js.map
+//# sourceMappingURL=../../maps/application/documentation.js.map
