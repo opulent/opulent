@@ -1,12 +1,24 @@
 # Opulent
 [![Build Status](https://travis-ci.org/opulent/opulent.svg?branch=master)](https://travis-ci.org/opulent/opulent)
 
-Opulent is an __Intelligent Web Templating Engine__ created for extremely fast and efficient Web Development. Based on the idea of lightweight and reusable __Web Components__, Opulent greatly increases your development speed for any project.
+Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.
 
-[Read the Documentation](docs/reference.md)
+[Read the Documentation](http://opulent.io/documentation/)
+
+### Elegant
+Markup should beautiful and clean. Opulent makes markup a pleasant experience.
+
+### Reusable
+Completely DRY, in opulent you can define reusable markup elements easily.
+
+### Full Featured
+Everything you need, right from the start. Ready for all the major Ruby frameworks.
+
+# Performant
+Opulent is lightweight, blazing fast. Performance is measured with every release.
+
 
 ## Syntax
-
 Opulent has a beautiful, minimalistic syntax: no tags, indentation based, optional brackets, inline text, inline children and in page definitions.
 
 __Page Markup__
@@ -43,7 +55,7 @@ ul.navbar
 
 __Starting to feel it?__ There's so much more you can do with Opulent.
 
-[Read the Documentation](docs/reference.md)
+[Read the Documentation](http://opulent.io/documentation/)
 
 
 
