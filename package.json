@@ -22,7 +22,7 @@
     "gulp-filelog": "^0.4.1",
     "gulp-filter": "^2.0.2",
     "gulp-ignore": "^1.2.1",
-    "gulp-imagemin": "^2.3.0",
+    "gulp-imagemin": "^2.4.0",
     "gulp-include": "^2.0.2",
     "gulp-jshint": "^1.11.2",
     "gulp-livereload": "^3.8.0",
