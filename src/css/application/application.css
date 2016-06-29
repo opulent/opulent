@@ -1218,10 +1218,35 @@ img.full-height {
   padding: 1.3rem;
 }
 
+@media (max-width: 991px) {
+  #browser .browser-window {
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+  }
+}
+
+@media (max-width: 767px) {
+  #browser .browser-window {
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+  }
+}
+
+@media (max-width: 543px) {
+  #browser .browser-window {
+    font-size: 0.625rem;
+    line-height: 0.625rem;
+  }
+}
+
 #header {
   background: #E32546;
   background: -webkit-linear-gradient(top left, #E32546 0%, #3d9970 100%);
   background: linear-gradient(to bottom right, #E32546 0%, #3d9970 100%);
+}
+
+#header .section-description {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 #landing-logo {
@@ -1945,6 +1970,13 @@ footer a:hover {
   margin-top: -0.75rem;
 }
 
+@media (max-width: 767px) {
+  .navbar .navbar-nav .navbar-item .navbar-link.navbar-btn span {
+    display: block;
+    margin-top: 0.2rem;
+  }
+}
+
 .navbar .navbar-nav .navbar-item .navbar-link.navbar-btn::after {
   display: none;
 }
@@ -1972,7 +2004,7 @@ footer a:hover {
 }
 
 .navbar .navbar-toggle {
-  display: block;
+  display: none;
   position: absolute;
   right: 0;
   margin: -7px 0 0 0;
@@ -1984,6 +2016,12 @@ footer a:hover {
   border: 1px solid;
   -webkit-transition: background 0.3s ease;
           transition: background 0.3s ease;
+}
+
+@media (max-width: 767px) {
+  .navbar .navbar-toggle {
+    display: block;
+  }
 }
 
 .navbar.navbar-fixed-top {
@@ -2030,7 +2068,7 @@ footer a:hover {
   background: #f2f2f2;
 }
 
-@media screen and (max-width: 544px) {
+@media (max-width: 767px) {
   .navbar.navbar-light .navbar-nav {
     background: #f2f2f2;
   }
@@ -2074,7 +2112,7 @@ footer a:hover {
   background: #111;
 }
 
-@media screen and (max-width: 544px) {
+@media (max-width: 767px) {
   .navbar.navbar-dark .navbar-nav {
     background: #272727;
   }
@@ -2089,7 +2127,7 @@ footer a:hover {
   position: fixed;
 }
 
-@media screen and (max-width: 544px) {
+@media (max-width: 767px) {
   .navbar .navbar-item {
     width: 100%;
     margin: 0 !important;
@@ -2124,8 +2162,8 @@ footer a:hover {
   .navbar.navbar-collapsed .navbar-nav {
     visibility: visible !important;
     opacity: 1 !important;
-    -webkit-transform: translateY(0%);
-            transform: translateY(0%);
+    -webkit-transform: translateY(-1%);
+            transform: translateY(-1%);
   }
 }
 

@@ -158,6 +158,7 @@
 #browser
   background: transparent!important
   margin-top: 4rem
+
   .slidea-loader-wrapper
     background: transparent!important
   .slidea-control
@@ -165,10 +166,23 @@
   .slidea-content-container
     padding: 1.3rem
 
+  .browser-window
+    @include media-breakpoint-down(md)
+      font-size: 0.875rem
+      line-height: 0.875rem
+    @include media-breakpoint-down(sm)
+      font-size: 0.75rem
+      line-height: 0.75rem
+    @include media-breakpoint-down(xs)
+      font-size: 0.625rem
+      line-height: 0.625rem
+
 #header
   background: $primary
   background: linear-gradient(to bottom right, $primary 0%, $olive 100%)
 
+  .section-description
+    color: rgba(255,255,255,0.6)
 
 #landing-logo
   margin: 0px auto 40px

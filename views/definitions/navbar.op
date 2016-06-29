@@ -10,7 +10,7 @@ def navbar(items, home_url="/", title="pixevil", transparent=false, fixed=false,
     container-fluid
       row 
         col xs: 12
-          .navbar-toggle.hidden-sm-up data-target="#navbar-collapse"
+          .navbar-toggle data-target="#navbar-collapse"
             |~ &#9776;
           .navbar-wrapper#navbar-collapse 
             a.navbar-brand href=home_url  

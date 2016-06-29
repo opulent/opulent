@@ -79,6 +79,9 @@ $navbar-transparent-opacity: 0.5
             display: inline
             border-radius: 3px
             margin-top: -0.75rem
+            @include media-breakpoint-down(sm)
+              display: block
+              margin-top: 0.2rem
           &::after
             display: none
 
@@ -99,7 +102,9 @@ $navbar-transparent-opacity: 0.5
           font-weight: 600
 
   .navbar-toggle
-    display: block
+    @include media-breakpoint-down(sm)
+      display: block
+    display: none
     position: absolute
     right: 0
     margin: -7px 0 0 0
@@ -136,7 +141,7 @@ $navbar-transparent-opacity: 0.5
       background: $navbar-light
       &:hover
         background: $navbar-light-accent
-    @media screen and (max-width: map-get($grid-breakpoints, sm))
+    @include media-breakpoint-down(sm)
       .navbar-nav
         background: $navbar-light-accent
 
@@ -160,7 +165,7 @@ $navbar-transparent-opacity: 0.5
       background: $navbar-dark
       &:hover
         background: $black
-    @media screen and (max-width: map-get($grid-breakpoints, sm))
+    @include media-breakpoint-down(sm)
       .navbar-nav
         background: $navbar-dark-accent
 
@@ -171,7 +176,7 @@ $navbar-transparent-opacity: 0.5
     top: 0
     position: fixed
 
-  @media screen and (max-width: map-get($grid-breakpoints, sm))
+  @include media-breakpoint-down(sm)
     .navbar-item
       .navbar-link
         &::after, &::before
@@ -204,4 +209,4 @@ $navbar-transparent-opacity: 0.5
       .navbar-nav
         visibility: visible !important
         opacity: 1 !important
-        transform: translateY(0%)
+        transform: translateY(-1%)

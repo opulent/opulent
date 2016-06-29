@@ -4,6 +4,7 @@
   # @Navbar
   $.navbar = (element, options) ->
     @element = $(element)
+    @toggle = $('.navbar-toggle', @element)
 
     @settings =
       condense: true
@@ -14,7 +15,7 @@
     if @element.attr('data-navbar-transparentize')? && @element.attr('data-navbar-transparentize') == 'false'
       @settings.transparentize = false
 
-    $('.navbar-toggle', @element).on 'click', =>
+    @toggle.on 'click', =>
       @element.toggleClass 'navbar-collapsed'
       return
 
@@ -43,6 +44,14 @@
 
       return
     .trigger 'scroll'
+
+    # Hide collapsed navbar on click outside navbar element
+    $('body').on 'click', (e) =>
+      return unless @element.hasClass 'navbar-collapsed'
+      if !$(e.target).is(@element) && !@element.has($(e.target)).length > 0
+        @element.removeClass('navbar-collapsed')
+      e.stopPropagation()
+      return
 
     return
 

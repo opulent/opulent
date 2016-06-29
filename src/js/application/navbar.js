@@ -3,6 +3,7 @@
     "use strict";
     $.navbar = function(element, options) {
       this.element = $(element);
+      this.toggle = $('.navbar-toggle', this.element);
       this.settings = {
         condense: true,
         transparentize: true
@@ -13,7 +14,7 @@
       if ((this.element.attr('data-navbar-transparentize') != null) && this.element.attr('data-navbar-transparentize') === 'false') {
         this.settings.transparentize = false;
       }
-      $('.navbar-toggle', this.element).on('click', (function(_this) {
+      this.toggle.on('click', (function(_this) {
         return function() {
           _this.element.toggleClass('navbar-collapsed');
         };
@@ -43,6 +44,17 @@
           }
         };
       })(this)).trigger('scroll');
+      $('body').on('click', (function(_this) {
+        return function(e) {
+          if (!_this.element.hasClass('navbar-collapsed')) {
+            return;
+          }
+          if (!$(e.target).is(_this.element) && !_this.element.has($(e.target)).length > 0) {
+            _this.element.removeClass('navbar-collapsed');
+          }
+          e.stopPropagation();
+        };
+      })(this));
     };
     return $.fn.navbar = function(opts) {
       return this.each(function(index, element) {
