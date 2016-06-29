@@ -8,11 +8,28 @@
         return;
       }
       target = $(target);
-      $("html").velocity("scroll", {
-        offset: (target.offset().top) + "px",
-        mobileHA: false
-      });
+      $("html, body").animate({
+        scrollTop: target.offset().top - 150
+      }, 1000);
       e.preventDefault();
+    });
+    $('body').scrollspy({
+      target: '#table-of-contents',
+      offset: 150
+    });
+    $('.social-icons a').each(function(index, icon) {
+      var color_class;
+      color_class = 'social-colored social-' + $(icon).attr('data-color');
+      $(icon).on('mouseenter', (function(_this) {
+        return function() {
+          $('#social-section').addClass(color_class);
+        };
+      })(this));
+      $(icon).on('mouseleave', (function(_this) {
+        return function() {
+          $('#social-section').removeClass(color_class);
+        };
+      })(this));
     });
     SyntaxHighlighter.defaults.toolbar = false;
     SyntaxHighlighter.all();

@@ -16,6 +16,7 @@ def navbar(items, home_url="/", title="pixevil", transparent=false, fixed=false,
             a.navbar-brand href=home_url  
               img.navbar-logo src="/assets/img/#{logo}"  
               h1.navbar-title = title
+              a.navbar-by href="http://pixevil.com" by pixevil
             ul.navbar-nav.navbar-right
               /!^Nav Menu
               /! Change the navigation menu here and set the current menu item as active using the "active" class.  

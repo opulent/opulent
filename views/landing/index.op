@@ -250,7 +250,7 @@ section
           col xs=6 sm=3 md=3
             .h1.text-primary > pe icon="leaf"
             h4.section-subtitle
-              | Elegance
+              | Elegant
             p.section-description | 
               Markup should beautiful and clean. Opulent  
               makes markup a pleasant experience.
@@ -258,7 +258,7 @@ section
           col xs=6 sm=4 md=3
             .h1.text-primary > pe icon="network"
             h4.section-subtitle
-              | Reusability
+              | Reusable
             p.section-description |
               Completely DRY, in opulent you can define reusable markup 
               elements easily.
@@ -275,7 +275,7 @@ section
           col xs=6 sm=4 md=3
             .h1.text-primary > pe icon="graph3"
             h4.section-subtitle
-              | Performance
+              | Performant
             p.section-description |
               Opulent is lightweight, blazing fast.
               Performance is measued with every release.

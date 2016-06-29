@@ -1,7 +1,7 @@
 #sidebar
   .nano
     .nano-content
-      ul class="table-of-contents"  
+      ul#table-of-contents.table-of-contents 
         li.table-heading > h6 > strong 
           fa icon="question-circle"  
           |Introduction
@@ -23,7 +23,7 @@
         li > a href="#syntax-nodes-basic" Basic
         li > a href="#syntax-nodes-inline" Inline
         li > a href="#syntax-nodes-whitespace" Whitespace
-        li > a href="#syntax-nodes-enclosing" Self Closing
+        li > a href="#syntax-nodes-closing" Self Closing
 
         li.table-heading > h6 > strong 
           fa icon="code" 

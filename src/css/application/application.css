@@ -1875,6 +1875,19 @@ footer a:hover {
   z-index: 999;
 }
 
+.navbar .navbar-by {
+  color: #aaa;
+  -webkit-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+  font-weight: normal;
+  font-size: 0.9rem;
+}
+
+.navbar .navbar-by:hover, .navbar .navbar-by:focus, .navbar .navbar-by:active {
+  color: #fff;
+  text-decoration: none;
+}
+
 .navbar .navbar-brand {
   display: inline-block;
   position: relative;

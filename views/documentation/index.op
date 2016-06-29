@@ -2,37 +2,39 @@ include ../definitions/*
 
 section.section-light
   .container-fluid
-    row.padding-top-5x#intro-about
-      col.margin-top-3x md=12  
+    row#intro-about
+      col.margin-top-10x md=12  
         .text-center
           img.margin-bottom-2x src="/assets/img/logo/logo-primary.png"
           h1.section-title OPULENT
           h3.font-thin.text-gray.margin-reset DOCUMENTATION
-          .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
           
-      
-        div
-          p
-            |Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.
-          
-section.section-light 
-  .container-fluid 
-    row#intro-licensing.padding-top-5x.text-center  
-      col xs=12  
-        h2.section-subtitle INTRODUCTION 
-        h2.section-title
-          span.text-primary'" LICENSING
-          | DETAILS 
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 section.section-light
   .container-fluid  
     row  
       col xs=12
-        p.text-muted data-rev="" 
+        p.section-description 
+          |Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.
+          
+section.section-light 
+  .container-fluid 
+    row#intro-licensing
+      col xs=12   
+        h2.section-subtitle INTRODUCTION 
+        h2.section-title
+          span.text-primary'" LICENSING
+          | DETAILS 
+        
+section.section-light
+  .container-fluid  
+    row  
+      col xs=12
+        p.section-description 
           | Opulent is and will always be free. The MIT License allows every developer to integrate it into their personal or commercial web application. 
             If anyone wants to make changes to Opulent though, we're asking them to share their changes with the world, through the main repository.
             
-        .text-center.margin-top-4x
+        .margin-top-4x
           .section-title
             .text-lightgray
               fa icon="heart"
@@ -40,28 +42,28 @@ section.section-light
 
 section.section-light
   .container-fluid
-    row#intro-contributing.padding-top-5x.text-center  
+    row#intro-contributing
       col xs=12 
         h2.section-subtitle INTRODUCTION
         h2.section-title
           span.text-primary'" CONTRIBUTING
           | GUIDELINES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 section.section-light
   .container-fluid
     row  
       col xs=12
       
-        p.text-muted data-rev=""
+        p.section-description
           | Bug reports and feature requests are great, but actually fixing the bugs or implementing the features is even better. 
             If you’ve got some code to share with the world, first read the information below, then fork the 
           a'" href="https://github.com/opulent/opulent" Opulent repository 
           | and send a pull request. 
             I will do a code review of your patch, and then chances are good I’ll merge it right in.
         
-        p.text-muted 
+        p.section-description.text-muted 
           | When making a patch, please consider the following:
-        ul 
+        ul.section-description
           li Make sure your commit message is properly capitalized and punctuated
           li Add unit tests for the implemented changes
           li Make sure the first line of your commit message is a (short) full sentence
@@ -76,23 +78,23 @@ section.section-light
         
 section.section-light
   .container-fluid
-    row#installation-getting-started.padding-top-5x.text-center  
+    row#installation-getting-started
       col xs=12 
         h2.section-subtitle INSTALLATION
         h2.section-title
           | GETTING 
           span.text-primary'" STARTED
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | First of all, you will need to make sure you have Ruby and Ruby Gems installed on your system. We recommend using the latest Ruby version available. 
             Opulent is available as a module for most major  web frameworks written in Ruby.
           
-        p
+        p.section-description
           | To install the 
           strong'" opulent gem 
           | run the following command in your terminal:
@@ -100,7 +102,7 @@ section.section-light
         pre class="brush: ruby"|
           gem install opulent
           
-        p
+        p.section-description
           | To use opulent inside your web application you can add it to your 
           strong' Gemfile
           | .
@@ -109,7 +111,7 @@ section.section-light
           gem "opulent"
           
           
-        p
+        p.section-description
           | Here's how our first web page would look like with opulent. Let's name it 
           code' input.op
           |.
@@ -122,19 +124,19 @@ section.section-light
             body 
               #content
                 | This is my first web page
-        p
+        p.section-description
           | To run opulent from the command line, you can use:
           
         pre class="brush: ruby"|
           opulent input.op output.html
           
-        p 
+        p.section-description 
           | You can also use Opulent inside any Ruby Application as follows: 
         
         .h4.margin-top-2x
           strong String
           span.text-muted' \ (code input)
-        p 
+        p.section-description 
           | When passing a 
           strong'" String
           | to the constructor, the engine will proceed the code generation for the code 
@@ -146,7 +148,7 @@ section.section-light
         .h4.margin-top-2x
           strong Symbol
           span.text-muted' \ (path input)
-        p 
+        p.section-description 
           | If we pass a
           strong'" Symbol
           | to the constructor, the engine will open the file at the path designated by the Symbol,
@@ -163,25 +165,25 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#installation-rails.padding-top-5x.text-center  
+    row#installation-rails
       col xs=12 
         h2.section-subtitle INSTALLATION
         h2.section-title
           | RUBY ON 
           span.text-primary'" RAILS
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | First you will need to install the 
           strong'" Ruby On Rails
           | implementation of Opulent that can be found in the following gem:
         pre class="brush: ruby"|
           gem install opulent-rails
-        p data-rev=""
+        p.section-description data-rev=""
           | Once it’s installed, all view files with the 
           strong.text-primary'" \ ".html.op" 
           | extension will be compiled using Opulent.
@@ -216,7 +218,7 @@ section.section-light
 
         
         .h3.margin-top-2x Rails XSS Protection
-        p 
+        p.section-description 
           | Opulent supports Rails’ XSS protection scheme, which was introduced in Rails 2.3.5+ and is enabled by default in 3.0.0+. 
             Like in ERB, all strings printed to a Opulent template are escaped by default. Also like ERB, strings marked as HTML safe 
             are not escaped. Opulent also has its own syntax for printing a raw string to the template using the 
@@ -227,24 +229,24 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#installation-sinatra.padding-top-5x.text-center  
+    row#installation-sinatra
       col xs=12 
         h2.section-subtitle INSTALLATION
         h2.section-title
           | SINATRA
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | Just like with Rails, you will need to install the 
           strong'" Sinatra 
           | implementation of Opulent that can be found in the following gem:
         pre class="brush: ruby"|
           gem install opulent-sinatra
-        p data-rev=""
+        p.section-description data-rev=""
           | Once it’s installed, all view files with the 
           strong.text-primary'" \ ".op" 
           | extension can be compiled using Opulent.
@@ -274,24 +276,24 @@ section.section-light
         pre class="brush: xml" |
           / file: views/index.op
           
-          p
+          p.section-description
             | Hello world!
           
 section.section-light
   .container-fluid
-    row#installation-tilt.padding-top-5x.text-center  
+    row#installation-tilt
       col xs=12 
         h2.section-subtitle INSTALLATION
         h2.section-title
           span.text-primary" TILT
           | INTERFACE
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | Opulent offers a custom Tilt integration by default. You can use it just like you normally use the Tilt gem.
 
         pre class="brush: ruby" |
@@ -306,23 +308,23 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-nodes-basic.padding-top-5x.text-center  
+    row#syntax-nodes-basic
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | BASIC
           span.text-primary'" NODES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | The node syntax in opulent is inspired by SASS, and the same principles apply. 
             You have no angular brackets and every parent-child relation is based on indentation.
             The node name given will be the same when rendered to HTML. 
-        p data-rev=""
+        p.section-description data-rev=""
           | There are some special cases where the node name can be missing, 
             and in that case, the implicit node is 
           code'" div 
@@ -340,7 +342,7 @@ section.section-light
           / <bread><tomato></tomato><ham></ham></bread>
           
 
-        p data-rev=""
+        p.section-description data-rev=""
           | In Opulent the following node names are valid:
           code' lowercase
           |, 
@@ -352,7 +354,7 @@ section.section-light
           |' and 
           code' hyphen-case  
           |. 
-        p
+        p.section-description
           | The preferred way to name and define nodes in opulent is 
           code' hyphen-case
           |. As a convention, we're going to use hyphen-case throughout the documentation.
@@ -366,19 +368,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-nodes-inline.padding-top-5x.text-center  
+    row#syntax-nodes-inline
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | INLINE
           span.text-primary'" NODES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | To encourage a compact markup, you can also use the inline operator 
           code'" \>
           | to write a parent-child relation between nodes.
@@ -391,7 +393,7 @@ section.section-light
           /   <li><a href="http://pixevil.com"><span>Pixevil</span></a></li>
           / </ul>
 
-        p 
+        p.section-description 
           | When having direct children after declaring inline child nodes, the direct 
             children will be inside the last declared inline node.
           
@@ -407,19 +409,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-nodes-whitespace.padding-top-5x.text-center  
+    row#syntax-nodes-whitespace
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" NODE
           | WHITESPACE
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | You can handle whitespace (spaces before and after a node) using the 
           code'" \'
           span.text-gray'" \ (apostrophe)
@@ -427,7 +429,7 @@ section.section-light
           code'" \"
           span.text-gray'" \ (quote)
           | for whitespace to the right of the node. 
-        p
+        p.section-description
           | The same whitespace syntax 
             applies to all nodes, even plain text nodes.
           
@@ -442,24 +444,24 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-nodes-closing.padding-top-5x.text-center  
+    row#syntax-nodes-closing
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | SELF CLOSING
           span.text-primary'" NODES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | Self closing nodes from HTML can be marked up using a trailing 
           code'" \/
           span.text-gray'" \ (forward slash)
           at the end of the node markup. Self enclosing nodes cannot have any child nodes.
-          
+           
         pre class="brush: opulent" |
           node /
           / <node>
@@ -467,7 +469,7 @@ section.section-light
           node 
           / <node></node>
           
-        p 
+        p.section-description 
           | Opulent will automatically close the most common self-closing HTML nodes:
           code' img
           |, 
@@ -504,19 +506,19 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-attributes-shorthand.padding-top-5x.text-center  
+    row#syntax-attributes-shorthand
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | SHORTHAND
           span.text-primary'" ATTRUBUTES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | As mentioned earlier, the shorthand syntax is similar to SASS and uses 
           code'" \.
           span.text-gray'" \ (dot) 
@@ -528,7 +530,7 @@ section.section-light
           span.text-gray'" \ (ampersand) 
           | for the input node's name attribute.
         
-        p 
+        p.section-description 
           | The node name can be missing and is implicitly set to 
           code' div
           |, being the most commonly used node.
@@ -546,7 +548,7 @@ section.section-light
           input&username
           / <input name="username">
 
-        p 
+        p.section-description 
           | You can chain as many shorthand attributes as you want. You can use as many classes as you want for your node, but the other attributes will be replaced and only 
             the last assigned value will show in the rendered code.
 
@@ -554,7 +556,7 @@ section.section-light
           a.btn.btn-primary#click-me href="http://opulent.io" Hello Opulent! 
           / <a class="btn btn-primary" id="click-me" href="http://opulent.io">Hello Opulent!</a>
 
-        p 
+        p.section-description 
           | You can also pass a string as the value for the shorthand attribute. You can use interpolation on
             the passed string, which we will see in the next section.
 
@@ -564,19 +566,19 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-attributes-wrapped.padding-top-5x.text-center  
+    row#syntax-attributes-wrapped
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | WRAPPED
           span.text-primary'" ATTRUBUTES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | The wrapped attributes syntax makes use of brackets
           code'" \()
           span.text-gray'" \ (round brackets) 
@@ -587,7 +589,7 @@ section.section-light
           code'" \{}
           span.text-gray'" \ (curly brackets) 
           | to surround the atrributes of the node. 
-        p
+        p.section-description
           | For 
           strong'" attribution
           | you can use either 
@@ -612,7 +614,7 @@ section.section-light
           div[class="example" id="node"]
           / <div class="example" id="node"></div>
         
-        p
+        p.section-description
           | The attributes can be followed by a comma, and can span multiple lines 
             if the wrapped syntax is used.
           
@@ -626,7 +628,7 @@ section.section-light
           )
           / <div class="first second"></div>
           
-        p 
+        p.section-description 
           | You can also use wrapped attributes in combination with shorthand attributes. However, the order is important:
             shorthand attributes need to be declared first.
 
@@ -636,23 +638,23 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-attributes-unwrapped.padding-top-5x.text-center  
+    row#syntax-attributes-unwrapped
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | UNWRAPPED
           span.text-primary'" ATTRUBUTES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | The unwrapped attributes syntax allows you to write key-value pairs 
             inline with the node, like you would do in HTML.
         
-        p
+        p.section-description
           | Just like the wrapped attributes syntax, you can use
             you can use either 
             the
@@ -676,7 +678,7 @@ section.section-light
           div class:"example" id:"node"
           / <div class="example" id="node"></div>
         
-        p 
+        p.section-description 
           | Below you can see how you can combine all the three attribute syntaxes and use them seamlessly in your markup.
 
         pre class="brush: opulent" |
@@ -685,19 +687,19 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-attributes-escape.padding-top-5x.text-center  
+    row#syntax-attributes-escape
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | ESCAPED
           span.text-primary'" ATTRUBUTES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | All attributes are rendered as 
           strong'" encoded HTML
           | by default. If you consider the variable to be HTML Safe, then you can 
@@ -717,19 +719,19 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-text-inline.padding-top-5x.text-center  
+    row#syntax-text-inline
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | INLINE
           span.text-primary'" TEXT
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | Text in opulent can be written directly inline with the node, after all 
             the attributes have been declared.
           
@@ -738,7 +740,7 @@ section.section-light
           li Hello World
           / <li>Hello World</li>
 
-        p 
+        p.section-description 
           | Opulent will assign child nodes to the parent as you would normally expect, 
             with the inline text being the first direct child.
           
@@ -749,19 +751,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-text-explicit.padding-top-5x.text-center  
+    row#syntax-text-explicit
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | EXPLICIT
           span.text-primary'" TEXT
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | A text node in opulent is marked using a 
           code'" \|
           span.text-gray'" \ (pipe)
@@ -777,7 +779,7 @@ section.section-light
           / Hello Opulent
           / I'm on multiple lines.
 
-        p 
+        p.section-description 
           | Just like the nodes, the text markup handles whitespace using 
           code'" \'
           span.text-gray'" \ (apostrophe)
@@ -802,26 +804,26 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-text-block.padding-top-5x.text-center  
+    row#syntax-text-block
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | BLOCK
           span.text-primary'" TEXT
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | A node in opulent can receive a text block, marked by the pipe symbol right after the node markup, 
             meaning that everything written underneath, which is more indented than the node will be rendered 
             as plain text.
           
           
         pre class="brush: opulent" |
-          p | 
+          p.section-description | 
             Hello Opulent!
             This is on multiple lines.
             
@@ -832,19 +834,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-text-interpolation.padding-top-5x.text-center  
+    row#syntax-text-interpolation
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" TEXT
           | INTERPOLATION
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | In opulent you can interpolate variables into your text and strings, 
             the same way you do in Ruby.
         
@@ -853,10 +855,10 @@ section.section-light
         - interpolation_node_id = "\#{node_id}"
         pre class="brush: opulent" |
           - variable = "text" 
-          p This is interpolated #{interpolation_variable}.
+          p.section-description This is interpolated #{interpolation_variable}.
           / <p>This is interpolated text</p>
 
-        p You can also interpolate variables into attribute values, whether they are wrapped, unwrapped or shorthand.
+        p.section-description You can also interpolate variables into attribute values, whether they are wrapped, unwrapped or shorthand.
 
         pre class="brush: opulent" |
           - node_class = "btn-primary"
@@ -873,19 +875,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-text-interpolation.padding-top-5x.text-center  
+    row#syntax-text-interpolation
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" TEXT
           | INTERPOLATION
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | In opulent you can interpolate variables into your text and strings, 
             the same way you do in Ruby.
         
@@ -894,10 +896,10 @@ section.section-light
         - interpolation_node_id = "\#{node_id}"
         pre class="brush: opulent" |
           - variable = "text" 
-          p This is interpolated #{interpolation_variable}.
+          p.section-description This is interpolated #{interpolation_variable}.
           / <p>This is interpolated text</p>
 
-        p You can also interpolate variables into attribute values, whether they are wrapped, unwrapped or shorthand.
+        p.section-description You can also interpolate variables into attribute values, whether they are wrapped, unwrapped or shorthand.
 
         pre class="brush: opulent" |
           - node_class = "btn-primary"
@@ -914,71 +916,71 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-text-escape.padding-top-5x.text-center  
+    row#syntax-text-escape
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" TEXT
           | ESCAPE
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | Just like the node attributes, text is escaped by default and can be marked as unescaped using the 
           code'" \~
           span.text-gray'" \ (tilde)
           | character right at the start of the text.
           
         pre class="brush: opulent" |
-          p This text is <escaped>
+          p.section-description This text is <escaped>
           / <p>This text is &lt;escaped&gt;</p>
           
-          p ~ This text is <unescaped>
+          p.section-description ~ This text is <unescaped>
           / <p>This text is <unescaped></p>
           
         pre class="brush: opulent" |
-          p 
+          p.section-description 
             | This text is <escaped>
           / <p>This text is &lt;escaped&gt;</p>
           
-          p 
+          p.section-description 
             |~ This text is <unescaped>
             / <p>This text is <unescaped></p>
           
         pre class="brush: opulent" |
-          p |~
+          p.section-description |~
             This text is <escaped>
           / <p>This text is &lt;escaped&gt;</p>
           
-          p |~ 
+          p.section-description |~ 
             This text is <unescaped>
           / <p>This text is <unescaped></p>
 
-        p The whitespace syntax has higher priority than the escape syntax.
+        p.section-description The whitespace syntax has higher priority than the escape syntax.
           
         pre class="brush: opulent" |
-          p 
+          p.section-description 
             |'"~ This text is <unescaped>
           / <p> This text is <unescaped> </p>
           
 section.section-light
   .container-fluid
-    row#syntax-ruby-evaluate.padding-top-5x.text-center  
+    row#syntax-ruby-evaluate
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" RUBY
           | EVAL
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | You can evaluate native Ruby code and pass a block into it by using the 
           code'" \-
           span.text-gray'" \ (minus)
@@ -995,19 +997,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-ruby-print.padding-top-5x.text-center  
+    row#syntax-ruby-print
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" RUBY
           | PRINT
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | You can evaluate native Ruby code and print it using the
           code'" \=
           span.text-gray'" \ (equals)
@@ -1020,29 +1022,29 @@ section.section-light
           = x * y 
           / 50
       
-        p Evaluation print nodes can also be passed as direct inline child to any other node.
+        p.section-description Evaluation print nodes can also be passed as direct inline child to any other node.
         pre class="brush: opulent" |
           - x = "Hello "
           - y = "opulent!"
           
-          p = x + y
+          p.section-description = x + y
           / <p>Hello opulent!</p>
           
 section.section-light
   .container-fluid
-    row#syntax-ruby-attributes.padding-top-5x.text-center  
+    row#syntax-ruby-attributes
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" RUBY CODE
           | ATTRIBUTES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p data-rev=""
+        p.section-description data-rev=""
           | Opulent can receive attribute values directly from evaluating ruby code, which you can write right
             after the 
           code'" \=
@@ -1056,7 +1058,7 @@ section.section-light
           / <div id="node"></div>
         
         h4 Methods
-        p You can also call methods on a single ruby variable when using it in attributes.
+        p.section-description You can also call methods on a single ruby variable when using it in attributes.
         pre class="brush: opulent" |
           - div_id = "node"
           
@@ -1064,7 +1066,7 @@ section.section-light
           / <div id="NODE"></div>
       
         h4 Multiple Variables
-        p 
+        p.section-description 
           | If you want to use more than one variable inside an attribute, you can wrap the value inside of 
             round brackets 
           code'" \()
@@ -1078,7 +1080,7 @@ section.section-light
           / <div id="node-red"></div>
           
         h4 True and False
-        p 
+        p.section-description 
           | When passing a 
           code'" true 
           | value to an attribute, the attribute will be rendered as a blank value
@@ -1097,7 +1099,7 @@ section.section-light
       
       
         h4 Arrays
-        p 
+        p.section-description 
           | You can also pass arrays as attribute values. The
             evaluation result will be joined 
             with a 
@@ -1120,7 +1122,7 @@ section.section-light
           / <div class="value1 value2 value3"></div>
            
           
-        p When we're passing an array to something other than a class attribute, we'll get the following output:
+        p.section-description When we're passing an array to something other than a class attribute, we'll get the following output:
         pre class="brush: opulent" |
           - array = ['value1', 'value2', 'value3']
           
@@ -1132,7 +1134,7 @@ section.section-light
       
       
         h4 Hashes
-        p 
+        p.section-description 
           | You can also pass hashes as attribute values. The assigned attribute will serve 
             as base name, and using each hash key, new attributes will be created.
            
@@ -1147,59 +1149,19 @@ section.section-light
      
 section.section-light
   .container-fluid
-    row#syntax-ruby-block.padding-top-5x.text-center  
+    row#syntax-ruby-block
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" RUBY
           | BLOCKS
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
-          |When using Ruby 
-          code'" do .. end
-          | blocks, opulent knows when to insert the
-          code'" end
-          | of a block automatically.
-          
-        pre class="brush: opulent" |
-          ul
-            - 5.times do |i|
-              li = i
-          
-          / <ul>
-          /   <li>1</li>
-          /   <li>2</li>
-          /   <li>3</li>
-          /   <li>4</li>
-          /   <li>5</li>
-          / </ul>
-          
-        pre class="brush: opulent" |
-          - if 3 < 4
-            p That's correct
-            
-          / <p>That's correct</p>
-     
-section.section-light
-  .container-fluid
-    row#syntax-ruby-block.padding-top-5x.text-center  
-      col xs=12 
-        h2.section-subtitle SYNTAX
-        h2.section-title
-          span.text-primary'" RUBY
-          | BLOCKS
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
-
-section.section-light
-  .container-fluid
-    row  
-      col xs=12
-        p
+        p.section-description
           |When using Ruby 
           code'" do .. end
           | blocks, opulent knows when to insert the
@@ -1221,43 +1183,43 @@ section.section-light
 
 section.section-light
   .container-fluid
-    row#syntax-ruby-control.padding-top-5x.text-center  
+    row#syntax-ruby-control
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" RUBY
           | CONTROL STRUCTURES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | You can use control structures using the eval markup as well, but opulent has them included 
             as native code, which you can read about in the next chapter. 
           
         pre class="brush: opulent" |
           - if 3 < 4
-            p That's correct
+            p.section-description That's correct
             
           / <p>That's correct</p>
 
 section.section-light
   .container-fluid
-    row#syntax-ruby-escape.padding-top-5x.text-center  
+    row#syntax-ruby-escape
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" RUBY
           | CODE ESCAPING
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | Just like you would with a node or text, you can use the 
           code'" \~
           span.text-gray'" \ (tilde)
@@ -1268,25 +1230,25 @@ section.section-light
            
         pre class="brush: opulent" |
           - code = "<unescaped>"
-          p =~ code  
+          p.section-description =~ code  
           
           / <p><unescaped></p>
           
 section.section-light
   .container-fluid
-    row#syntax-control-if.padding-top-5x.text-center  
+    row#syntax-control-if
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" IF
           | CONTROL
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | Opulent has natively included most Ruby control structures in its syntax. 
             You can markup an 
           code'" \if
@@ -1305,19 +1267,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-control-unless.padding-top-5x.text-center  
+    row#syntax-control-unless
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" UNLESS
           | CONTROL
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | You can markup an 
           code'" \unless
           | control structure directly, like this:
@@ -1333,19 +1295,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-control-case.padding-top-5x.text-center  
+    row#syntax-control-case
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" CASE
           | CONTROL
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | You can markup an 
           code'" \case
           | control structure directly, like this:
@@ -1370,19 +1332,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-control-each.padding-top-5x.text-center  
+    row#syntax-control-each
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" EACH
           | CONTROL
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | You can markup an 
           code'" \each
           | control structure directly. However, you will need to specify whether it's an Array or Hash, 
@@ -1408,19 +1370,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-control-while.padding-top-5x.text-center  
+    row#syntax-control-while
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" WHILE
           | CONTROL
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | You can markup a
           code'" \while
           | control structure natively in opulent, by using the syntax: 
@@ -1436,19 +1398,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-control-until.padding-top-5x.text-center  
+    row#syntax-control-until
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" UNTIL
           | CONTROL
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | You can markup an
           code'" \until
           | control structure natively in opulent, by using the syntax: 
@@ -1464,19 +1426,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-comments-basic.padding-top-5x.text-center  
+    row#syntax-comments-basic
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | BASIC
           span.text-primary'" COMMENTS
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | Comments in opulent can span multiple lines and are marked up using a simple 
           code'" \/
           span.text-gray'" (forward slash)
@@ -1488,19 +1450,19 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-comments-visible.padding-top-5x.text-center  
+    row#syntax-comments-visible
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | VISIBLE
           span.text-primary'" COMMENTS
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | You can output a comment in HTML by using the 
           code'" \/!
           span.text-gray'" (forward slash & excalamation symbol)
@@ -1513,19 +1475,19 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-doctype-basic.padding-top-5x.text-center  
+    row#syntax-doctype-basic
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | BASIC
           span.text-primary'" DOCTYPES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | Opulent comes with a variety of HTML  
           code'" \doctype
           | markups available. 
@@ -1574,19 +1536,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-doctype-custom.padding-top-5x.text-center  
+    row#syntax-doctype-custom
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | CUSTOM
           span.text-primary'" DOCTYPES
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | You can write a custom 
           code'" \doctype
           | by simply writing the text you want after the doctype node. 
@@ -1597,19 +1559,19 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-filters-basic.padding-top-5x.text-center  
+    row#syntax-filters-basic
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | BASIC
           span.text-primary'" FILTERS
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p 
+        p.section-description 
           strong" Filters
           | let you use other languages within a opulent template. They take 
             a block of plain text as an input. Some filters also have a default
@@ -1627,7 +1589,7 @@ section.section-light
           :coffeescript
             console.log 'This is coffeescript'
 
-        p
+        p.section-description
           | Opulent comes with a variety of 
           code'" \filter
           | implementations available by default. Each filter uses an associated gem and requires that gem to be installed.
@@ -1646,19 +1608,19 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-include-basic.padding-top-5x.text-center  
+    row#syntax-include-basic
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           | BASIC
           span.text-primary'" INCLUDE
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p
+        p.section-description
           | The 
           code'" include 
           | directive allows you to include external files into your current template.
@@ -1676,7 +1638,7 @@ section.section-light
             .node 
               yield
         
-        p 
+        p.section-description 
           | To include the 
           code'" example.op
           | file we have written above, we can use:
@@ -1689,7 +1651,7 @@ section.section-light
           node 
           / <div class="node"></div>
           
-        p
+        p.section-description
           | The include directive indentation will be preserved. In the following example, 
             everything from inside the 
           strong'" list.op 
@@ -1698,7 +1660,7 @@ section.section-light
           ul 
             include list
           
-        p   
+        p.section-description   
           | You can also include all opulent files from within a folder using the 
           code'" \*
           strong GLOB 
@@ -1715,30 +1677,30 @@ section.section-light
             
 section.section-light
   .container-fluid
-    row#syntax-definitions-concept.padding-top-5x.text-center  
+    row#syntax-definitions-concept
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" DEFINITIONS
           | CONCEPT
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p 
+        p.section-description 
           strong" Node Definitions 
           | are reusable markup elements which provide a huge increase in development speed. 
             Definitions allow you to group complex node markup logic inside a simple tag, 
             and can be included in the current page from a central source. 
-        p
+        p.section-description
           | Definitions are 
             marked up using the 
           code'" def
           | keyword and accept definition arguments with optional default values.
           
-        p > strong Definitions are to opulent what mixins are to sass and less.
+        p.section-description > strong Definitions are to opulent what mixins are to sass and less.
           
         pre class="brush: op" |
           def node 
@@ -1749,19 +1711,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-definitions-arguments.padding-top-5x.text-center  
+    row#syntax-definitions-arguments
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" DEFINITIONS
           | ARGUMENTS
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p 
+        p.section-description 
           | As you would expect, definitions can receive arguments, which will be available as variables with the same name.
             Arguments are marked up using 
           code'" \()
@@ -1782,7 +1744,7 @@ section.section-light
           node param1="value1" param2="value2"
           / <div data-attr1="value1" data-attr2="value2"></div>
           
-        p 
+        p.section-description 
           | You can set default values for definition parameters just like you would in Ruby.
           
         pre class="brush: op" |
@@ -1797,32 +1759,32 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-definitions-extension.padding-top-5x.text-center  
+    row#syntax-definitions-extension
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" DEFINITIONS
           | EXTENSION
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p 
+        p.section-description 
           | Definition call arguments which are not specified in the parameters list
             will be stored inside a 
           strong'" Hash 
           | variable called 
           code' attributes
           |.
-        p 
+        p.section-description 
           | You can extend any node inside the definition using the 
           code'" \+
           span.text-gray'" (plus)
           | symbol.
           
-        p.text-primary 
+        p.section-description.text-primary 
           | The 
           strong'" attributes
           | variable is a reserved keyword in opulent definitions.
@@ -1838,7 +1800,7 @@ section.section-light
           
         h6.text-gray Example 1
         h4 Attribute Manipulation 
-        p You can manipulate the attributes map before extending it. 
+        p.section-description You can manipulate the attributes map before extending it. 
         
         pre class="brush: op" |
           def node(param)
@@ -1852,7 +1814,7 @@ section.section-light
           
         h6.text-gray Example 2
         h4 Scripts and Stylesheets
-        p
+        p.section-description
           | With opulent you can define a much more explicit, centralized script inclusion.
         
         - doc_href_embed = '#{href}'
@@ -1878,7 +1840,7 @@ section.section-light
           
         h6.text-gray Example 3
         h4 Bootstrap Column  
-        p
+        p.section-description
           | Here's a practical example on how you could define a 
           a'" href="http://getbootstrap.com" Bootstrap 
           | column element and make it much easier to use.
@@ -1908,19 +1870,19 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-definitions-yield.padding-top-5x.text-center  
+    row#syntax-definitions-yield
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" DEFINITIONS
           | YIELD
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p 
+        p.section-description 
           | Definition call child nodes can be included anywhere within the definition using the 
           code'" yield
           | keyword.
@@ -1941,20 +1903,20 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#syntax-definitions-scope.padding-top-5x.text-center  
+    row#syntax-definitions-scope
       col xs=12 
         h2.section-subtitle SYNTAX
         h2.section-title
           span.text-primary'" DEFINITIONS
           | SCOPE
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
         h4 Local Variables
-        p 
+        p.section-description 
           | Variables declared inside of a definition have 
           strong' local scope
           | , meaning they 
@@ -1972,7 +1934,7 @@ section.section-light
           / 3, the value of var doesn't get changed
             
         h4 Instance Variables
-        p 
+        p.section-description 
           | Instance variables which are either declared or passed using ruby blocks 
             in the view rendering code are available both inside and outside of
             definitions, meaning they have a
@@ -1992,28 +1954,28 @@ section.section-light
           
 section.section-light
   .container-fluid
-    row#conclusion-end.padding-top-5x.text-center  
+    row#conclusion-end
       col xs=12 
         h2.section-subtitle CONCLUSION
         h2.section-title
           | END OF 
           span.text-primary'" DOCUMENTATION
-        .h1.margin-vertical-1x > fa.text-lightgray icon="ellipsis-h"
+        
 
 section.section-light
   .container-fluid
     row  
       col xs=12
-        p 
+        p.section-description 
           strong Opulent is open source
           | , free and available for everyone, and a huge amount of effort 
             has been put into it. If you feel that opulent is on your liking, 
-            please help us spread the word, because more users means more contributors,
+            p.section-descriptionlease help us spread the word, because more users means more contributors,
             which we really need right now.
-        p
+        p.section-description
           | In web development there will always be place for improvement, and opulent 
             will help with that.
-        p  
+        p.section-description  
           strong 
             | Together, we can make opulent the 
             span.text-primary'" Templating Engine of choice
