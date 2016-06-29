@@ -1,22 +1,9 @@
 # Opulent
 [![Build Status](https://travis-ci.org/opulent/opulent.svg?branch=master)](https://travis-ci.org/opulent/opulent)
 
-Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.
+Opulent [(opulent.io)](http://opulent.io) is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.
 
-[Read the Documentation](http://opulent.io/documentation/)
-
-### Elegant
-Markup should beautiful and clean. Opulent makes markup a pleasant experience.
-
-### Reusable
-Completely DRY, in opulent you can define reusable markup elements easily.
-
-### Full Featured
-Everything you need, right from the start. Ready for all the major Ruby frameworks.
-
-### Performant
-Opulent is lightweight, blazing fast. Performance is measured with every release.
-
+[Visit Homepage](http://opulent.io/)
 
 ## Syntax
 Opulent has a beautiful, minimalistic syntax: no tags, indentation based, optional brackets, inline text, inline children and in page definitions.
@@ -44,6 +31,16 @@ def hello(place)
 hello place="World"
 ```
 
+```
+def content
+  #content
+    yield
+  
+content 
+  h1 I'll replace yield!
+```
+
+
 __Control Structures__
 ```
 ul.navbar
@@ -53,7 +50,19 @@ ul.navbar
     li > a href=link_to_register Sign Up
 ```
 
-__Starting to feel it?__ There's so much more you can do with Opulent.
+### Elegant
+Markup should beautiful and clean. Opulent makes markup a pleasant experience.
+
+### Reusable
+Completely DRY, in opulent you can define reusable markup elements easily.
+
+### Full Featured
+Everything you need, right from the start. Ready for all the major Ruby frameworks.
+
+### Performant
+Opulent is lightweight, blazing fast. Performance is measured with every release.
+
+__Like it?__ There's so much more you can do with Opulent.
 
 [Read the Documentation](http://opulent.io/documentation/)
 
