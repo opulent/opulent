@@ -27,6 +27,12 @@ section {
   padding-left: 200px;
 }
 
+@media (max-width: 767px) {
+  #documentation #content {
+    padding-left: 0;
+  }
+}
+
 #documentation #sidebar {
   border-right: 1px solid #e3e3e3;
   display: block;
@@ -37,6 +43,52 @@ section {
   bottom: 0;
   width: 200px;
   z-index: 1;
+}
+
+@media (max-width: 767px) {
+  #documentation #sidebar {
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+    background: #fff;
+    font-size: 1rem;
+    visibility: hidden;
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+    -webkit-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+  }
+  #documentation #sidebar.sidebar-visible {
+    visibility: visible;
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+}
+
+#sidebar-toggle {
+  display: none;
+  position: fixed;
+  right: 1rem;
+  top: 120px;
+  padding: 1rem;
+  line-height: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  z-index: 999;
+  background: #fff;
+  border: 1px solid;
+  -webkit-transition: background 0.3s ease;
+          transition: background 0.3s ease;
+}
+
+@media (max-width: 767px) {
+  #sidebar-toggle {
+    display: block;
+  }
+}
+
+#sidebar-toggle:hover, #sidebar-toggle:focus, #sidebar-toggle:active {
+  background: #f2f2f2;
 }
 
 ul.table-of-contents {

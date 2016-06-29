@@ -11,12 +11,20 @@
       $("html, body").animate({
         scrollTop: target.offset().top - 150
       }, 1000);
+      if ($('#sidebar').hasClass('sidebar-visible')) {
+        $('#sidebar').removeClass('sidebar-visible');
+      }
       e.preventDefault();
     });
     $('body').scrollspy({
       target: '#table-of-contents',
       offset: 150
     });
+    $('#sidebar-toggle').on('click', (function(_this) {
+      return function() {
+        $('#sidebar').toggleClass('sidebar-visible');
+      };
+    })(this));
     $('.social-icons a').each(function(index, icon) {
       var color_class;
       color_class = 'social-colored social-' + $(icon).attr('data-color');

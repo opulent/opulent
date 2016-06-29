@@ -3,6 +3,7 @@
 @import ../config/colors
 @import ../config/mixins
 @import ../bootstrap/bootstrap/variables
+@import ../bootstrap/bootstrap/mixins
 @import ../config/variables
 
 $sidebar-width: 200px
@@ -26,8 +27,26 @@ section
     display: block
     position: relative
     padding-left: $sidebar-width
+    @include media-breakpoint-down(sm)
+      padding-left: 0
 
   #sidebar
+    @include media-breakpoint-down(sm)
+      width: 100%
+      z-index: 2
+      text-align: center
+      background: $white
+      font-size: 1rem
+      // display: none
+      visibility: hidden
+      transform: translateX(-100%)
+      transition: all 0.5s ease
+
+      &.sidebar-visible
+        // display: block
+        visibility: visible
+        transform: translateX(0%)
+
     border-right: 1px solid $darksilver
     display: block
     position: fixed
@@ -37,6 +56,29 @@ section
     bottom: 0
     width: $sidebar-width
     z-index: 1
+
+
+
+#sidebar-toggle
+  @include media-breakpoint-down(sm)
+    display: block
+  display: none
+  position: fixed
+  right: 1rem
+  top: 120px
+  padding: 1rem
+  line-height: 0.5rem
+  text-align: center
+  cursor: pointer
+  z-index: 999
+  background: $white
+  border: 1px solid
+  &:hover,
+  &:focus,
+  &:active
+    background: $silver
+  transition: background 0.3s ease
+
 
 ul.table-of-contents
   list-style: none

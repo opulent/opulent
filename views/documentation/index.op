@@ -9,11 +9,11 @@ section.section-light
           h1.section-title OPULENT
           h3.font-thin.text-gray.margin-reset DOCUMENTATION
           
-        
-section.section-light
+         
+section.section-light 
   .container-fluid  
     row  
-      col xs=12
+      col xs=12 
         p.section-description 
           |Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.
           

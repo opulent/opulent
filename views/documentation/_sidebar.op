@@ -1,3 +1,5 @@
+#sidebar-toggle
+  |~ &#9776;
 #sidebar
   .nano
     .nano-content

@@ -11,6 +11,9 @@ $('document').ready ->
 
     $("html, body").animate scrollTop:(target.offset().top - 150), 1000
 
+    if $('#sidebar').hasClass 'sidebar-visible'
+      $('#sidebar').removeClass 'sidebar-visible'
+
     e.preventDefault()
     return
 
@@ -18,6 +21,12 @@ $('document').ready ->
   $('body').scrollspy
     target: '#table-of-contents'
     offset: 150
+
+  $('#sidebar-toggle').on 'click', =>
+    $('#sidebar').toggleClass 'sidebar-visible'
+    return
+
+
 
   # Change footer background on icon hover
   $('.social-icons a').each (index, icon) ->
