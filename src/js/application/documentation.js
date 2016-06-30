@@ -1,8 +1,18 @@
 (function() {
   $('document').ready(function() {
-    $('.nano').nanoScroller({
+    var responsive, sidebar;
+    responsive = {
+      xs: 0,
+      sm: 544,
+      md: 768,
+      lg: 992,
+      xl: 1200
+    };
+    sidebar = $('.nano');
+    sidebar.nanoScroller({
       iOSNativeScrolling: true
     });
+    sidebar.addClass('has-nano');
     $('.table-of-contents li a').on('click', function(e) {
       var target;
       target = $(e.currentTarget).attr('href');
@@ -25,9 +35,26 @@
     $('#sidebar-toggle').on('click', (function(_this) {
       return function() {
         $('#sidebar').toggleClass('sidebar-visible');
-        $('.nano').nanoScroller();
       };
     })(this));
+    $(window).resize((function(_this) {
+      return function() {
+        var window_width;
+        window_width = $(window).width();
+        if (window_width < responsive['md'] && sidebar.hasClass('has-nano')) {
+          sidebar.removeClass('has-nano');
+          sidebar.nanoScroller({
+            destroy: true
+          });
+          $('.nano-pane', sidebar).remove();
+        } else if (window_width >= responsive['md'] && !sidebar.hasClass('has-nano')) {
+          sidebar.addClass('has-nano');
+          sidebar.nanoScroller({
+            iOSNativeScrolling: true
+          });
+        }
+      };
+    })(this)).trigger('resize');
     $('.social-icons a').each(function(index, icon) {
       var color_class;
       color_class = 'social-colored social-' + $(icon).attr('data-color');
