@@ -48,7 +48,7 @@ section {
 @media (max-width: 767px) {
   #documentation #sidebar {
     width: 100%;
-    z-index: 2;
+    z-index: 999;
     text-align: center;
     background: #fff;
     font-size: 1rem;
