@@ -1716,14 +1716,26 @@ ul.list-inline li:last-child {
 .browser-window .browser-content {
   position: relative;
   display: block;
-  padding: 20px 20px 20px 60px;
   font-family: monospace;
+  padding: 20px 20px 20px 60px;
+}
+
+@media (max-width: 543px) {
+  .browser-window .browser-content {
+    padding: 10px 10px 10px 40px;
+  }
 }
 
 .browser-window .browser-content .browser-line, .browser-window .browser-content .browser-linenumber {
   height: 24px;
   display: block;
   cursor: default;
+}
+
+@media (max-width: 543px) {
+  .browser-window .browser-content .browser-line, .browser-window .browser-content .browser-linenumber {
+    height: 15px;
+  }
 }
 
 .browser-window .browser-content .browser-linenumbers {
@@ -1737,6 +1749,14 @@ ul.list-inline li:last-child {
   padding-right: 10px;
   background: #fcfcfc;
   text-align: right;
+}
+
+@media (max-width: 543px) {
+  .browser-window .browser-content .browser-linenumbers {
+    padding-right: 0px;
+    padding-top: 10px;
+    width: 20px;
+  }
 }
 
 .token-node {
@@ -2292,7 +2312,13 @@ section {
 
 @media (max-width: 767px) {
   section {
-    padding: 3.5rem 1.5rem;
+    padding: 3rem 1.25rem;
+  }
+}
+
+@media (max-width: 543px) {
+  section {
+    padding: 2rem 0.5rem;
   }
 }
 

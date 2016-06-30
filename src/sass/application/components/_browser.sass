@@ -24,13 +24,18 @@
   .browser-content
     position: relative
     display: block
-    padding: 20px 20px 20px 60px
     font-family: monospace
+    padding: 20px 20px 20px 60px
+    @include media-breakpoint-down(xs)
+      padding: 10px 10px 10px 40px
+
 
     .browser-line, .browser-linenumber
       height: 24px
       display: block
       cursor: default
+      @include media-breakpoint-down(xs)
+        height: 15px
 
     .browser-linenumbers
       color: $gray
@@ -43,6 +48,11 @@
       padding-right: 10px
       background: lighten($silver, 4%)
       text-align: right
+      @include media-breakpoint-down(xs)
+        padding-right: 0px
+        padding-top: 10px
+        width: 20px
+
 
 
 .token-node
