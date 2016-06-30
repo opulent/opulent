@@ -1,6 +1,8 @@
 (function() {
   $('document').ready(function() {
-    $('.nano').nanoScroller();
+    $('.nano').nanoScroller({
+      iOSNativeScrolling: true
+    });
     $('.table-of-contents li a').on('click', function(e) {
       var target;
       target = $(e.currentTarget).attr('href');

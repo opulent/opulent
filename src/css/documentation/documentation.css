@@ -100,6 +100,12 @@ ul.table-of-contents {
   font-size: 14px;
 }
 
+@media (max-width: 767px) {
+  ul.table-of-contents {
+    margin: 20px 0 0 0;
+  }
+}
+
 ul.table-of-contents > li {
   margin-bottom: 5px;
 }
@@ -150,11 +156,6 @@ ul.table-of-contents > li ul li.active a {
 ul.table-of-contents > li.table-heading {
   padding-left: 0px;
   margin: 0 0 10px;
-}
-
-.overthrow-enabled .overthrow {
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 #footer-copyright {

@@ -87,6 +87,8 @@ ul.table-of-contents
   padding: 0
   margin: 20px 0 0 20px
   font-size: 14px
+  @include media-breakpoint-down(sm)
+    margin: 20px 0 0 0
 
   > li
     &.active
@@ -122,11 +124,6 @@ ul.table-of-contents
     &.table-heading
       padding-left: 0px
       margin: 0 0 10px
-
-
-.overthrow-enabled .overthrow
-  overflow: auto
-  -webkit-overflow-scrolling: touch
 
 #footer-copyright
   z-index: 2

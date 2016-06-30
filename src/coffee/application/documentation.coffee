@@ -1,5 +1,6 @@
 $('document').ready ->
-  $('.nano').nanoScroller()
+  $('.nano').nanoScroller
+    iOSNativeScrolling: true
 
   $('.table-of-contents li a').on 'click', (e) ->
     target = $(e.currentTarget).attr 'href'

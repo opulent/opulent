@@ -1776,7 +1776,7 @@ section.section-light
             will be stored inside a 
           strong'" Hash 
           | variable called 
-          code' attributes
+          code' attributes 
           |.
         p.section-description 
           | You can extend any node inside the definition using the 
