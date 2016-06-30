@@ -1,13 +1,10 @@
 $social-transition-speed: 1.2s
 
 #social-section
-  padding: 7rem 3rem
   display: block
   position: relative
   text-align: center
   transition: background $social-transition-speed ease
-  @include media-breakpoint-down(sm)
-    padding: 3.5rem 1.5rem
 
   .social-title
     font-size: 1.75rem
@@ -27,9 +24,12 @@ $social-transition-speed: 1.2s
         left: -1px
         top: 5px
         color: $body-bg
-      .fa-leaf
         font-size: 2.2rem
-
+    @include media-breakpoint-down(xs)
+      font-size: 2.4rem
+      .fa-leaf
+        top: 3px!important
+        font-size: 1.8rem!important
   li
     margin-left: 0.75rem
 
@@ -59,7 +59,6 @@ $social-transition-speed: 1.2s
   background: #333333
   .fa-leaf
     color: #333333 !important
-
 .social-envato
   background: #82b541
   .fa-leaf

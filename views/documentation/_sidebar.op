@@ -2,7 +2,7 @@
   |~ &#9776;
 #sidebar
   .nano
-    .nano-content
+    .nano-content.overthrow
       ul#table-of-contents.table-of-contents 
         li.table-heading > h6 > strong 
           fa icon="question-circle"  

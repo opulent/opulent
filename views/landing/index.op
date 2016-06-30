@@ -210,7 +210,7 @@ section.section-dark#header
                           
             
 
-section.section-light    
+section.section-light#intro-section
   container
     row.text-center  
       col xs=12 
@@ -247,7 +247,7 @@ section
           .h1.margin-vertical-1x data-revelate="scale 0, easing spring" > fa.text-lightgray icon="ellipsis-h"
         
         row.text-center.margin-top-3x
-          col xs=12 sm=6 md=3
+          col xs=12 md=6 lg=3
             .h1.text-primary > pe icon="leaf"
             h4.section-subtitle
               | Elegant
@@ -255,7 +255,7 @@ section
               Markup should beautiful and clean. Opulent  
               makes markup a pleasant experience.
              
-          col xs=12 sm=6 md=3
+          col xs=12 md=6 lg=3
             .h1.text-primary > pe icon="network"
             h4.section-subtitle
               | Reusable
@@ -264,7 +264,7 @@ section
               elements easily.
             
               
-          col xs=12 sm=6 md=3
+          col xs=12 md=6 lg=3
             .h1.text-primary > pe icon="check"
             h4.section-subtitle
               | Full Featured
@@ -272,7 +272,7 @@ section
               Everything you need, right from the start.
               Ready for all the major Ruby frameworks.
               
-          col xs=12 sm=6 md=3
+          col xs=12 md=6 lg=3
             .h1.text-primary > pe icon="graph3"
             h4.section-subtitle
               | Performant

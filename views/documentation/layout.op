@@ -29,4 +29,5 @@ html
     js src="syntaxhighlighter/shBrushJScript"
     js src="nanoscroller/nanoscroller"
     js src="bootstrap/scrollspy"
+    js src="overthrow/overthrow-polyfill"
     js src="application/documentation"

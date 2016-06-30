@@ -1958,7 +1958,7 @@ section.section-light
       col xs=12 
         h2.section-subtitle CONCLUSION
         h2.section-title
-          | END OF 
+          | END OF  
           span.text-primary'" DOCUMENTATION
         
 
