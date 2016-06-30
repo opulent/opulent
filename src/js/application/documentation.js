@@ -14,7 +14,7 @@
         scrollTop: target.offset().top - 150
       }, 1000);
       if ($('#sidebar').hasClass('sidebar-visible')) {
-        $('#sidebar').removeClass('sidebar-visible');
+        $('#sidebar-toggle').trigger('click');
       }
       e.preventDefault();
     });
@@ -25,6 +25,7 @@
     $('#sidebar-toggle').on('click', (function(_this) {
       return function() {
         $('#sidebar').toggleClass('sidebar-visible');
+        $('.nano').nanoScroller();
       };
     })(this));
     $('.social-icons a').each(function(index, icon) {

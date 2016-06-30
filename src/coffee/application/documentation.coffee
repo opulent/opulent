@@ -13,7 +13,7 @@ $('document').ready ->
     $("html, body").animate scrollTop:(target.offset().top - 150), 1000
 
     if $('#sidebar').hasClass 'sidebar-visible'
-      $('#sidebar').removeClass 'sidebar-visible'
+      $('#sidebar-toggle').trigger 'click'
 
     e.preventDefault()
     return
@@ -25,6 +25,7 @@ $('document').ready ->
 
   $('#sidebar-toggle').on 'click', =>
     $('#sidebar').toggleClass 'sidebar-visible'
+    $('.nano').nanoScroller()
     return
 
 
