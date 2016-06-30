@@ -39,13 +39,15 @@ section
       font-size: 1rem
       // display: none
       visibility: hidden
-      transform: translateX(-100%)
+      transform: translateY(-100%)
+      opacity: 0
       transition: all 0.5s ease
 
       &.sidebar-visible
         // display: block
         visibility: visible
-        transform: translateX(0%)
+        opacity: 1
+        transform: translateY(0%)
 
     border-right: 1px solid $darksilver
     display: block
@@ -70,7 +72,7 @@ section
   line-height: 0.5rem
   text-align: center
   cursor: pointer
-  z-index: 999
+  z-index: 98
   background: $white
   border: 1px solid
   &:hover,

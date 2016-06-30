@@ -53,15 +53,17 @@ section {
     background: #fff;
     font-size: 1rem;
     visibility: hidden;
-    -webkit-transform: translateX(-100%);
-            transform: translateX(-100%);
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
+    opacity: 0;
     -webkit-transition: all 0.5s ease;
             transition: all 0.5s ease;
   }
   #documentation #sidebar.sidebar-visible {
     visibility: visible;
-    -webkit-transform: translateX(0%);
-            transform: translateX(0%);
+    opacity: 1;
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
   }
 }
 
@@ -74,7 +76,7 @@ section {
   line-height: 0.5rem;
   text-align: center;
   cursor: pointer;
-  z-index: 999;
+  z-index: 98;
   background: #fff;
   border: 1px solid;
   -webkit-transition: background 0.3s ease;
