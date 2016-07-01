@@ -12,3 +12,29 @@ meta&author content = author
 
 /!^ Viewport
 meta&viewport content = viewport   
+
+script type="application/ld+json" |        
+  {
+    "@context": "http://schema.org",
+    "@type": "Product",
+    "name": "Opulent",
+    "url": "http://opulent.io",
+    "description": "Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.",
+    "manufacturer": {    
+      "@type": "Organization",
+      "email": "alex(at)pixevil.com",
+      "alumni": [
+        {
+          "@type": "Person",
+          "name": "Alex Grozav"
+        }
+      ],
+      "name": "Pixevil",
+      "logo": {
+        "@type": "ImageObject",
+        "author": "Alex Grozav",
+        "name": "Pixevil",
+        "contentUrl": "http://pixevil.com/img/logo/logo.png"
+      }
+    }
+  }
