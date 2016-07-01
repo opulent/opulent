@@ -1,8 +1,8 @@
 :description: >
-  RunCompanies is the ideal choice for every online company entrepreneur.
-  We offer a complete suite of project management services help you run your company.
+  Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code.
 :keywords: >
-  runcompanies, run, companies, online, business, management
+  opulent, template, templating, engine, template engine, templating engine, ruby,
+  open source, github, pixevil, grozav
 :author: RunCompanies
-:viewport: >
+:viewport: > 
   user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1
