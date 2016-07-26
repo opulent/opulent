@@ -15,7 +15,8 @@ module Opulent
       if @settings[:pretty]
         indentation = ' ' * indent
 
-        inline = @sibling_stack[-1][-1] && @sibling_stack[-1][-1][0] == :node &&
+        inline = @sibling_stack[-1][-1] &&
+                 @sibling_stack[-1][-1][0] == :node &&
                  Settings::INLINE_NODE.include?(@sibling_stack[-1][-1][1])
 
         # Add current node to the siblings stack
@@ -27,6 +28,7 @@ module Opulent
           if !inline
             value.gsub!(/^(?!$)/, indentation)
           else
+            buffer_remove_trailing_whitespace
             value.strip!
           end
         else
@@ -50,7 +52,7 @@ module Opulent
 
       # Pretty print
       if @settings[:pretty]
-        buffer_freeze "\n" unless inline
+        buffer_freeze "\n" if !inline or node[@value] == :print
       end
     end
   end

@@ -13,19 +13,30 @@ module Opulent
       if @settings[:pretty]
         indentation = ' ' * indent
         inline = Settings::INLINE_NODE.include? node[@value]
+        inline_last_sibling = @sibling_stack[-1][-1] ? Settings::INLINE_NODE.include?(@sibling_stack[-1][-1][1]) : true
+
+        indentate = proc do
+          if @in_definition
+            buffer "' ' * (indent + #{indent})"
+          else
+            buffer_freeze indentation
+          end
+        end
 
         if inline
           if @sibling_stack[-1][-1] && @sibling_stack[-1][-1][0] == :plain
-            buffer_remove_trailing_whitespace
-          elsif @sibling_stack[-1].length == 1
-            buffer_freeze indentation
+            buffer_remove_trailing_newline
+          end
+
+          if @in_definition || @sibling_stack[-1].length == 1 || !inline_last_sibling
+            indentate[]
           end
         else
-          buffer_freeze indentation
+          indentate[]
         end
 
         @sibling_stack[-1] << [node[@type], node[@value]]
-        @sibling_stack << [ [node[@type], node[@value]] ]
+        @sibling_stack << [[node[@type], node[@value]]]
       end
 
       # Add the tag opening, with leading whitespace to the code buffer
@@ -80,16 +91,17 @@ module Opulent
           root child, indent + @settings[:indent]
         end
 
+        inline_last_child = @sibling_stack[-1][-2] &&
+                            (@sibling_stack[-1][-2][0] == :plain ||
+                              Settings::INLINE_NODE.include?(@sibling_stack[-1][-2][1]))
+
         # Pretty print
         if @settings[:pretty]
-          if node[@children].length > 1 &&
-            @sibling_stack[-1][-1] &&
-            (@sibling_stack[-1][-1][0] == :plain ||
-              Settings::INLINE_NODE.include?(@sibling_stack[-1][-1][1]))
+          if node[@children].length > 1 && inline_last_child
             buffer_freeze "\n"
           end
 
-          if node[@children].size > 0 and !inline
+          if node[@children].size > 0 && !inline
             buffer_freeze indentation
           end
         end
@@ -100,7 +112,7 @@ module Opulent
 
         # Pretty print
         if @settings[:pretty]
-          buffer_freeze "\n" unless inline
+          buffer_freeze "\n" if !inline || @in_definition
         end
       end
 

@@ -63,6 +63,9 @@ module Opulent
 
       # Set parent node, required for pretty printing
       @parent_stack = []
+
+      # Flag to determine whether we're inside a definition
+      @in_definition = false
     end
 
     # Compile input nodes, replace them with their definitions and

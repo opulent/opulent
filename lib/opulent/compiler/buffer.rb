@@ -64,12 +64,20 @@ module Opulent
     # @param type [Symbol] Remove only if last buffer part is of this type
     # @param n [Fixnum] Number of characters to be removed
     #
+    def buffer_remove_trailing_newline(type = :freeze)
+      if @template[-1][0] == type
+        @template[-1][1].gsub! /\s*\n+\s*$/, ''
+      end
+    end
+
+    # Remove last n characters from the most recent template item
+    #
+    # @param type [Symbol] Remove only if last buffer part is of this type
+    # @param n [Fixnum] Number of characters to be removed
+    #
     def buffer_remove_trailing_whitespace(type = :freeze)
       if @template[-1][0] == type
-        n = @template[-1][1][/\s$/]
-        return if n.nil?
-
-        @template[-1][1] = @template[-1][1][0..-1 - n.size]
+        @template[-1][1].rstrip!
       end
     end
 

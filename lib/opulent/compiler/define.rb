@@ -16,15 +16,18 @@ module Opulent
         parameters << "#{key} = #{value[@value]}"
       end
       parameters << 'attributes = {}'
+      parameters << 'indent'
       parameters << '&block'
       definition += '(' + parameters.join(', ') + ')'
 
       buffer_eval 'instance_eval do'
       buffer_eval definition
 
+      @in_definition = true
       node[@children].each do |child|
         root child, 0
       end
+      @in_definition = false
 
       buffer_eval 'end'
       buffer_eval 'end'
@@ -55,6 +58,7 @@ module Opulent
           ][@options][:parameters][k][@value]
         end
         arguments << '{}'
+        arguments << indent
 
         method_call += '(' + arguments.join(', ') + ')'
         method_call += ' do' unless node[@children].empty?
@@ -105,7 +109,7 @@ module Opulent
 
         arguments << call_attributes
 
-        call = "#{key}(#{arguments.join ', '})"
+        call = "#{key}(#{arguments.join ', '}, #{indent})"
         call += ' do' unless node[@children].empty?
 
         buffer_eval call
