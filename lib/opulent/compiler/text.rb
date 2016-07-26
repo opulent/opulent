@@ -24,11 +24,11 @@ module Opulent
 
         # If we have a text on multiple lines and the text isn't supposed to be
         # inline, indent all the lines of the text
-        if node[@value] == :text
+        if node[@value] == :text 
           if !inline
             value.gsub!(/^(?!$)/, indentation)
           else
-            buffer_remove_trailing_whitespace
+            buffer_remove_trailing_newline
             value.strip!
           end
         else
