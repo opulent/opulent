@@ -162,6 +162,99 @@ section.section-light
           engine = Opulent.new :input
           engine.render # => "<html><head>..."
         
+section.section-light
+  .container-fluid
+    row#installation-settings
+      col xs=12 
+        h2.section-subtitle INSTALLATION
+        h2.section-title
+          | SETTINGS
+
+section.section-light
+  .container-fluid
+    row  
+      col xs=12
+        p.section-description 
+          | You can choose the render settings when creating the Opulent Engine object.
+            
+        pre class="brush: ruby" |
+          settings = {
+            pretty: false,
+            indent: 2
+          }
+          page = Opulent.new :index, settings
+          
+          page.render
+          # => "<html><head></head>..."  
+            
+section.section-light
+  .container-fluid
+    row#installation-rendering
+      col xs=12 
+        h2.section-subtitle INSTALLATION
+        h2.section-title
+          | RENDERING
+
+section.section-light
+  .container-fluid
+    row  
+      col xs=12
+        p.section-description 
+          | The render method takes 2 parameters and an optional block. The scope parameter 
+            allows you to define a rendering context. By default, the rendering scope is a 
+            blank object. Passing in any other object will allow you to use the methods and variables of that 
+            object inside the template. 
+        p.section-description 
+          | Aditionally, you can pass a Hash as locals variables in order 
+            to make new variables available in the template. The variable name will be the same as the 
+            key of the Hash object.  
+            
+        pre class="brush: ruby" |
+          scope = Object.new
+          locals = { a: 1, b: 2 }
+          
+          engine = Opulent.new <<-OPULENT
+            p 
+              = a
+              = b
+          OPULENT
+          
+          engine.render(scope, locals) # => "<p>12</p>..."
+        
+        p.section-description 
+          | When using blocks, the content of the passed block will be available by using the 
+            yield method in Ruby.
+            
+        pre class="brush: ruby" |
+          scope = Object.new
+          locals = { a: 1, b: 2 }
+          engine = Opulent.new <<-OPULENT
+            html
+              body
+                =~ yield
+          OPULENT
+          
+          engine.render(scope, locals) do 
+            "Hello world!"
+          end 
+          # => "<html><body>Hello world..."   
+          
+        p.section-description 
+          | This way, you can easily create layout pages.
+            
+        pre class="brush: ruby" |
+          page = Opulent.new :index
+          layout = Opulent.new <<-OPULENT
+            html
+              head
+              body
+                =~ yield
+          OPULENT
+          
+          layout.render do 
+            page.render
+          end 
+          # => "<html><head></head>..."   
           
 section.section-light
   .container-fluid

@@ -15,6 +15,8 @@
           fa icon="download" 
           |Installation
         li > a href="#installation-getting-started" Getting Started
+        li > a href="#installation-settings" Settings
+        li > a href="#installation-rendering" Rendering
         li > a href="#installation-rails" Rails
         li > a href="#installation-sinatra" Sinatra
         li > a href="#installation-tilt" Tilt
