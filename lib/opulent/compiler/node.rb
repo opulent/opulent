@@ -15,19 +15,21 @@ module Opulent
         inline = Settings::INLINE_NODE.include? node[@value]
 
         if inline
-          if @sibling_stack[-1][-1][0] == :plain
+          if @sibling_stack[-1][-1] && @sibling_stack[-1][-1][0] == :plain
             buffer_remove_trailing_whitespace
+          elsif @sibling_stack[-1].length == 1
+            buffer_freeze indentation
           end
         else
           buffer_freeze indentation
         end
 
         @sibling_stack[-1] << [node[@type], node[@value]]
-        @sibling_stack << [[node[@type], node[@value]]]
+        @sibling_stack << [ [node[@type], node[@value]] ]
       end
 
       # Add the tag opening, with leading whitespace to the code buffer
-      buffer_freeze ' ' if node[@options][:leading_whitespace] 
+      buffer_freeze ' ' if node[@options][:leading_whitespace]
       buffer_freeze "<#{node[@value]}"
 
       # Evaluate node extension in the current context
@@ -67,7 +69,10 @@ module Opulent
 
         # Pretty print
         if @settings[:pretty]
-          buffer_freeze "\n" if node[@children].size > 0 and !inline
+          if node[@children].length > 0
+            buffer_freeze "\n" unless inline
+          end
+          # @sibling_stack << [[node[@type], node[@value]]]
         end
 
         # Process each child element recursively, increasing indentation
@@ -77,7 +82,8 @@ module Opulent
 
         # Pretty print
         if @settings[:pretty]
-          if node[@children].size > 1 &&
+          if node[@children].length > 1 &&
+            @sibling_stack[-1][-1] &&
             (@sibling_stack[-1][-1][0] == :plain ||
               Settings::INLINE_NODE.include?(@sibling_stack[-1][-1][1]))
             buffer_freeze "\n"

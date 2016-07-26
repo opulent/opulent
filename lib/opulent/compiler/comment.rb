@@ -9,9 +9,11 @@ module Opulent
     #
     def comment(node, indent)
       buffer_freeze "\n" if node[@options][:newline]
+      buffer_freeze " " * indent if @settings[:pretty]
       buffer_freeze '<!-- '
       buffer_split_by_interpolation node[@value].strip, false
       buffer_freeze ' -->'
+      buffer_freeze "\n" if @settings[:pretty]
     end
   end
 end

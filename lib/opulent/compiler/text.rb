@@ -14,7 +14,8 @@ module Opulent
       # Pretty print
       if @settings[:pretty]
         indentation = ' ' * indent
-        inline = @sibling_stack[-1][-1][0] == :node &&
+
+        inline = @sibling_stack[-1][-1] && @sibling_stack[-1][-1][0] == :node &&
                  Settings::INLINE_NODE.include?(@sibling_stack[-1][-1][1])
 
         # Add current node to the siblings stack
@@ -22,10 +23,14 @@ module Opulent
 
         # If we have a text on multiple lines and the text isn't supposed to be
         # inline, indent all the lines of the text
-        if !inline || value.split("\n").size > 1
-          value.gsub!(/^(?!$)/, indentation)
+        if node[@value] == :text
+          if !inline
+            value.gsub!(/^(?!$)/, indentation)
+          else
+            value.strip!
+          end
         else
-          value.strip!
+          buffer_freeze indentation
         end
       end
 

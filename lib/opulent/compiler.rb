@@ -59,7 +59,7 @@ module Opulent
       @block_stack = []
 
       # Remember last compiled node, required for pretty printing purposes
-      @sibling_stack = [[[:root, nil]]]
+      @sibling_stack = [[[:root, nil]], []]
 
       # Set parent node, required for pretty printing
       @parent_stack = []

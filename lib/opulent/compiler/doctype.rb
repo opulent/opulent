@@ -33,6 +33,7 @@ module Opulent
 
       @node_stack << :doctype
       buffer_freeze "<#{value}>"
+      buffer_freeze "\n" if @settings[:pretty]
     end
   end
 end
