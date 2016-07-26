@@ -13,7 +13,6 @@ module Opulent
       if @settings[:pretty]
         indentation = ' ' * indent
         inline = Settings::INLINE_NODE.include? node[@value]
-        inline_last_sibling = @sibling_stack[-1][-1] ? Settings::INLINE_NODE.include?(@sibling_stack[-1][-1][1]) : true
 
         indentate = proc do
           if @in_definition
@@ -24,6 +23,8 @@ module Opulent
         end
 
         if inline
+          inline_last_sibling = @sibling_stack[-1][-1] ? Settings::INLINE_NODE.include?(@sibling_stack[-1][-1][1]) : true
+
           if @sibling_stack[-1][-1] && @sibling_stack[-1][-1][0] == :plain
             buffer_remove_trailing_newline
           end
@@ -102,7 +103,7 @@ module Opulent
           end
 
           if node[@children].size > 0 && !inline
-            buffer_freeze indentation
+            indentate[]
           end
         end
 

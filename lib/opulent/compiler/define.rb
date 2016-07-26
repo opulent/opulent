@@ -58,8 +58,12 @@ module Opulent
           ][@options][:parameters][k][@value]
         end
         arguments << '{}'
-        arguments << indent
 
+        if @in_definition
+          arguments << "(indent ? indent + #{indent} : #{indent})"
+        else
+          arguments << indent
+        end
         method_call += '(' + arguments.join(', ') + ')'
         method_call += ' do' unless node[@children].empty?
 
