@@ -9,3 +9,7 @@
 /tmp/
 *.DS_Store
 node_modules/*
+src/coffee/slidea/*
+src/js/slidea/*
+src/sass/slidea/*
+src/css/slidea/*
