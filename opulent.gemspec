@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Alex Grozav"]
   spec.email         = ["alex@grozav.com"]
 
-  spec.summary       = %q{Intelligent Templating Engine for Creative Web Developers.}
-  spec.description   = %q{Opulent is an intelligent Templating Engine created to speed up web development through fast rendering and custom web component definitions.}
+  spec.summary       = %q{Template Engine for Creative Web Developers}
+  spec.description   = %q{Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.}
   spec.homepage      = "http://opulent.io"
   spec.license       = "MIT"
 
