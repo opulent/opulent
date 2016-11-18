@@ -47,13 +47,31 @@ RSpec.describe Opulent do
       expect(result).to eq('<div id="id"></div>')
     end
 
-    it 'renders a node with shorthand syntax' do
+    it 'renders a node with shorthand id' do
       opulent = Opulent.new <<-OPULENT
         #id
       OPULENT
 
       result = opulent.render Object.new, {} {}
       expect(result).to eq('<div id="id"></div>')
+    end
+
+    it 'renders a node with shorthand class' do
+      opulent = Opulent.new <<-OPULENT
+        .class
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq('<div class="class"></div>')
+    end
+
+    it 'renders a node with shorthand dashed class' do
+      opulent = Opulent.new <<-OPULENT
+        .-class
+      OPULENT
+
+      result = opulent.render Object.new, {} {}
+      expect(result).to eq('<div class="-class"></div>')
     end
 
     it 'renders a node with squared bracket wrapped attribute' do

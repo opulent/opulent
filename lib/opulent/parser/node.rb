@@ -169,7 +169,7 @@ module Opulent
         escaped = accept(:unescaped_value) ? false : true
 
         # Get the attribute value and process it
-        if (value = accept(:node))
+        if (value = accept(:shorthand_node))
           value = [:expression, value.inspect, { escaped: escaped }]
         elsif (value = accept(:exp_string))
           value = [:expression, value, { escaped: escaped }]

@@ -20,7 +20,8 @@ module Opulent
 
       # Shorthand attributes
       shorthand: /\A[\.\#\&]/,
-      shorthand_lookahead: /\A[\.\#\&][a-zA-Z\_\(\"]/,
+      shorthand_node: /\A\-?\w+(\-\w+)*/,
+      shorthand_lookahead: /\A[\.\#\&][a-zA-Z\-\_\(\"]/,
 
       # Leading and trailing whitespace
       leading_whitespace: /\A(\')/,
