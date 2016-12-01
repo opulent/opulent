@@ -24,3 +24,5 @@ matrix:
     # - rvm: ruby-head
     - rvm: jruby-19mode
     - rvm: jruby-head
+    - rvm: rbx
+    - rvm: rbx-2
