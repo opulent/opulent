@@ -1,9 +1,7 @@
-# Opulent [http://opulent.io](http://opulent.io)
+# Opulent
 [![Build Status](https://travis-ci.org/opulent/opulent.svg?branch=master)](https://travis-ci.org/opulent/opulent)
 
 Opulent is a templating engine which strives to make page markup as beautiful and expressive as it should be. It's blazing fast, offers useful reusable component definitions and encourages well organised front end code. Opulent provides the cleanliness, readability and development speed you need for your project.
-
-[Visit Homepage](http://opulent.io/)
 
 ## Syntax
 Opulent has a beautiful, minimalistic syntax: no tags, indentation based, optional brackets, inline text, inline children and in page definitions.
